@@ -1,7 +1,7 @@
 import os
 import mod
 
-from random import randint, choice
+from random import choice
 from dotenv import load_dotenv
 from os.path import join
 from twitchio.ext import commands
@@ -105,7 +105,7 @@ async def command_namos(ctx):
     listall = []
     a = 1
     for i in cmds:
-        if len(list1)+len(i) < 465:
+        if len(list1)+len(i) < 455:
             list1 = list1 + f'{a}º {i}, '
         else:
             listall.append(list1)
@@ -114,7 +114,7 @@ async def command_namos(ctx):
     if len(listall) > 0:
         for i in range(len(listall)):
             await ctx.channel.send_me(f'Namorados da Etc (Pág. {i+1}): {listall[i]}')
-    await ctx.channel.send_me(f'Namorados da Etc (Pág. {len(listall)+1}): {list1}')
+    await ctx.channel.send_me(f'Namorados da Etc (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
 
 # @bot.command(name='elo')
 # async def command_elo(ctx):
