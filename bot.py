@@ -36,8 +36,6 @@ client = Client(
 async def event_ready():
     print(f"{BOT_NICK} ta online!")
 
-newcmd = ''
-
 
 @bot.event
 async def event_message(ctx):
