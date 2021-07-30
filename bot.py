@@ -36,13 +36,11 @@ client = Client(
 async def event_ready():
     print(f"{BOT_NICK} ta online!")
 
-newcmd = ''
-
 
 @bot.event
 async def event_message(ctx):
     marinaetc = ['marina43Etcetera', 'marina43Love',
-                 'marina43Oclinhos', 'marina43Reza', 'marina43Trail']
+                 'marina43Oclinhos', 'marina43Reza', 'marina43Trail', 'marina43Testalol']
     ninaetc = ['marina', 'nina', 'marinaetc']
     if ctx.author.name.lower() == BOT_NICK.lower():
         return
@@ -66,7 +64,7 @@ async def event_message(ctx):
     if message[0] == BOT_PREFIX:
         cmds = message.split(' ')[0][1:].lower()
         if cmds == 'namorado':
-            if ctx.author.is_mod or ctx.author == CHANNEL:
+            if ctx.author != '':
                 message = message.replace(f'{BOT_PREFIX}{cmds}', '').strip()
                 opt = message.split()[0]
                 if opt != '':
