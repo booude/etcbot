@@ -114,7 +114,7 @@ async def command_namos(ctx):
 @bot.command(name='entrar')
 async def command_join(ctx):
     AUTHOR = ctx.author.name.lower()
-    if AUTHOR == '1bode':
+    if AUTHOR == 'bodedotexe':
         AUTHOR = ctx.content.split()[1]
         if ctx.channel.name.lower() == BOT_NICK.lower():
             if AUTHOR in CHANNELS:
@@ -129,7 +129,7 @@ async def command_join(ctx):
 @bot.command(name='sair')
 async def command_leave(ctx):
     AUTHOR = ctx.author.name.lower()
-    if AUTHOR == '1bode':
+    if AUTHOR == 'bode':
         AUTHOR = ctx.content.split()[1]
         if ctx.channel.name.lower() == BOT_NICK.lower():
             if AUTHOR in CHANNELS:
@@ -139,6 +139,36 @@ async def command_leave(ctx):
                 await ctx.send_me(f'bode SAIU do canal {AUTHOR}')
             else:
                 await ctx.send_me(f'bode NÃO ESTÁ no canal {AUTHOR}')
+
+
+@bot.command(name='doxadd')
+async def command_join(ctx):
+    AUTHOR = ctx.author.name.lower()
+    if AUTHOR == 'bodedotexe':
+        DOXER = ctx.content.split()[1]
+        DOXERS = mod.get_doxer()
+        if ctx.channel.name.lower() == BOT_NICK.lower():
+            if DOXER in DOXERS:
+                await ctx.send_me(f'{DOXER} já se encontra na lista')
+            else:
+                DOXERS.append(DOXER)
+                mod.update_doxer(DOXERS)
+                await ctx.send_me(f'{DOXER} adicionado à lista')
+
+
+@bot.command(name='doxdel')
+async def command_leave(ctx):
+    AUTHOR = ctx.author.name.lower()
+    if AUTHOR == 'bodedotexe':
+        DOXER = ctx.content.split()[1]
+        DOXERS = mod.get_doxer()
+        if ctx.channel.name.lower() == BOT_NICK.lower():
+            if DOXER in DOXERS:
+                DOXERS.remove(DOXER)
+                mod.update_doxer(DOXERS)
+                await ctx.send_me(f'{DOXER} removido da lista')
+            else:
+                await ctx.send_me(f'{DOXER} não está na lista')
 
 
 @bot.command(name='doxban')
