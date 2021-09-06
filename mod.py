@@ -13,6 +13,36 @@ def get_channel():
         return CHAN
 
 
+def get_doxer():
+    JSON_FILE = str(dir_path) + '/doxers.json'
+    with open(JSON_FILE) as json_file:
+        data = json.load(json_file)
+        DOX = data['DOXERS']
+        return DOX
+
+
+def update_channel(value):
+    JSON_FILE = str(dir_path) + f'/channels.json'
+    data = None
+    with open(JSON_FILE) as json_file:
+        data = json.load(json_file)
+    if data is not None:
+        data['CHANNEL'] = value
+    with open(JSON_FILE, 'w') as json_file:
+        json.dump(data, json_file, sort_keys=True, indent=4)
+
+
+def update_doxer(value):
+    JSON_FILE = str(dir_path) + f'/doxers.json'
+    data = None
+    with open(JSON_FILE) as json_file:
+        data = json.load(json_file)
+    if data is not None:
+        data['DOXERS'] = value
+    with open(JSON_FILE, 'w') as json_file:
+        json.dump(data, json_file, sort_keys=True, indent=4)
+
+
 def get(input, channel):
     COMMAND_FILE = str(dir_path) + f'/namorados.json'
     with open(COMMAND_FILE) as json_file:
