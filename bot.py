@@ -41,7 +41,7 @@ async def event_message(ctx):
     message = ctx.content
     content = message.split()
     if CHANNEL == 'marinaetc':
-        if ctx.author != BOT_NICK:
+        if ctx.author.name != BOT_NICK:
             if set(content) & set(marinaetc):
                 await ctx.channel.send(f'{choice(marinaetc)}')
         if message[0] == PREFIX:
