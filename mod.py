@@ -44,7 +44,7 @@ def update_doxer(value):
 
 
 def get(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         if input == '@all':
@@ -58,7 +58,7 @@ def get(input, channel):
 
 
 def add(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         command.update(input)
@@ -68,7 +68,7 @@ def add(input, channel):
 
 
 def delcmd(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         key_list = list(command.keys())
