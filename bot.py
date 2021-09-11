@@ -33,95 +33,97 @@ client = Client(
 async def event_ready():
     print("ta on crl")
 
+
 @bot.event()
-async def event_message(ctx):
+async def event_message(message):
     marinaetc = ['marina43Etcetera', 'marina43Love',
                  'marina43Oclinhos', 'marina43Reza', 'marina43Trail', 'marina43Testalol', 'marina43Gatilh']
-    CHANNEL = ctx.channel.name
-    message = ctx.content
-    content = message.split()
+    CHANNEL = message.channel.name
+    msg = message.content
+    content = msg.split()
+    autor = message.author.name
+    time = message.timestamp.strftime('%H:%M:%S')
+    print(f'#{CHANNEL} {time} {autor}: {msg}')
     if CHANNEL == 'marinaetc':
-        if ctx.author != '1bode':
+        if autor != '1bode':
             if set(content) & set(marinaetc):
-                await ctx.channel.send(f'{choice(marinaetc)}')
-        if message[0] == PREFIX:
-            cmds = message.split(' ')[0][1:].lower()
-            if cmds == 'namorado':
-                message = message.replace(
-                    f'{PREFIX}{cmds}', '').strip()
-                opt = message.split()[0]
-                if opt != '':
-                    try:
-                        value = int(
-                            list(mod.get("@all", CHANNEL).keys())[-1])+1
-                    except IndexError:
-                        value = 1
-                    input = {value: opt}
-                    mod.add(input, CHANNEL)
-                    await ctx.channel.send(f'{ctx.author.name} -> {opt} adicionado à lista de namorados da marinaetc.')
-                    return
-                else:
-                    await ctx.channel.send(f'{ctx.author.name} -> Adicione o nome do namorado após o comando')
-            elif cmds == 'divorcio':
-                if Chatter.is_mod or ctx.author == 'bodedotexe':
-                    message = message.replace(
-                        f'{PREFIX}{cmds}', '').strip()
-                    opt = message.split()[0]
-                    if opt != '':
-                        try:
-                            if mod.get(opt, CHANNEL) != None:
-                                try:
-                                    while mod.delcmd(opt, CHANNEL) != None:
-                                        await ctx.channel.send(f'{ctx.author.name} -> Marina Reticências divorciou-se de {opt}.')
-                                except ValueError:
-                                    return
-                        except ValueError:
-                            await ctx.channel.send(f'{ctx.author.name} -> Namorado não encontradokkkk')
-    if CHANNEL == 'emylolz':
-        if message[0] == PREFIX:
-            cmds = message.split(' ')[0][1:].lower()
-            if cmds == 'namorada':
-                message = message.replace(
-                    f'{PREFIX}{cmds}', '').strip()
-                opt = message.split()[0]
-                if opt != '':
-                    try:
-                        value = int(
-                            list(mod.get("@all", CHANNEL).keys())[-1])+1
-                    except IndexError:
-                        value = 1
-                    input = {value: opt}
-                    mod.add(input, CHANNEL)
-                    await ctx.channel.send(f'{ctx.author.name} -> {opt} adicionado à lista de namoradas da emy.')
-                    return
-                else:
-                    await ctx.channel.send(f'{ctx.author.name} -> Adicione o nome da namorada após o comando')
-            elif cmds == 'divorcio':
-                if Chatter.is_mod or ctx.author == 'bodedotexe':
-                    message = message.replace(
-                        f'{PREFIX}{cmds}', '').strip()
-                    opt = message.split()[0]
-                    if opt != '':
-                        try:
-                            if mod.get(opt, CHANNEL) != None:
-                                try:
-                                    while mod.delcmd(opt, CHANNEL) != None:
-                                        await ctx.channel.send(f'{ctx.author.name} -> Emilia LoL divorciou-se de {opt}.')
-                                except ValueError:
-                                    return
-                        except ValueError:
-                            await ctx.channel.send(f'{ctx.author.name} -> Namorado não encontradokkkk')
-    await bot.handle_commands(ctx)
+                await message.channel.send(f'{choice(marinaetc)}')
 
 
 @bot.command(name='bode')
-async def command_bode(ctx):
+async def bode(ctx):
     if ctx.channel.name == 'xumartins1':
         await ctx.channel.send('👀')
+    elif ctx.channel.name == 'bodedotexe':
+        await ctx.channel.whisper(f'tiamo nini marina43Love')
 
 
-@bot.command(name='namorados')
-async def command_namos(ctx):
+@bot.command(name='namorado', aliases=['namorada','namo'])
+async def namorado(ctx):
+    if ctx.channel.name == 'marinaetc':
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
+        if namo != '':
+            try:
+                value = int(list(mod.get("@all", 'marinaetc').keys())[-1])+1
+            except IndexError:
+                value = 1
+            input = {value: namo}
+            mod.add(input, 'marinaetc')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado à lista de namorados da marinaetc.')
+            return
+        else:
+            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome do namorado após o comando')
+    elif ctx.channel.name == 'emylolz':
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
+        if namo != '':
+            try:
+                value = int(list(mod.get("@all", 'emylolz').keys())[-1])+1
+            except IndexError:
+                value = 1
+            input = {value: namo}
+            mod.add(input, 'emylolz')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionada à lista de namoradas da emy.')
+            return
+        else:
+            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da namorada após o comando')
+
+
+@bot.command(name='divorcio')
+async def divorcio(ctx):
+    if ctx.channel.name == 'marinaetc':
+        message = ctx.message.content
+        if Chatter.is_mod or ctx.author == 'bodedotexe':
+            namo = ' '.join(message.split()[1:])
+            if namo != '':
+                try:
+                    if mod.get(namo, 'marinaetc') != None:
+                        try:
+                            while mod.delcmd(namo, 'marinaetc') != None:
+                                await ctx.channel.send(f'/me {ctx.author.name} -> Marina Reticências divorciou-se de {namo}.')
+                        except ValueError:
+                            return
+                except ValueError:
+                    await ctx.channel.send(f'/me {ctx.author.name} -> Namorado não encontradokkkk')
+    elif ctx.channel.name == 'emylolz':
+        message = ctx.message.content
+        if Chatter.is_mod or ctx.author == 'bodedotexe':
+            namo = ' '.join(message.split()[1:])
+            if namo != '':
+                try:
+                    if mod.get(namo, 'emylolz') != None:
+                        try:
+                            while mod.delcmd(namo, 'emylolz') != None:
+                                await ctx.channel.send(f'/me {ctx.author.name} -> Emilia lol divorciou-se de {namo}.')
+                        except ValueError:
+                            return
+                except ValueError:
+                    await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
+
+
+@bot.command(name='namorados', aliases=['namoradas','namos'])
+async def namorados(ctx):
     if ctx.channel.name == 'marinaetc':
         cmds = list(mod.get("@all", 'marinaetc').values())
         list1 = ''
@@ -136,48 +138,44 @@ async def command_namos(ctx):
             a += 1
         if len(listall) > 0:
             for i in range(len(listall)):
-                await ctx.channel.send(f'Namorados da Etc (Pág. {i+1}): {listall[i]}')
-        await ctx.channel.send(f'Namorados da Etc (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
-
-
-@bot.command(name='namoradas')
-async def command_namos(ctx):
-    if ctx.channel.name == 'emylolz':
+                await ctx.channel.send(f'/me Namorados da Etc (Pág. {i+1}): {listall[i]}')
+        await ctx.channel.send(f'/me Namorados da Etc (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+    elif ctx.channel.name == 'emylolz':
         cmds = list(mod.get("@all", 'emylolz').values())
         list1 = ''
         listall = []
         a = 1
         for i in cmds:
             if len(list1)+len(i) < 455:
-                list1 = list1 + f'{a}º {i}, '
+                list1 = list1 + f'{a}ª {i}, '
             else:
                 listall.append(list1)
-                list1 = f'{a}º {i}, '
+                list1 = f'{a}ª {i}, '
             a += 1
         if len(listall) > 0:
             for i in range(len(listall)):
-                await ctx.channel.send(f'Namoradas da Emy (Pág. {i+1}): {listall[i]}')
-        await ctx.channel.send(f'Namoradas da Emy (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+                await ctx.channel.send(f'/me Namoradas da Emy (Pág. {i+1}): {listall[i]}')
+        await ctx.channel.send(f'/me Namoradas da Emy (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
 
 
 @bot.command(name='entrar')
-async def command_join(ctx):
+async def join(ctx):
     AUTHOR = ctx.author.name
     if AUTHOR == '1bode':
         AUTHOR = ctx.message.content.split()[1]
         if ctx.channel.name == BOT_NICK:
             CHANNELS = mod.get_channel()
             if AUTHOR in CHANNELS:
-                await ctx.send(f'bode JÁ ESTÁ no canal {AUTHOR}')
+                await ctx.send(f'/me bode JÁ ESTÁ no canal {AUTHOR}')
             else:
                 CHANNELS.append(AUTHOR)
                 mod.update_channel(CHANNELS)
                 await bot.join_channels(CHANNELS)
-                await ctx.send(f'bode ENTROU no canal {AUTHOR}')
+                await ctx.send(f'/me bode ENTROU no canal {AUTHOR}')
 
 
 @bot.command(name='sair')
-async def command_leave(ctx):
+async def leave(ctx):
     AUTHOR = ctx.author.name
     if AUTHOR == '1bode':
         AUTHOR = ctx.message.content.split()[1]
@@ -187,28 +185,28 @@ async def command_leave(ctx):
                 CHANNELS.remove(AUTHOR)
                 mod.update_channel(CHANNELS)
                 await bot.part_channels([AUTHOR])
-                await ctx.send(f'bode SAIU do canal {AUTHOR}')
+                await ctx.send(f'/me bode SAIU do canal {AUTHOR}')
             else:
-                await ctx.send(f'bode NÃO ESTÁ no canal {AUTHOR}')
+                await ctx.send(f'/me bode NÃO ESTÁ no canal {AUTHOR}')
 
 
 @bot.command(name='doxadd')
-async def command_join(ctx):
+async def doxadd(ctx):
     AUTHOR = ctx.author.name
     if AUTHOR == '1bode':
         DOXER = ctx.message.content.split()[1]
         DOXERS = mod.get_doxer()
         if ctx.channel.name == BOT_NICK:
             if DOXER in DOXERS:
-                await ctx.send(f'{DOXER} já se encontra na lista')
+                await ctx.send(f'/me {DOXER} já se encontra na lista')
             else:
                 DOXERS.append(DOXER)
                 mod.update_doxer(DOXERS)
-                await ctx.send(f'{DOXER} adicionado à lista')
+                await ctx.send(f'/me {DOXER} adicionado à lista')
 
 
 @bot.command(name='doxdel')
-async def command_leave(ctx):
+async def doxdel(ctx):
     AUTHOR = ctx.author.name
     if AUTHOR == '1bode':
         DOXER = ctx.message.content.split()[1]
@@ -217,18 +215,18 @@ async def command_leave(ctx):
             if DOXER in DOXERS:
                 DOXERS.remove(DOXER)
                 mod.update_doxer(DOXERS)
-                await ctx.send(f'{DOXER} removido da lista')
+                await ctx.send(f'/me {DOXER} removido da lista')
             else:
-                await ctx.send(f'{DOXER} não está na lista')
+                await ctx.send(f'/me {DOXER} não está na lista')
 
 
 @bot.command(name='ping')
-async def command_ping(ctx):
-    await ctx.send('pong booudeHMM')
+async def ping(ctx):
+    await ctx.send('/me pong booudeHMM')
 
 
 @bot.command(name='amor')
-async def command_ban(ctx):
+async def ban(ctx):
     AUTHOR = ctx.author.name
     if AUTHOR == '1bode':
         ban = mod.get_doxer()
