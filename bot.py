@@ -1,7 +1,8 @@
+
 import os
 import mod
 
-from random import choice
+from random import choice, randint
 from dotenv import load_dotenv
 from os.path import join
 from twitchio import Chatter
@@ -36,19 +37,33 @@ async def event_ready():
 
 @bot.event()
 async def event_message(message):
-    marinaetc = ['marina43Etcetera', 'marina43Love',
-                 'marina43Oclinhos', 'marina43Reza', 'marina43Trail', 'marina43Testalol', 'marina43Gatilh']
+    leitinho = ['leitinho','leitinho?','leitinho!','leitinho.']
+    autobode = ['bode1','bode,','1bode,','@1bode,','bode.','bode!','bode?','🐐','bode','1bode','@1bode','bode1']
+    resposta = ['t','☝️ o de cima é gay','quem eh bode choke7Hum','?','choke7Hum marca n dog','🚬','quem me marcou é gay','cu','B)',':7','é a porra do bode B)','👀 ','monkaEyes','oi','para de me marcar','to baianor 💤 ','não é bode é dani','choke7Eai']
     CHANNEL = message.channel.name
     msg = message.content
     content = msg.split()
+    for i in range(len(content)):
+        content[i] = content[i].lower()
     autor = message.author.name
     time = message.timestamp.strftime('%H:%M:%S')
     print(f'#{CHANNEL} {time} {autor}: {msg}')
-    if CHANNEL == 'marinaetc':
-        if autor != '1bode':
-            if set(content) & set(marinaetc):
-                await message.channel.send(f'{choice(marinaetc)}')
+    if CHANNEL == 'choke7':
+        if autor != '1bode' and autor != 'streamelements':
+            if set(content) & set(autobode):
+                a = choice(resposta)
+                if a == 't':
+                    await message.channel.send(f'choke7Gun {autor}')
+                else:
+                    await message.channel.send(a)
 
+@bot.command(name='testa')
+async def testa(ctx):
+    if ctx.channel.name == 'choke7':
+        if ctx.author.name == 'choke7':
+            await ctx.channel.send('/me Paula, tua testa é incalculável.')
+        else:
+            await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
 @bot.command(name='bode')
 async def bode(ctx):
@@ -224,6 +239,13 @@ async def doxdel(ctx):
 async def ping(ctx):
     await ctx.send('/me pong booudeHMM')
 
+@bot.command(name='bodebot')
+async def bolsa(ctx):
+    message = ctx.message.content
+    user = ''.join(message.split()[1])
+    if ctx.channel.name == 'saint1xd':
+        if ctx.author.name == 'streamelements':
+            await ctx.send(f'!addpoints {user} 100') 
 
 @bot.command(name='amor')
 async def ban(ctx):
