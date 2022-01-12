@@ -1,6 +1,6 @@
-
 import os
 import mod
+import re
 
 from random import choice, randint
 from dotenv import load_dotenv
@@ -37,25 +37,24 @@ async def event_ready():
 
 @bot.event()
 async def event_message(message):
-    leitinho = ['leitinho','leitinho?','leitinho!','leitinho.']
-    autobode = ['bode1','bode,','1bode,','@1bode,','bode.','bode!','bode?','🐐','bode','1bode','@1bode','bode1']
-    resposta = ['t','☝️ o de cima é gay','quem eh bode choke7Hum','?','choke7Hum marca n dog','🚬','quem me marcou é gay','cu','B)',':7','é a porra do bode B)','👀 ','monkaEyes','oi','para de me marcar','to baianor 💤 ','não é bode é dani','choke7Eai']
+    resposta = ['t', '☝️ o de cima é gay', 'quem eh bode choke7Hum', '?', 'choke7Hum marca n dog', '🚬', 'quem me marcou é gay', 'cu',
+                'B)', ':7', 'é a porra do bode B)', '👀 ', 'monkaEyes', 'oi', 'para de me marcar', 'to baianor 💤 ', 'não é bode é dani', 'choke7Eai', 'qual a pira? choke7Hum', 'sou eu msm, não é o bot']
     CHANNEL = message.channel.name
     msg = message.content
-    content = msg.split()
-    for i in range(len(content)):
-        content[i] = content[i].lower()
     autor = message.author.name
     time = message.timestamp.strftime('%H:%M:%S')
     print(f'#{CHANNEL} {time} {autor}: {msg}')
-    if CHANNEL == 'choke7':
-        if autor != '1bode' and autor != 'streamelements':
-            if set(content) & set(autobode):
+    if CHANNEL == '1bode':
+        if autor == '1bode' and msg.startswith('oi'):
+            off = 1
+        if autor != '1bode' and autor != 'streamelements' and off != 1:
+            if re.search("bode|🐐", msg) is not None:
                 a = choice(resposta)
                 if a == 't':
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
                     await message.channel.send(a)
+
 
 @bot.command(name='testa')
 async def testa(ctx):
@@ -65,15 +64,14 @@ async def testa(ctx):
         else:
             await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
+
 @bot.command(name='bode')
 async def bode(ctx):
     if ctx.channel.name == 'xumartins1':
         await ctx.channel.send('👀')
-    elif ctx.channel.name == 'bodedotexe':
-        await ctx.channel.whisper(f'tiamo nini marina43Love')
 
 
-@bot.command(name='namorado', aliases=['namorada','namo'])
+@bot.command(name='namorado', aliases=['namorada', 'namo'])
 async def namorado(ctx):
     if ctx.channel.name == 'marinaetc':
         message = ctx.message.content
@@ -137,7 +135,7 @@ async def divorcio(ctx):
                     await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
 
 
-@bot.command(name='namorados', aliases=['namoradas','namos'])
+@bot.command(name='namorados', aliases=['namoradas', 'namos'])
 async def namorados(ctx):
     if ctx.channel.name == 'marinaetc':
         cmds = list(mod.get("@all", 'marinaetc').values())
@@ -239,13 +237,6 @@ async def doxdel(ctx):
 async def ping(ctx):
     await ctx.send('/me pong booudeHMM')
 
-@bot.command(name='bodebot')
-async def bolsa(ctx):
-    message = ctx.message.content
-    user = ''.join(message.split()[1])
-    if ctx.channel.name == 'saint1xd':
-        if ctx.author.name == 'streamelements':
-            await ctx.send(f'!addpoints {user} 100') 
 
 @bot.command(name='amor')
 async def ban(ctx):
