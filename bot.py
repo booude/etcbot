@@ -58,7 +58,7 @@ async def event_message(message):
 async def update(ctx):
     os.system("git pull")
     os.system("python3 bot.py")
-    print("Reiniciando...")
+    print("Atualizando e reiniciando...")
     exit()
 
 
