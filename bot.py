@@ -45,9 +45,7 @@ async def event_message(message):
     time = message.timestamp.strftime('%H:%M:%S')
     print(f'#{CHANNEL} {time} {autor}: {msg}')
     if CHANNEL == '1bode':
-        if autor == '1bode' and msg.startswith('oi'):
-            off = 1
-        if autor != '1bode' and autor != 'streamelements' and off != 1:
+        if autor != '1bode' and autor != 'streamelements':
             if re.search("bode|🐐", msg) is not None:
                 a = choice(resposta)
                 if a == 't':
