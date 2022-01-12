@@ -56,10 +56,11 @@ async def event_message(message):
 
 @bot.command(name="update")
 async def update(ctx):
-    os.system("git pull")
-    os.system("python3 bot.py")
-    print("Atualizando e reiniciando...")
-    exit()
+    if ctx.author == '1bode':
+        os.system("git pull")
+        print("Atualizando e reiniciando...")
+        os.system("python3 bot.py")
+        exit()
 
 
 @bot.command(name='testa')
@@ -67,6 +68,8 @@ async def testa(ctx):
     if ctx.channel.name == 'choke7':
         if ctx.author.name == 'choke7':
             await ctx.channel.send('/me Paula, tua testa é incalculável.')
+        elif ctx.author.name == '1bode':
+            await ctx.channel.send('/me testa o q dog? choke7Hum')
         else:
             await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
