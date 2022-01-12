@@ -54,6 +54,14 @@ async def event_message(message):
                     await message.channel.send(a)
 
 
+@bot.command(name="update")
+async def update(ctx):
+    os.system("git pull")
+    os.system("python3 bot.py")
+    print("Reiniciando...")
+    exit()
+
+
 @bot.command(name='testa')
 async def testa(ctx):
     if ctx.channel.name == 'choke7':
