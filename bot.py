@@ -37,6 +37,7 @@ async def event_ready():
 
 @bot.event()
 async def event_message(message):
+    troll = ['parabens você foi premiado com a mensagem secreta que o bode escondeu no código. você terá direito a 100 reias no pix, pagos pela streamer Choke7']
     resposta = ['t', '☝️ o de cima é gay', 'quem eh bode choke7Hum', '?', 'choke7Hum marca n dog', '🚬', 'quem me marcou é gay', 'cu',
                 'B)', ':7', 'é a porra do bode B)', '👀 ', 'monkaEyes', 'oi', 'para de me marcar', 'to baianor 💤 ', 'não é bode é dani', 'choke7Eai', 'qual a pira? choke7Hum', 'sou eu msm, não é o bot']
     CHANNEL = message.channel.name
@@ -47,7 +48,7 @@ async def event_message(message):
     if CHANNEL == 'choke7':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode|🐐", msg) is not None:
-                a = choice(resposta)
+                a = choice(troll)
                 if a == 't':
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
