@@ -16,17 +16,18 @@ load_dotenv(dotenv_path)
 PREFIX = os.environ.get('BOT_PREFIX')
 TOKEN = os.environ.get('TOKEN')
 CHANNELS = mod.get_channel()
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 BOT_NICK = os.environ.get('BOT_NICK')
 
 bot = commands.Bot(
     prefix=PREFIX,
     token=TOKEN,
-    initial_channels=CHANNELS
+    initial_channels=CHANNELS,
+    heartbeat=30.0
 )
 
 client = Client(
-    token=TOKEN
+    token=TOKEN,
+    heartbeat=30.0
 )
 
 
@@ -37,12 +38,14 @@ async def event_ready():
 
 @bot.event()
 async def event_message(message):
-    troll = ['parabens você foi premiado com a mensagem secreta que o bode escondeu no código. você terá direito a 100 reias no pix, pagos pela streamer Choke7']
     resposta = ['t', '☝️ o de cima é gay', 'quem eh bode choke7Hum', '?', 'choke7Hum marca n dog', '🚬', 'quem me marcou é gay', 'cu',
                 'B)', ':7', 'é a porra do bode B)', '👀 ', 'monkaEyes', 'oi', 'para de me marcar', 'to baianor 💤 ', 'não é bode é dani', 'choke7Eai', 'qual a pira? choke7Hum', 'sou eu msm, não é o bot']
+    try:
+        autor = message.author.name
+    except AttributeError:
+        return
     CHANNEL = message.channel.name
     msg = message.content
-    autor = message.author.name
     time = message.timestamp.strftime('%H:%M:%S')
     print(f'#{CHANNEL} {time} {autor}: {msg}')
     if CHANNEL == 'choke7':
@@ -57,7 +60,7 @@ async def event_message(message):
 
 @bot.command(name="update")
 async def update(ctx):
-    if ctx.author.name == '1bode':
+    if ctx.author.name == 'bodedotexe' or ctx.author.name == '1bode':
         os.system("git pull")
         print("Atualizando e reiniciando...")
         os.system("python3 bot.py")
