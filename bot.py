@@ -56,7 +56,7 @@ async def event_message(message):
 
 @bot.command(name="update")
 async def update(ctx):
-    if ctx.author == '1bode':
+    if ctx.author.name == '1bode':
         os.system("git pull")
         print("Atualizando e reiniciando...")
         os.system("python3 bot.py")
