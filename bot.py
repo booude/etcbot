@@ -48,7 +48,7 @@ async def event_message(message):
     if CHANNEL == 'choke7':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode|🐐", msg) is not None:
-                a = choice(troll)
+                a = choice(resposta)
                 if a == 't':
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
