@@ -80,7 +80,6 @@ async def tweet(ctx):
             await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
         except:
             await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
-        time.sleep(1000)
 
 
 @bot.command(name="update")
