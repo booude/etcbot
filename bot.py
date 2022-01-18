@@ -74,7 +74,7 @@ async def tweet(ctx):
     if ctx.channel.name == 'choke7':
         AUTHOR = ctx.author.name
         message = ' '.join(ctx.message.content.split()[1:])
-        message = f'{AUTHOR} tweetou: {message} #Choke7'
+        message = f'{message} #Choke7 (Realizado por {AUTHOR})'
         try:
             api.update_status(status=message)
             await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
