@@ -1,6 +1,9 @@
 import os
-import mod
 import re
+import mod
+import time
+import tweepy
+import sys
 
 from random import choice, randint
 from dotenv import load_dotenv
@@ -17,6 +20,10 @@ PREFIX = os.environ.get('BOT_PREFIX')
 TOKEN = os.environ.get('TOKEN')
 CHANNELS = mod.get_channel()
 BOT_NICK = os.environ.get('BOT_NICK')
+TWITTER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
+TWITTER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
+TWITTER_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
+TWITTER_TOKEN_SECRET = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
 bot = commands.Bot(
     prefix=PREFIX,
@@ -29,6 +36,10 @@ client = Client(
     token=TOKEN,
     heartbeat=30.0
 )
+
+auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
+auth.set_access_token(TWITTER_TOKEN, TWITTER_TOKEN_SECRET)
+api = tweepy.API(auth)
 
 
 @bot.event()
@@ -56,6 +67,20 @@ async def event_message(message):
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
                     await message.channel.send(a)
+
+
+@bot.command(name="tweet")
+async def tweet(ctx):
+    if ctx.channel.name == 'choke7':
+        AUTHOR = ctx.author.name
+        message = ' '.join(ctx.message.content.split()[1:])
+        message = f'{AUTHOR} tweetou: {message} #Choke7'
+        try:
+            api.update_status(status=message)
+            await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+        except:
+            await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+        time.sleep(1000)
 
 
 @bot.command(name="update")
