@@ -70,15 +70,15 @@ async def event_message(message):
 
 
 @bot.command(name="tweet")
-@mod.cooldown
 async def tweet(ctx):
     if ctx.channel.name == 'choke7':
         AUTHOR = ctx.author.name
         message = ' '.join(ctx.message.content.split()[1:])
         message = f'{message} #Choke7 (Realizado por {AUTHOR})'
         try:
-            tweetapi.update_status(status=message)
-            await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+            #tweetapi.update_status(status=message)
+            await ctx.channel.send(f'/me Em manutenção :|')
+            #await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
         except:
             await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
 
