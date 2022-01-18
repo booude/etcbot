@@ -1,7 +1,26 @@
 import os
 import json
+import time
+import threading
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+
+def cooldown(function, duration=int(30)):
+    function.on_cooldown = False
+
+    def sleeper():
+        function.on_cooldown = True
+        time.sleep(duration)
+        function.on_cooldown = False
+
+    async def wrapper(*args, **kwargs):
+        if function.on_cooldown:
+            print(f"Function {function.__name__} on cooldown")
+        else:
+            timer = threading.Thread(target=sleeper)
+            await function(*args, **kwargs)
+            timer.start()
+    return wrapper
 
 
 def get_channel():

@@ -39,7 +39,7 @@ client = Client(
 
 auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
 auth.set_access_token(TWITTER_TOKEN, TWITTER_TOKEN_SECRET)
-api = tweepy.API(auth)
+tweetapi = tweepy.API(auth)
 
 
 @bot.event()
@@ -70,13 +70,14 @@ async def event_message(message):
 
 
 @bot.command(name="tweet")
+@mod.cooldown
 async def tweet(ctx):
     if ctx.channel.name == 'choke7':
         AUTHOR = ctx.author.name
         message = ' '.join(ctx.message.content.split()[1:])
         message = f'{message} #Choke7 (Realizado por {AUTHOR})'
         try:
-            api.update_status(status=message)
+            tweetapi.update_status(status=message)
             await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
         except:
             await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
