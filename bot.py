@@ -40,7 +40,8 @@ client = Client(
 auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
 auth.set_access_token(TWITTER_TOKEN, TWITTER_TOKEN_SECRET)
 tweetapi = tweepy.API(auth)
-
+global _a
+_a = True
 
 @bot.event()
 async def event_ready():
@@ -67,7 +68,13 @@ async def event_message(message):
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
                     await message.channel.send(a)
-
+@bot.command(name="off", aliases=['on'])
+async def off(ctx):
+    if ctx.author.name == '1bode':
+        if _a == False:
+            _a == True
+    else:
+        _a == False
 
 @bot.command(name="tweet")
 @mod.cooldown
@@ -77,9 +84,11 @@ async def tweet(ctx, *args):
         message = ' '.join(ctx.message.content.split()[1:])
         message = f'{message} #Choke7 (Realizado por {AUTHOR})'
         try:
-            tweetapi.update_status(status=message)
-            await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
-            #await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
+            if _a == True:
+                tweetapi.update_status(status=message)
+                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+            else:
+                await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
         except:
             await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
 
