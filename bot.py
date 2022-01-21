@@ -73,18 +73,18 @@ async def event_message(message):
 @mod.cooldown
 async def tweet(ctx, *args):
     if ctx.channel.name == 'choke7':
-        if ctx.author.is_subscriber == True:
-            AUTHOR = ctx.author.name
-            message = ' '.join(ctx.message.content.split()[1:])
-            message = f'{message} #Choke7 (Realizado por {AUTHOR})'
-            try:
-                tweetapi.update_status(status=message)
-                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
-                #await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
-            except:
-                await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
-        else:
-            await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
+            if ctx.author.is_subscriber == True:
+                AUTHOR = ctx.author.name
+                message = ' '.join(ctx.message.content.split()[1:])
+                message = f'{message} #Choke7 (Realizado por {AUTHOR})'
+                try:
+                #    tweetapi.update_status(status=message)
+                #    await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+                    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
+                except:
+                    await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+            else:
+                await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
 
 
 @bot.command(name="update")
