@@ -67,6 +67,10 @@ async def event_message(message):
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
                     await message.channel.send(a)
+    if CHANNEL == 'emerok1':
+        if autor != '1bode' and autor != 'streamelements':
+            if re.search("bode", msg) is not None:
+                await message.channel.send("dani* booudeYUNA")
 
 
 @bot.command(name="tweet")
