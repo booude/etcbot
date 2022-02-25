@@ -73,17 +73,18 @@ async def event_message(message):
                 await message.channel.send("dani* booudeYUNA")
         if autor == 'streamelements':
             if re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", msg) is not None:
-                #Escolher qualquer skin do jogo 1%
-                #Escolher tema do video 5%
-                #Escolher pick 10%
-                #Ganhar 3000 pontos 50%
-                #Não ganhar nada 34%
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
-                resultado = choices(prizes, weights=(1,5,10,50,34))
+                # Escolher qualquer skin do jogo 1%
+                # Escolher tema do video 5%
+                # Escolher pick 10%
+                # Ganhar 3000 pontos 50%
+                # Não ganhar nada 34%
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!',
+                          'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                resultado = choices(prizes, weights=(1, 5, 10, 50, 34))
                 msg = msg.split(' ', 1)[0]
                 time.sleep(15)
                 await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
-                if re.search('3000',resultado[0]) is not None:
+                if re.search('3000', resultado[0]) is not None:
                     await message.channel.send(f'!addpoints {msg[:-1]} 3000')
 
 
@@ -91,18 +92,18 @@ async def event_message(message):
 @mod.cooldown
 async def tweet(ctx, *args):
     if ctx.channel.name == 'choke7':
-            if ctx.author.is_subscriber == True:
-                AUTHOR = ctx.author.name
-                message = ' '.join(ctx.message.content.split()[1:])
-                message = f'{message} #Choke7 (Realizado por {AUTHOR})'
-                try:
-                    tweetapi.update_status(status=message)
-                    await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
-                #    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
-                except:
-                    await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
-            else:
-                await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
+        if ctx.author.is_subscriber == True:
+            AUTHOR = ctx.author.name
+            message = ' '.join(ctx.message.content.split()[1:])
+            message = f'{message} #Choke7 (Realizado por {AUTHOR})'
+            try:
+                tweetapi.update_status(status=message)
+                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+            #    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
+            except:
+                await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+        else:
+            await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
 
 
 @bot.command(name="update")
