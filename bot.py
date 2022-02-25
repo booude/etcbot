@@ -79,8 +79,8 @@ async def event_message(message):
                 #Ganhar 3000 pontos 50%
                 #Não ganhar nada 34%
                 resultado = ''
-                time.sleep(3)
                 msg = msg.split(' ', 1)[0]
+                time.sleep(15)
                 await message.channel.send(f'{msg} você foi sorteado para ganhar....... {resultado}')
 
 
