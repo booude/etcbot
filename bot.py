@@ -5,7 +5,7 @@ import time
 import tweepy
 import sys
 
-from random import choice, randint
+from random import choice, randint, choices
 from dotenv import load_dotenv
 from os.path import join
 from twitchio import Chatter
@@ -78,10 +78,11 @@ async def event_message(message):
                 #Escolher pick 10%
                 #Ganhar 3000 pontos 50%
                 #Não ganhar nada 34%
-                resultado = ''
-                msg = msg.split(' ', 1)[0]
-                time.sleep(15)
-                await message.channel.send(f'{msg} você foi sorteado para ganhar....... {resultado}')
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'O PODER DE ESCOLHER O PRÓXIMO !!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                resultado = choices(prizes, weights=(1,5,10,50,34))
+                msg = msg.split(' ', 1)[0].upper()
+                #time.sleep(15)
+                await message.channel.send(f'/me {msg} VOCÊ GANHOU....... {resultado}')
 
 
 @bot.command(name="tweet")
