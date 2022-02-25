@@ -71,6 +71,16 @@ async def event_message(message):
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode", msg) is not None:
                 await message.channel.send("dani* booudeYUNA")
+        if autor == 'streamelements':
+            if re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", msg) is not None:
+                #Escolher qualquer skin do jogo 1%
+                #Escolher tema do video 5%
+                #Escolher pick 10%
+                #Ganhar 3000 pontos 50%
+                #Não ganhar nada 34%
+                resultado = ''
+                time.sleep(5)
+                await message.channel.send(f'{autor}, você foi sorteado para ganhar....... {resultado}')
 
 
 @bot.command(name="tweet")
