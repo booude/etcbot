@@ -57,8 +57,8 @@ async def event_message(message):
         return
     CHANNEL = message.channel.name
     msg = message.content
-    time = message.timestamp.strftime('%H:%M:%S')
-    print(f'#{CHANNEL} {time} {autor}: {msg}')
+    hora = message.timestamp.strftime('%H:%M:%S')
+    print(f'#{CHANNEL} {hora} {autor}: {msg}')
     if CHANNEL == 'choke7':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode|🐐", msg) is not None:
