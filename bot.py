@@ -78,11 +78,13 @@ async def event_message(message):
                 #Escolher pick 10%
                 #Ganhar 3000 pontos 50%
                 #Não ganhar nada 34%
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'O PODER DE ESCOLHER O PRÓXIMO !!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
                 resultado = choices(prizes, weights=(1,5,10,50,34))
-                msg = msg.split(' ', 1)[0].upper()
-                #time.sleep(15)
-                await message.channel.send(f'/me {msg} VOCÊ GANHOU....... {resultado[0]}')
+                msg = msg.split(' ', 1)[0]
+                time.sleep(15)
+                await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
+                if re.search('3000',resultado[0]) is not None:
+                    await message.channel.send(f'!addpoints {msg[:-1]} 3000')
 
 
 @bot.command(name="tweet")
