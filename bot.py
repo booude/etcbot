@@ -80,7 +80,7 @@ async def event_message(message):
                 #Não ganhar nada 34%
                 resultado = ''
                 time.sleep(5)
-                await message.channel.send(f'{autor}, você foi sorteado para ganhar....... {resultado}')
+                await message.channel.send(f'{msg[0]}, você foi sorteado para ganhar....... {resultado}')
 
 
 @bot.command(name="tweet")
