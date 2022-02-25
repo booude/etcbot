@@ -82,7 +82,7 @@ async def event_message(message):
                 resultado = choices(prizes, weights=(1,5,10,50,34))
                 msg = msg.split(' ', 1)[0].upper()
                 #time.sleep(15)
-                await message.channel.send(f'/me {msg} VOCÊ GANHOU....... {resultado}')
+                await message.channel.send(f'/me {msg} VOCÊ GANHOU....... {resultado[0]}')
 
 
 @bot.command(name="tweet")
