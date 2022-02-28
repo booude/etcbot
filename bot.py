@@ -81,10 +81,9 @@ async def event_message(message):
                 # Escolher pick 10%
                 # Ganhar 3000 pontos 40%
                 # Não ganhar nada 27%
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!',
-                          'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
-                resultado = choices(prizes, weights=(
-                    1, 2, 5, 5, 10, 10, 40, 27))
+                resultado = []
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                resultado = choices(prizes, weights=(1, 2, 5, 5, 10, 10, 40, 27))
                 msg = msg.split(' ', 1)[0]
                 time.sleep(15)
                 await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
