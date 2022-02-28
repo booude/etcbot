@@ -74,13 +74,17 @@ async def event_message(message):
         if autor == 'streamelements':
             if re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", msg) is not None:
                 # Escolher qualquer skin do jogo 1%
+                # Passe Wild 2%
+                # x1 contra Emerok 5%
                 # Escolher tema do video 5%
+                # Adicionar o Emerok 10%
                 # Escolher pick 10%
-                # Ganhar 3000 pontos 50%
-                # Não ganhar nada 34%
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!',
+                # Ganhar 3000 pontos 40%
+                # Não ganhar nada 27%
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA TEMA DO PRÓXIMO VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!',
                           'O PODER DE ESCOLHER O PRÓXIMO CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
-                resultado = choices(prizes, weights=(1, 5, 10, 50, 34))
+                resultado = choices(prizes, weights=(
+                    1, 2, 5, 5, 10, 10, 40, 27))
                 msg = msg.split(' ', 1)[0]
                 time.sleep(15)
                 await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
