@@ -3,7 +3,8 @@ import re
 import mod
 import time
 import tweepy
-import sys
+import threading
+import asyncio
 
 from random import choice, randint, choices
 from dotenv import load_dotenv
@@ -51,10 +52,9 @@ async def event_ready():
 async def event_message(message):
     resposta = ['t', '☝️ o de cima é gay', 'quem eh bode choke7Hum', '?', 'choke7Hum marca n dog', '🚬', 'quem me marcou é gay', 'cu',
                 'B)', ':7', 'é a porra do bode B)', '👀 ', 'monkaEyes', 'oi', 'para de me marcar', 'to baianor 💤 ', 'não é bode é dani', 'choke7Eai', 'qual a pira? choke7Hum', 'sou eu msm, não é o bot']
-    try:
-        autor = message.author.name
-    except AttributeError:
+    if message.echo:
         return
+    autor = message.author.name
     CHANNEL = message.channel.name
     msg = message.content
     hora = message.timestamp.strftime('%H:%M:%S')
@@ -82,13 +82,21 @@ async def event_message(message):
                 # Ganhar 3000 pontos 40%
                 # Não ganhar nada 27%
                 msg = msg.split(' ', 1)[0]
-                time.sleep(15)
                 prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
                 resultado = []
                 resultado = choices(prizes, weights=(1, 2, 5, 5, 10, 10, 40, 27))
-                await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
-                if re.search('3000', resultado[0]) is not None:
-                    await message.channel.send(f'!addpoints {msg[:-1]} 3000')
+                async def delayed():
+                    time.sleep(15)
+                    await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
+                    if re.search('3000', resultado[0]) is not None:
+                        await message.channel.send(f'!addpoints {msg[:-1]} 3000')
+                def b_call(args):
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    loop.run_until_complete(delayed())
+                    loop.close()
+                t = threading.Thread(target=b_call, args='a')
+                t.start()
 
 
 @bot.command(name="tweet")
