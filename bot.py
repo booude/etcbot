@@ -82,14 +82,18 @@ async def event_message(message):
                 # Ganhar 3000 pontos 40%
                 # Não ganhar nada 27%
                 msg = msg.split(' ', 1)[0]
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!',
+                          'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
                 resultado = []
-                resultado = choices(prizes, weights=(1, 2, 5, 5, 10, 10, 40, 27))
+                resultado = choices(prizes, weights=(
+                    1, 2, 5, 5, 10, 10, 40, 27))
+
                 async def delayed():
                     time.sleep(15)
                     await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
                     if re.search('3000', resultado[0]) is not None:
                         await message.channel.send(f'!addpoints {msg[:-1]} 3000')
+
                 def b_call(args):
                     loop = asyncio.new_event_loop()
                     asyncio.set_event_loop(loop)
@@ -106,10 +110,11 @@ async def tweet(ctx, *args):
         if ctx.author.is_subscriber == True:
             AUTHOR = ctx.author.name
             message = ' '.join(ctx.message.content.split()[1:])
-            message = f'{message} #Choke7 (Realizado por {AUTHOR})'
+            message = f'{message} (Realizado por {AUTHOR}) #Choke7'
             try:
                 tweetapi.update_status(status=message)
-                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat')
+                id = tweetapi.user_timeline(count=1)[0]
+                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/twitter/statuses/{id.id}')
             #    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
             except:
                 await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
