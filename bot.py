@@ -41,6 +41,7 @@ client = Client(
 auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
 auth.set_access_token(TWITTER_TOKEN, TWITTER_TOKEN_SECRET)
 tweetapi = tweepy.API(auth)
+msglist = []
 
 
 @bot.event()
@@ -67,6 +68,35 @@ async def event_message(message):
                     await message.channel.send(f'choke7Gun {autor}')
                 else:
                     await message.channel.send(a)
+            if 10 < len(msg) < 217:
+                if message.author.is_subscriber:
+                    if msg[0] == PREFIX:
+                        voz = ['voz', 'msg', 'tts', 'modvoz', 'msgmod', 'vozmod', 'modmsg', 'mm', 'msgsub', 'vozsub', 'ms', 'subvoz', 'submsg']
+                        if msg.split(' ')[0][1:].lower() in voz:
+                            msglist.append({"autor":autor,"msg":msg})
+                    else:
+                        msglist.append({"autor":autor,"msg":msg})
+
+            async def delayed():
+                if len(msglist) > 30:
+                    a = choice(msglist)
+                    msglist.clear()
+                    time.sleep(1800)
+                    await autotweet(a)
+
+            async def autotweet(a):
+                msg = f'{a["msg"]} (Realizado por {a["autor"]}) #Choke7 #RandomTweet'
+                tweetapi.update_status(status=msg)
+                id = tweetapi.user_timeline(count=1)[0]
+                await message.channel.send(f'/me Tweet aleatório do chat pode ser visto em: twitter.com/choke7chat/status/{id.id}')
+
+            def b_call():
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                loop.run_until_complete(delayed())
+                loop.close()
+            t = threading.Thread(target=b_call)
+            t.start()
     if CHANNEL == 'emerok1':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode", msg) is not None:
@@ -82,11 +112,9 @@ async def event_message(message):
                 # Ganhar 3000 pontos 40%
                 # Não ganhar nada 27%
                 msg = msg.split(' ', 1)[0]
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!',
-                          'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
                 resultado = []
-                resultado = choices(prizes, weights=(
-                    1, 2, 5, 5, 10, 10, 40, 27))
+                resultado = choices(prizes, weights=(1, 2, 5, 5, 10, 10, 40, 27))
 
                 async def delayed():
                     time.sleep(15)
@@ -114,7 +142,7 @@ async def tweet(ctx, *args):
             try:
                 tweetapi.update_status(status=message)
                 id = tweetapi.user_timeline(count=1)[0]
-                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/twitter/statuses/{id.id}')
+                await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
             #    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
             except:
                 await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
