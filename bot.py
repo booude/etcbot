@@ -170,6 +170,14 @@ async def testa(ctx):
             await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
 
+@bot.command(name='marker', aliases=['marcar','marca','m','aqui'])
+async def bode(ctx):
+    if ctx.author.is_mod:
+        _1=''
+        _1 = ' '.join(ctx.message.content.split()[1:])
+        await ctx.channel.send(f'/marker {_1}')
+
+
 @bot.command(name='bode')
 async def bode(ctx):
     if ctx.channel.name == 'xumartins1':
