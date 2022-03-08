@@ -96,7 +96,7 @@ async def event_message(message):
                 loop.run_until_complete(delayed())
                 loop.close()
             t = threading.Thread(target=b_call)
-            t.start()
+            #t.start()
     if CHANNEL == 'emerok1':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode", msg) is not None:
