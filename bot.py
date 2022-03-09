@@ -69,13 +69,14 @@ async def event_message(message):
                 else:
                     await message.channel.send(a)
             if 10 < len(msg) < 217:
-                if message.author.is_subscriber:
-                    if msg[0] == PREFIX:
-                        voz = ['voz', 'msg', 'tts', 'modvoz', 'msgmod', 'vozmod', 'modmsg', 'mm', 'msgsub', 'vozsub', 'ms', 'subvoz', 'submsg']
-                        if msg.split(' ')[0][1:].lower() in voz:
+                if len(msg.split()) > 2:
+                    if message.author.is_subscriber:
+                        if msg[0] == PREFIX:
+                            voz = ['voz', 'msg', 'tts', 'modvoz', 'msgmod', 'vozmod', 'modmsg', 'mm', 'msgsub', 'vozsub', 'ms', 'subvoz', 'submsg']
+                            if msg.split(' ')[0][1:].lower() in voz:
+                                msglist.append({"autor":autor,"msg":msg})
+                        else:
                             msglist.append({"autor":autor,"msg":msg})
-                    else:
-                        msglist.append({"autor":autor,"msg":msg})
 
             async def delayed():
                 if len(msglist) > 300:
