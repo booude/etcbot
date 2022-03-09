@@ -85,7 +85,7 @@ async def event_message(message):
                     await autotweet(a)
 
             async def autotweet(a):
-                msg = f'{a["msg"]} (Realizado por {a["autor"]}) #Choke7'
+                msg = f'{a["msg"]} (Aleatório de {a["autor"]}) #Choke7'
                 tweetapi.update_status(status=msg)
                 id = tweetapi.user_timeline(count=1)[0]
                 await message.channel.send(f'/me Tweet aleatório do chat pode ser visto em: twitter.com/choke7chat/status/{id.id}')
