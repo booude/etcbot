@@ -78,14 +78,14 @@ async def event_message(message):
                         msglist.append({"autor":autor,"msg":msg})
 
             async def delayed():
-                if len(msglist) > 30:
+                if len(msglist) > 300:
                     a = choice(msglist)
                     msglist.clear()
                     time.sleep(900)
                     await autotweet(a)
 
             async def autotweet(a):
-                msg = f'{a["msg"]} (Realizado por {a["autor"]}) #Choke7 #BFB2022'
+                msg = f'{a["msg"]} (Realizado por {a["autor"]}) #Choke7'
                 tweetapi.update_status(status=msg)
                 id = tweetapi.user_timeline(count=1)[0]
                 await message.channel.send(f'/me Tweet aleatório do chat pode ser visto em: twitter.com/choke7chat/status/{id.id}')
@@ -96,7 +96,7 @@ async def event_message(message):
                 loop.run_until_complete(delayed())
                 loop.close()
             t = threading.Thread(target=b_call)
-            #t.start()
+            t.start()
     if CHANNEL == 'emerok1':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode", msg) is not None:
