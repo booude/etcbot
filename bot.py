@@ -176,7 +176,7 @@ async def bode(ctx):
     if ctx.author.is_mod:
         _1=''
         _1 = ' '.join(ctx.message.content.split()[1:])
-        await ctx.channel.send(f'/marker {_1}')
+        await ctx.channel.create_marker(token=TOKEN, description=_1)
 
 
 @bot.command(name='bode')
