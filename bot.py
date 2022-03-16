@@ -115,7 +115,7 @@ async def event_message(message):
                 msg = msg.split(' ', 1)[0]
                 prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!! (passe vai acabar então n ganha nada)', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
                 resultado = []
-                resultado = choices(prizes, weights=(1, 2, 5, 5, 10, 10, 40, 27))
+                resultado = choices(prizes, weights=(1, 1, 5, 5, 10, 10, 150, 50))
 
                 async def delayed():
                     time.sleep(15)
