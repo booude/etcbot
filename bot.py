@@ -110,10 +110,11 @@ async def event_message(message):
                 # Escolher tema do video 5%
                 # Adicionar o Emerok 10%
                 # Escolher pick 10%
+                # Não ganhar nada 27%
                 # Ganhar 3000 pontos 40%
                 # Não ganhar nada 27%
                 msg = msg.split(' ', 1)[0]
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!! (passe vai acabar então n ganha nada)', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', '3000 PONTOS NA LOJINHA!!!', 'NADAKKKKKKK booudeYUNA']
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', 'NADAKKKKKKK booudeYUNA', '3000 PONTOS NA LOJINHA!!!']
                 resultado = []
                 resultado = choices(prizes, weights=(1, 0, 5, 5, 10, 10, 27, 40))
                 try:
