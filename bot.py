@@ -62,7 +62,7 @@ async def event_message(message):
     print(f'#{CHANNEL} {hora} {autor}: {msg}')
     if CHANNEL == 'choke7':
         if autor != '1bode' and autor != 'streamelements':
-            if re.search("bode|🐐", msg) is not None:
+            if re.search("bode|🐐", msg.lower()) is not None:
                 a = choice(resposta)
                 if a == 't':
                     await message.channel.send(f'choke7Gun {autor}')
@@ -100,7 +100,7 @@ async def event_message(message):
             t.start()
     if CHANNEL == 'emerok1':
         if autor != '1bode' and autor != 'streamelements':
-            if re.search("bode", msg) is not None:
+            if re.search("bode", msg.lower()) is not None:
                 await message.channel.send("dani* booudeYUNA")
         if autor == 'streamelements':
             if re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", msg) is not None:
