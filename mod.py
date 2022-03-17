@@ -61,7 +61,7 @@ def update_doxer(value):
         json.dump(data, json_file, sort_keys=True, indent=4)
 
 
-def get(input, channel):
+def get_namo(input, channel):
     COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)

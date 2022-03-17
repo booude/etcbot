@@ -198,7 +198,7 @@ async def namorado(ctx):
         namo = ' '.join(message.split()[1:])
         if namo != '':
             try:
-                value = int(list(mod.get("@all", 'marinaetc').keys())[-1])+1
+                value = int(list(mod.get_namo("@all", 'marinaetc').keys())[-1])+1
             except IndexError:
                 value = 1
             input = {value: namo}
@@ -212,7 +212,7 @@ async def namorado(ctx):
         namo = ' '.join(message.split()[1:])
         if namo != '':
             try:
-                value = int(list(mod.get("@all", 'emylolz').keys())[-1])+1
+                value = int(list(mod.get_namo("@all", 'emylolz').keys())[-1])+1
             except IndexError:
                 value = 1
             input = {value: namo}
@@ -231,7 +231,7 @@ async def divorcio(ctx):
             namo = ' '.join(message.split()[1:])
             if namo != '':
                 try:
-                    if mod.get(namo, 'marinaetc') != None:
+                    if mod.get_namo(namo, 'marinaetc') != None:
                         try:
                             while mod.delcmd(namo, 'marinaetc') != None:
                                 await ctx.channel.send(f'/me {ctx.author.name} -> Marina Reticências divorciou-se de {namo}.')
@@ -245,7 +245,7 @@ async def divorcio(ctx):
             namo = ' '.join(message.split()[1:])
             if namo != '':
                 try:
-                    if mod.get(namo, 'emylolz') != None:
+                    if mod.get_namo(namo, 'emylolz') != None:
                         try:
                             while mod.delcmd(namo, 'emylolz') != None:
                                 await ctx.channel.send(f'/me {ctx.author.name} -> Emilia lol divorciou-se de {namo}.')
@@ -258,7 +258,7 @@ async def divorcio(ctx):
 @bot.command(name='namorados', aliases=['namoradas', 'namos'])
 async def namorados(ctx):
     if ctx.channel.name == 'marinaetc':
-        cmds = list(mod.get("@all", 'marinaetc').values())
+        cmds = list(mod.get_namo("@all", 'marinaetc').values())
         list1 = ''
         listall = []
         a = 1
@@ -274,7 +274,7 @@ async def namorados(ctx):
                 await ctx.channel.send(f'/me Namorados da Etc (Pág. {i+1}): {listall[i]}')
         await ctx.channel.send(f'/me Namorados da Etc (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
     elif ctx.channel.name == 'emylolz':
-        cmds = list(mod.get("@all", 'emylolz').values())
+        cmds = list(mod.get_namo("@all", 'emylolz').values())
         list1 = ''
         listall = []
         a = 1
