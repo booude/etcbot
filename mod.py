@@ -85,6 +85,35 @@ def add(input, channel):
                   indent=4)
 
 
+def get_prizes(input, channel):
+    COMMAND_FILE = str(dir_path) + f'/data/{channel}/prizes.json'
+    with open(COMMAND_FILE) as json_file:
+        command = json.load(json_file)
+        if input == '@all':
+            return command
+        else:
+            key_list = list(command.keys())
+            val_list = list(command.values())
+            pos = val_list.index(input)
+            input = key_list[pos]
+            return command[f'{input}']
+
+
+def addprize(input, channel):
+    COMMAND_FILE = str(dir_path) + f'/data/{channel}/prizes.json'
+    with open(COMMAND_FILE) as json_file:
+        command = json.load(json_file)
+        try:
+            command['twitchId'].update(input['twitchId'])
+            command['prize'].update(input['prize'])
+            command['date'].update(input['date'])
+        except KeyError:
+            command.update(input)
+    with open(COMMAND_FILE, 'w') as json_file:
+        json.dump(command, json_file, ensure_ascii=False,
+                  indent=4)
+
+
 def delcmd(input, channel):
     COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
