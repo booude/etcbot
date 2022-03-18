@@ -98,7 +98,7 @@ async def event_message(message):
                 loop.close()
             t = threading.Thread(target=b_call)
             t.start()
-    if CHANNEL == 'emerok1':
+    if CHANNEL == '1bode':
         if autor != '1bode' and autor != 'streamelements':
             if re.search("bode", msg.lower()) is not None:
                 await message.channel.send("dani* booudeYUNA")
@@ -113,29 +113,40 @@ async def event_message(message):
                 # Não ganhar nada 27%
                 # Ganhar 3000 pontos 40%
                 msg = msg.split(' ', 1)[0]
+                getPrizes = [0, 1, 2, 3, 4, 5, 6, 7]
                 prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', 'NADAKKKKKKK booudeYUNA', '3000 PONTOS NA LOJINHA!!!']
                 resultado = []
-                resultado = choices(prizes, weights=(1, 0, 5, 5, 10, 10, 27, 40))
+                resultado = choices(getPrizes, weights=(1, 0, 5, 5, 10, 10, 27, 40))
                 try:
-                    value = int(list(mod.get("@all", 'emerok1').keys())[-1])+1
-                except IndexError:
-                    value = 1
-                input = {value: {'nick':msg,'premio':resultado[0]}}
-                mod.add(input, 'emerok1')
+                    key = int(list(mod.get_prizes("@all", 'emerok1')["twitchId"].keys())[-1])+1
+                except KeyError:
+                    key = 0
+                input = {
+                            "twitchId": {
+                                key: msg[:-1]
+                            },
+                            "prize": {
+                                key: resultado[0]
+                            },
+                            "date":{
+                                key: time.strftime("%d-%m-%Y")
+                            }
+                        }
+                mod.addprize(input,'emerok1')
 
-                async def delayed():
+                async def delayed_():
                     time.sleep(15)
-                    await message.channel.send(f'/me {msg} você ganhou....... {resultado[0]}')
-                    if re.search('3000', resultado[0]) is not None:
+                    await message.channel.send(f'/me {msg} você ganhou....... {prizes[resultado[0]]}')
+                    if resultado[0] == getPrizes[7]:
                         await message.channel.send(f'!addpoints {msg[:-1]} 3000')
 
-                def b_call(args):
+                def b_call_(args):
                     loop = asyncio.new_event_loop()
                     asyncio.set_event_loop(loop)
-                    loop.run_until_complete(delayed())
+                    loop.run_until_complete(delayed_())
                     loop.close()
-                t = threading.Thread(target=b_call, args='a')
-                t.start()
+                t_ = threading.Thread(target=b_call_, args='a')
+                t_.start()
 
 
 @bot.command(name="tweet")
@@ -177,12 +188,12 @@ async def testa(ctx):
             await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
 
-@bot.command(name='marker', aliases=['marcar','marca','m','aqui'])
-async def bode(ctx):
+@bot.command(name='t', aliases=['marcar','marca','m','aqui'])
+async def create_marker(ctx):
     if ctx.author.is_mod:
         _1=''
         _1 = ' '.join(ctx.message.content.split()[1:])
-        await ctx.channel.create_marker(token=TOKEN, description=_1)
+        await create_marker(token=TOKEN, description=_1)
 
 
 @bot.command(name='bode')
