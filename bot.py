@@ -285,7 +285,7 @@ async def namorado(ctx):
                 value = 1
             input = {value: namo}
             mod.add(input, 'noobzinha')
-            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos. nbzaAYAYA')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
             return
         else:
             await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
