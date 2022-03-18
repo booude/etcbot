@@ -1,0 +1,5 @@
+tweepy==4.4.0
+twitchio==2.1.4
+python-dotenv==0.13.0
+unidecode==1.2.0
+gunicorn==20.1.0
