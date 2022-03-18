@@ -255,6 +255,44 @@ async def divorcio(ctx):
                     await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
 
 
+@bot.command(name='gigante')
+async def namorado(ctx):
+    if ctx.channel.name == 'noobzinha':
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
+        if namo != '':
+            try:
+                value = int(list(mod.get_namo("@all", 'noobzinha').keys())[-1])+1
+            except IndexError:
+                value = 1
+            input = {value: namo}
+            mod.add(input, 'noobzinha')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado à lista dos gigantescos.')
+            return
+        else:
+            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando')
+
+
+@bot.command(name='gigantes')
+async def gigantes(ctx):
+    if ctx.channel.name == 'noobzinha':
+        cmds = list(mod.get_namo("@all", 'noobzinha').values())
+        list1 = ''
+        listall = []
+        a = 1
+        for i in cmds:
+            if len(list1)+len(i) < 400:
+                list1 = list1 + f'{a}º {i}, '
+            else:
+                listall.append(list1)
+                list1 = f'{a}º {i}, '
+            a += 1
+        if len(listall) > 0:
+            for i in range(len(listall)):
+                await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL (Pág. {i+1}): {listall[i]}')
+        await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+
+
 @bot.command(name='namorados', aliases=['namoradas', 'namos'])
 async def namorados(ctx):
     if ctx.channel.name == 'marinaetc':
