@@ -255,7 +255,25 @@ async def divorcio(ctx):
                     await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
 
 
-@bot.command(name='gigante')
+@bot.command(name='anão')
+async def divorcio(ctx):
+    if ctx.channel.name == 'noobzinha':
+        message = ctx.message.content
+        if Chatter.is_mod or ctx.author == 'bodedotexe':
+            namo = ' '.join(message.split()[1:])
+            if namo != '':
+                try:
+                    if mod.get_namo(namo, 'noobzinha') != None:
+                        try:
+                            while mod.delcmd(namo, 'noobzinha') != None:
+                                await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLul.')
+                        except ValueError:
+                            return
+                except ValueError:
+                    await ctx.channel.send(f'/me {ctx.author.name} -> Gigantesco descomunal não encontradokkkk nbzaBuxin')
+
+
+@bot.command(name='gigante', aliases=['giga'])
 async def namorado(ctx):
     if ctx.channel.name == 'noobzinha':
         message = ctx.message.content
@@ -267,13 +285,13 @@ async def namorado(ctx):
                 value = 1
             input = {value: namo}
             mod.add(input, 'noobzinha')
-            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado à lista dos gigantescos.')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos. nbzaAYAYA')
             return
         else:
-            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando')
+            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
 
 
-@bot.command(name='gigantes')
+@bot.command(name='gigantes', aliases=['gigas'])
 async def gigantes(ctx):
     if ctx.channel.name == 'noobzinha':
         cmds = list(mod.get_namo("@all", 'noobzinha').values())
@@ -289,8 +307,8 @@ async def gigantes(ctx):
             a += 1
         if len(listall) > 0:
             for i in range(len(listall)):
-                await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL (Pág. {i+1}): {listall[i]}')
-        await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+                await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {i+1}): {listall[i]}')
+        await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
 
 
 @bot.command(name='namorados', aliases=['namoradas', 'namos'])
