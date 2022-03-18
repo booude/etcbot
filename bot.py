@@ -266,7 +266,7 @@ async def divorcio(ctx):
                     if mod.get_namo(namo, 'noobzinha') != None:
                         try:
                             while mod.delcmd(namo, 'noobzinha') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLul.')
+                                await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLul')
                         except ValueError:
                             return
                 except ValueError:
