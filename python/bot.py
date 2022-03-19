@@ -9,11 +9,11 @@ import asyncio
 from random import choice, randint, choices
 from dotenv import load_dotenv
 from os.path import join
-from twitchio import Chatter
+from twitchio import Chatter, PartialUser
 from twitchio.ext import commands
 from twitchio.client import Client
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 dotenv_path = join(dir_path, '.env')
 load_dotenv(dotenv_path)
 
@@ -72,11 +72,12 @@ async def event_message(message):
                 if len(msg.split()) > 2:
                     if message.author.is_subscriber:
                         if msg[0] == PREFIX:
-                            voz = ['voz', 'msg', 'tts', 'modvoz', 'msgmod', 'vozmod', 'modmsg', 'mm', 'msgsub', 'vozsub', 'ms', 'subvoz', 'submsg']
+                            voz = ['voz', 'msg', 'tts', 'modvoz', 'msgmod', 'vozmod',
+                                   'modmsg', 'mm', 'msgsub', 'vozsub', 'ms', 'subvoz', 'submsg']
                             if msg.split(' ')[0][1:].lower() in voz:
-                                msglist.append({"autor":autor,"msg":msg})
+                                msglist.append({"autor": autor, "msg": msg})
                         else:
-                            msglist.append({"autor":autor,"msg":msg})
+                            msglist.append({"autor": autor, "msg": msg})
 
             async def delayed():
                 if len(msglist) > 300:
@@ -98,8 +99,8 @@ async def event_message(message):
                 loop.close()
             t = threading.Thread(target=b_call)
             t.start()
-    if CHANNEL == '1bode':
-        if autor != '1bode' and autor != 'streamelements':
+    if CHANNEL == 'emerok1':
+        if autor != BOT_NICK and autor != 'streamelements':
             if re.search("bode", msg.lower()) is not None:
                 await message.channel.send("dani* booudeYUNA")
         if autor == 'streamelements':
@@ -114,25 +115,28 @@ async def event_message(message):
                 # Ganhar 3000 pontos 40%
                 msg = msg.split(' ', 1)[0]
                 getPrizes = [0, 1, 2, 3, 4, 5, 6, 7]
-                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!', 'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', 'NADAKKKKKKK booudeYUNA', '3000 PONTOS NA LOJINHA!!!']
+                prizes = ['QUALQUER SKIN DO JOGO!!!', 'UM PASSE WILD!!!', 'X1 CONTRA O PRÓPRIO EMEROKLOL!!!', 'ESCOLHA UM TEMA DE VÍDEO DO YOUTUBE!!!',
+                          'ADICIONAR O EMEROK NO WILD RIFT!!!', 'O PODER DE ESCOLHER UM CAMPEÃO!!!', 'NADAKKKKKKK booudeYUNA', '3000 PONTOS NA LOJINHA!!!']
                 resultado = []
-                resultado = choices(getPrizes, weights=(1, 0, 5, 5, 10, 10, 27, 40))
+                resultado = choices(getPrizes, weights=(
+                    1, 0, 5, 5, 10, 10, 27, 40))
                 try:
-                    key = int(list(mod.get_prizes("@all", 'emerok1')["twitchId"].keys())[-1])+1
+                    key = int(list(mod.get_prizes("@all", 'emerok1')
+                              ["twitchId"].keys())[-1])+1
                 except KeyError:
                     key = 0
                 input = {
-                            "twitchId": {
-                                key: msg[:-1]
-                            },
-                            "prize": {
-                                key: resultado[0]
-                            },
-                            "date":{
-                                key: time.strftime("%d-%m-%Y")
-                            }
-                        }
-                mod.addprize(input,'emerok1')
+                    "twitchId": {
+                        key: msg[:-1]
+                    },
+                    "prize": {
+                        key: resultado[0]
+                    },
+                    "date": {
+                        key: time.strftime("%d-%m-%Y")
+                    }
+                }
+                mod.addprize(input, 'emerok1')
 
                 async def delayed_():
                     time.sleep(15)
@@ -168,15 +172,6 @@ async def tweet(ctx, *args):
             await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
 
 
-@bot.command(name="update")
-async def update(ctx):
-    if ctx.author.name == 'bodedotexe' or ctx.author.name == '1bode':
-        os.system("git pull")
-        print("Atualizando e reiniciando...")
-        os.system("python3 bot.py")
-        exit()
-
-
 @bot.command(name='testa')
 async def testa(ctx):
     if ctx.channel.name == 'choke7':
@@ -188,7 +183,7 @@ async def testa(ctx):
             await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
 
 
-@bot.command(name='t', aliases=['marcar','marca','m','aqui'])
+@bot.command(name='t', aliases=['marcar', 'marca', 'm', 'aqui'])
 async def create_marker(ctx):
     if Chatter.is_mod:
         _1 = ' '.join(ctx.message.content.split()[1:])
@@ -201,6 +196,62 @@ async def bode(ctx):
         await ctx.channel.send('👀')
 
 
+@bot.command(name='gigante', aliases=['giga'])
+async def gigante(ctx):
+    if ctx.channel.name == 'noobzinha' and Chatter.is_subscriber:
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
+        if namo != '':
+            try:
+                value = int(
+                    list(mod.get_namo("@all", 'noobzinha').keys())[-1])+1
+            except IndexError:
+                value = 1
+            input = {value: namo}
+            mod.add(input, 'noobzinha')
+            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
+            return
+        else:
+            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
+
+
+@bot.command(name='anão', aliases=['anao'])
+async def anao(ctx):
+    if ctx.channel.name == 'noobzinha' and Chatter.is_mod:
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
+        if namo != '':
+            try:
+                if mod.get_namo(namo, 'noobzinha') != None:
+                    try:
+                        while mod.delcmd(namo, 'noobzinha') != None:
+                            await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLul')
+                    except ValueError:
+                        return
+            except ValueError:
+                await ctx.channel.send(f'/me {ctx.author.name} -> Gigantesco descomunal não encontradokkkk nbzaBuxin')
+
+
+@bot.command(name='gigantes', aliases=['gigas'])
+async def gigantes(ctx):
+    if ctx.channel.name == 'noobzinha':
+        cmds = list(mod.get_namo("@all", 'noobzinha').values())
+        list1 = ''
+        listall = []
+        a = 1
+        for i in cmds:
+            if len(list1)+len(i) < 400:
+                list1 = list1 + f'{a}º {i}, '
+            else:
+                listall.append(list1)
+                list1 = f'{a}º {i}, '
+            a += 1
+        if len(listall) > 0:
+            for i in range(len(listall)):
+                await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {i+1}): {listall[i]}')
+        await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+
+
 @bot.command(name='namorado', aliases=['namorada', 'namo'])
 async def namorado(ctx):
     if ctx.channel.name == 'marinaetc':
@@ -208,7 +259,8 @@ async def namorado(ctx):
         namo = ' '.join(message.split()[1:])
         if namo != '':
             try:
-                value = int(list(mod.get_namo("@all", 'marinaetc').keys())[-1])+1
+                value = int(
+                    list(mod.get_namo("@all", 'marinaetc').keys())[-1])+1
             except IndexError:
                 value = 1
             input = {value: namo}
@@ -265,62 +317,6 @@ async def divorcio(ctx):
                     await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
 
 
-@bot.command(name='anão')
-async def divorcio(ctx):
-    if ctx.channel.name == 'noobzinha':
-        message = ctx.message.content
-        if Chatter.is_mod or ctx.author == 'bodedotexe':
-            namo = ' '.join(message.split()[1:])
-            if namo != '':
-                try:
-                    if mod.get_namo(namo, 'noobzinha') != None:
-                        try:
-                            while mod.delcmd(namo, 'noobzinha') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLul')
-                        except ValueError:
-                            return
-                except ValueError:
-                    await ctx.channel.send(f'/me {ctx.author.name} -> Gigantesco descomunal não encontradokkkk nbzaBuxin')
-
-
-@bot.command(name='gigante', aliases=['giga'])
-async def namorado(ctx):
-    if ctx.channel.name == 'noobzinha' and Chatter.is_subscriber:
-        message = ctx.message.content
-        namo = ' '.join(message.split()[1:])
-        if namo != '':
-            try:
-                value = int(list(mod.get_namo("@all", 'noobzinha').keys())[-1])+1
-            except IndexError:
-                value = 1
-            input = {value: namo}
-            mod.add(input, 'noobzinha')
-            await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
-            return
-        else:
-            await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
-
-
-@bot.command(name='gigantes', aliases=['gigas'])
-async def gigantes(ctx):
-    if ctx.channel.name == 'noobzinha':
-        cmds = list(mod.get_namo("@all", 'noobzinha').values())
-        list1 = ''
-        listall = []
-        a = 1
-        for i in cmds:
-            if len(list1)+len(i) < 400:
-                list1 = list1 + f'{a}º {i}, '
-            else:
-                listall.append(list1)
-                list1 = f'{a}º {i}, '
-            a += 1
-        if len(listall) > 0:
-            for i in range(len(listall)):
-                await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {i+1}): {listall[i]}')
-        await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
-
-
 @bot.command(name='namorados', aliases=['namoradas', 'namos'])
 async def namorados(ctx):
     if ctx.channel.name == 'marinaetc':
@@ -359,8 +355,7 @@ async def namorados(ctx):
 
 @bot.command(name='entrar')
 async def join(ctx):
-    AUTHOR = ctx.author.name
-    if AUTHOR == '1bode':
+    if Chatter.name == BOT_NICK:
         AUTHOR = ctx.message.content.split()[1]
         if ctx.channel.name == BOT_NICK:
             CHANNELS = mod.get_channel()
@@ -375,8 +370,7 @@ async def join(ctx):
 
 @bot.command(name='sair')
 async def leave(ctx):
-    AUTHOR = ctx.author.name
-    if AUTHOR == '1bode':
+    if Chatter.name == BOT_NICK:
         AUTHOR = ctx.message.content.split()[1]
         if ctx.channel.name == BOT_NICK:
             CHANNELS = mod.get_channel()
@@ -391,8 +385,7 @@ async def leave(ctx):
 
 @bot.command(name='doxadd')
 async def doxadd(ctx):
-    AUTHOR = ctx.author.name
-    if AUTHOR == '1bode':
+    if Chatter.name == BOT_NICK:
         DOXER = ctx.message.content.split()[1]
         DOXERS = mod.get_doxer()
         if ctx.channel.name == BOT_NICK:
@@ -406,8 +399,7 @@ async def doxadd(ctx):
 
 @bot.command(name='doxdel')
 async def doxdel(ctx):
-    AUTHOR = ctx.author.name
-    if AUTHOR == '1bode':
+    if Chatter.name == BOT_NICK:
         DOXER = ctx.message.content.split()[1]
         DOXERS = mod.get_doxer()
         if ctx.channel.name == BOT_NICK:
@@ -419,18 +411,27 @@ async def doxdel(ctx):
                 await ctx.send(f'/me {DOXER} não está na lista')
 
 
+@bot.command(name='doxban')
+async def ban(ctx):
+    if Chatter.name == BOT_NICK:
+        ban = mod.get_doxer()
+        for i in ban:
+            await ctx.ban(f'{i} Contas Ip Logger - Em hipótese alguma acesse estes canais')
+
+
+# comando para git pull pelo chat
+# @bot.command(name="update")
+# async def update(ctx):
+#     if ctx.author.name == 'bodedotexe' or ctx.author.name == '1bode':
+#         os.system("git pull")
+#         print("Atualizando e reiniciando...")
+#         os.system("python3 bot.py")
+#         exit()
+
 @bot.command(name='ping')
 async def ping(ctx):
     await ctx.send('/me pong booudeHMM')
 
-
-@bot.command(name='amor')
-async def ban(ctx):
-    AUTHOR = ctx.author.name
-    if AUTHOR == '1bode':
-        ban = mod.get_doxer()
-        for i in ban:
-            await ctx.ban(f'{i} Contas Ip Logger - Em hipótese alguma acesse estes canais')
 
 if __name__ == "__main__":
     bot.run()

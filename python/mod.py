@@ -3,7 +3,7 @@ import json
 import time
 import threading
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 def cooldown(function, duration=int(30)):
     function.on_cooldown = False
@@ -24,7 +24,7 @@ def cooldown(function, duration=int(30)):
 
 
 def get_channel():
-    JSON_FILE = str(dir_path) + '/channels.json'
+    JSON_FILE = str(dir_path) + '/resources/channels.json'
     with open(JSON_FILE) as json_file:
         data = json.load(json_file)
         CHAN = data['CHANNEL']
@@ -32,7 +32,7 @@ def get_channel():
 
 
 def get_doxer():
-    JSON_FILE = str(dir_path) + '/doxers.json'
+    JSON_FILE = str(dir_path) + '/resources/doxers.json'
     with open(JSON_FILE) as json_file:
         data = json.load(json_file)
         DOX = data['DOXERS']
@@ -40,7 +40,7 @@ def get_doxer():
 
 
 def update_channel(value):
-    JSON_FILE = str(dir_path) + f'/channels.json'
+    JSON_FILE = str(dir_path) + f'/resources/channels.json'
     data = None
     with open(JSON_FILE) as json_file:
         data = json.load(json_file)
@@ -51,7 +51,7 @@ def update_channel(value):
 
 
 def update_doxer(value):
-    JSON_FILE = str(dir_path) + f'/doxers.json'
+    JSON_FILE = str(dir_path) + f'/resources/doxers.json'
     data = None
     with open(JSON_FILE) as json_file:
         data = json.load(json_file)
@@ -62,7 +62,7 @@ def update_doxer(value):
 
 
 def get_namo(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/resources/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         if input == '@all':
@@ -76,7 +76,7 @@ def get_namo(input, channel):
 
 
 def add(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/resources/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         command.update(input)
@@ -86,7 +86,7 @@ def add(input, channel):
 
 
 def get_prizes(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/data/{channel}/prizes.json'
+    COMMAND_FILE = str(dir_path) + f'/resources/{channel}/prizes.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         if input == '@all':
@@ -100,7 +100,7 @@ def get_prizes(input, channel):
 
 
 def addprize(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/data/{channel}/prizes.json'
+    COMMAND_FILE = str(dir_path) + f'/resources/{channel}/prizes.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         try:
@@ -115,7 +115,7 @@ def addprize(input, channel):
 
 
 def delcmd(input, channel):
-    COMMAND_FILE = str(dir_path) + f'/data/{channel}/namorados.json'
+    COMMAND_FILE = str(dir_path) + f'/resources/{channel}/namorados.json'
     with open(COMMAND_FILE) as json_file:
         command = json.load(json_file)
         key_list = list(command.keys())
