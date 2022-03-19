@@ -1,6 +1,6 @@
 import os
 import re
-import mod
+import python.mod as mod
 import time
 import tweepy
 import threading
