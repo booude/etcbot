@@ -190,10 +190,9 @@ async def testa(ctx):
 
 @bot.command(name='t', aliases=['marcar','marca','m','aqui'])
 async def create_marker(ctx):
-    if ctx.author.is_mod:
-        _1=''
+    if Chatter.is_mod:
         _1 = ' '.join(ctx.message.content.split()[1:])
-        await create_marker(token=TOKEN, description=_1)
+        await PartialUser.create_marker(token=TOKEN, description=_1)
 
 
 @bot.command(name='bode')
