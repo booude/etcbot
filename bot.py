@@ -286,7 +286,7 @@ async def divorcio(ctx):
 
 @bot.command(name='gigante', aliases=['giga'])
 async def namorado(ctx):
-    if ctx.channel.name == 'noobzinha':
+    if ctx.channel.name == 'noobzinha' and Chatter.is_subscriber:
         message = ctx.message.content
         namo = ' '.join(message.split()[1:])
         if namo != '':
