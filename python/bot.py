@@ -419,6 +419,10 @@ async def ban(ctx):
             await ctx.ban(f'{i} Contas Ip Logger - Em hipótese alguma acesse estes canais')
 
 
+@bot.command(name='ping')
+async def ping(ctx):
+    await ctx.send('/me pong booudeHMM')
+
 # comando para git pull pelo chat
 # @bot.command(name="update")
 # async def update(ctx):
@@ -427,11 +431,3 @@ async def ban(ctx):
 #         print("Atualizando e reiniciando...")
 #         os.system("python3 bot.py")
 #         exit()
-
-@bot.command(name='ping')
-async def ping(ctx):
-    await ctx.send('/me pong booudeHMM')
-
-
-if __name__ == "__main__":
-    bot.run()
