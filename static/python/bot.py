@@ -244,9 +244,9 @@ class Bot(commands.Bot):
 
     @commands.command(name='namorado', aliases=['namorada', 'namo'])
     async def namorado(self, ctx: commands.Context):
+        message = ctx.message.content
+        namo = ' '.join(message.split()[1:])
         if ctx.channel.name == 'marinaetc':
-            message = ctx.message.content
-            namo = ' '.join(message.split()[1:])
             if namo != '':
                 try:
                     value = int(
@@ -260,8 +260,6 @@ class Bot(commands.Bot):
             else:
                 await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome do namorado após o comando')
         elif ctx.channel.name == 'emylolz':
-            message = ctx.message.content
-            namo = ' '.join(message.split()[1:])
             if namo != '':
                 try:
                     value = int(
@@ -275,8 +273,6 @@ class Bot(commands.Bot):
             else:
                 await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da namorada após o comando')
         elif ctx.channel.name == 'kiiaraww':
-            message = ctx.message.content
-            namo = ' '.join(message.split()[1:])
             if namo != '':
                 try:
                     value = int(
@@ -284,7 +280,7 @@ class Bot(commands.Bot):
                 except IndexError:
                     value = 1
                 input = {value: namo}
-                mod.add(input, 'emylolz')
+                mod.add(input, 'kiiaraww')
                 await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionada à lista de namoradas da kiara.')
                 return
             else:
