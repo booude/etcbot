@@ -1,4 +1,4 @@
-import python
+import static.python as py
 
 if __name__ == "__main__":
-    python.bot.run()
+    py.bot.run()

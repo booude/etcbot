@@ -1,13 +1,10 @@
 import os
 
 from dotenv import load_dotenv
-from os.path import join
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-dotenv_path = join(dir_path, '.env')
-load_dotenv(dotenv_path)
+load_dotenv(os.path.abspath('.env'))
 
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
@@ -29,19 +26,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class Feedback(db.Model):
-    __tablename__ = 'feedback'
+class Prizes(db.Model):
+    __tablename__ = 'prizes'
     id = db.Column(db.Integer, primary_key=True)
-    customer = db.Column(db.String(200), unique=True)
-    dealer = db.Column(db.String(200), unique=True)
-    rating = db.Column(db.Integer)
-    comments = db.Column(db.Text())
+    nickname = db.Column(db.String(25))
+    prize = db.Column(db.Integer)
+    date = db.Column(db.DateTime())
 
-    def __init__(self, customer, dealer, rating, comments):
-        self.customer = customer
-        self.dealer = dealer
-        self.rating = rating
-        self.comments = comments
+    def __init__(self, nickname, prize, date):
+        self.nickname = nickname
+        self.prize = prize
+        self.date = date
 
 
 headings = ("Nickname", "Prize", "Data")
@@ -50,29 +45,6 @@ data = (
     ("emerok1", "Wild Pass", "19/03/2022"),
     ("miachancos", "3K POINTS", "18/03/2022")
 )
-
-
-@app.route("/old")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/submit", methods=["POST"])
-def submit():
-    if request.method == "POST":
-        customer = request.form['customer']
-        dealer = request.form['dealer']
-        rating = request.form['rating']
-        comments = request.form['comments']
-
-        if customer == '' or dealer == '':
-            return render_template("index.html", message="Please enter required fields")
-        if db.session.query(Feedback).filter(Feedback.customer == customer).count() == 0:
-            data = Feedback(customer, dealer, rating, comments)
-            db.session.add(data)
-            db.session.commit()
-            return render_template("success.html")
-        return render_template("index.html", message="You have already submitted feedback")
 
 
 @app.route("/", methods=["GET"])
