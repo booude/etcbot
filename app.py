@@ -1,14 +1,22 @@
 import os
+
+from dotenv import load_dotenv
+from os.path import join
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-
-ENV = os.environ.get('ENV')
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dotenv_path = join(dir_path, '.env')
+load_dotenv(dotenv_path)
 
 uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
+
+ENV = os.environ.get('ENV')
+
+app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 
 if ENV == 'dev':
@@ -36,7 +44,15 @@ class Feedback(db.Model):
         self.comments = comments
 
 
-@app.route("/")
+headings = ("Nickname", "Prize", "Data")
+data = (
+    ("1bode", "1v1 vs Emerok", "20/03/2022"),
+    ("emerok1", "Wild Pass", "19/03/2022"),
+    ("miachancos", "3K POINTS", "18/03/2022")
+)
+
+
+@app.route("/old")
 def index():
     return render_template("index.html")
 
@@ -57,6 +73,11 @@ def submit():
             db.session.commit()
             return render_template("success.html")
         return render_template("index.html", message="You have already submitted feedback")
+
+
+@app.route("/", methods=["GET"])
+def table():
+    return render_template("table.html", headings=headings, data=data)
 
 
 if __name__ == "__main__":
