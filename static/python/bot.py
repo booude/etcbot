@@ -74,9 +74,9 @@ class Bot(commands.Bot):
             if autor != 'streamelements' and re.search("bode|🐐", content.lower()) is not None:
                 a = choice(resposta)
                 if a == 't':
-                    await message.channel.send(f'choke7Gun {autor}')
+                    await message.channel.reply(f'choke7Gun {autor}')
                 else:
-                    await message.channel.send(a)
+                    await message.channel.reply(a)
 
             # Tweets automáticos
             if message.author.is_subscriber and 10 < len(content) < 217 and len(content.split()) > 2:
@@ -102,7 +102,7 @@ class Bot(commands.Bot):
         if canal == 'emerok1':
             # Respostas automáticas pro chat
             if autor != 'streamelements' and re.search("bode", content.lower()) is not None:
-                await message.channel.send("dani* booudeYUNA")
+                await message.channel.reply("dani* booudeYUNA")
 
             # Sorteios para primeiro mês de inscrição
             if autor == 'streamelements' and re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", content) is not None:
@@ -153,6 +153,8 @@ class Bot(commands.Bot):
     @commands.command(name='tweet')
     @mod.cooldown
     async def tweet(self, ctx: commands.Context, *args):
+
+        # twitch.tv/choke7
         if ctx.channel.name == 'choke7':
             if ctx.author.is_subscriber == True:
                 AUTHOR = ctx.author.name
@@ -161,36 +163,44 @@ class Bot(commands.Bot):
                 try:
                     tweetapi.update_status(status=message)
                     id = tweetapi.user_timeline(count=1)[0]
-                    await ctx.channel.send(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
-                #    await ctx.channel.send(f'/me Bot offline pra moderação dormir.')
+                    await ctx.channel.reply(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
+                #    await ctx.channel.reply(f'/me Bot offline pra moderação dormir.')
                 except:
-                    await ctx.channel.send(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+                    await ctx.channel.reply(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
             else:
-                await ctx.channel.send(f'/me Tweet disponível apenas para subs.')
+                await ctx.channel.reply(f'/me Tweet disponível apenas para subs.')
 
     @commands.command(name='testa')
     async def testa(self, ctx: commands.Context):
-        if ctx.channel.name == '1bode':
+
+        # twitch.tv/choke7
+        if ctx.channel.name == 'choke7':
             if ctx.author.name == 'choke7':
-                await ctx.channel.send('/me Paula, tua testa é incalculável.')
+                await ctx.channel.reply('/me Paula, tua testa é incalculável.')
             elif ctx.author.name == '1bode':
-                await ctx.channel.send('/me testa o q dog? choke7Hum')
+                await ctx.channel.reply('/me testa o q dog? choke7Hum')
             else:
-                await ctx.channel.send(f'/me {ctx.author.name}, você tem {randint(7, 30)}cm de testa PIGGERS')
+                await ctx.channel.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     async def create_marker(self, ctx: commands.Context):
+
+        # precisa de editor no canal
         if ctx.author.is_mod:
             _1 = ' '.join(ctx.message.content.split()[1:])
             await ctx.create_marker(token=TOKEN, description=_1)
 
     @commands.command(name='bode')
     async def bode(self, ctx: commands.Context):
+
+        # twitch.tv/xumartins1
         if ctx.channel.name == 'xumartins1':
             await ctx.channel.send('👀')
 
     @commands.command(name='gigante', aliases=['giga'])
     async def gigante(self, ctx: commands.Context):
+
+        # twitch.tv/noobzinha
         if ctx.channel.name == 'noobzinha' and ctx.author.is_subscriber:
             message = ctx.message.content
             namo = ' '.join(message.split()[1:])
@@ -202,13 +212,15 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'noobzinha')
-                await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
+                await ctx.channel.reply(f'/me {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
                 return
             else:
-                await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
+                await ctx.channel.reply(f'/me Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
 
     @commands.command(name='anão', aliases=['anao'])
     async def anao(self, ctx: commands.Context):
+
+        # twitch.tv/noobzinha
         if ctx.channel.name == 'noobzinha' and ctx.author.is_mod:
             message = ctx.message.content
             namo = ' '.join(message.split()[1:])
@@ -217,14 +229,16 @@ class Bot(commands.Bot):
                     if mod.get_namo(namo, 'noobzinha') != None:
                         try:
                             while mod.delcmd(namo, 'noobzinha') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> Groselha APARENTEMENTE é maior que {namo} nbzaLUL')
+                                await ctx.channel.reply(f'/me Groselha APARENTEMENTE é maior que {namo} nbzaLUL')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.send(f'/me {ctx.author.name} -> Gigantesco descomunal não encontradokkkk nbzaBuxin')
+                    await ctx.channel.reply(f'/me Gigantesco descomunal não encontradokkkk nbzaBuxin')
 
     @commands.command(name='gigantes', aliases=['gigas'])
     async def gigantes(self, ctx: commands.Context):
+
+        # twitch.tv/noobzinha
         if ctx.channel.name == 'noobzinha':
             cmds = list(mod.get_namo("@all", 'noobzinha').values())
             list1 = ''
@@ -246,6 +260,8 @@ class Bot(commands.Bot):
     async def namorado(self, ctx: commands.Context):
         message = ctx.message.content
         namo = ' '.join(message.split()[1:])
+
+        # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc':
             if namo != '':
                 try:
@@ -255,10 +271,12 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'marinaetc')
-                await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionado à lista de namorados da marinaetc.')
+                await ctx.channel.reply(f'/me {namo} adicionado à lista de namorados da marinaetc.')
                 return
             else:
-                await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome do namorado após o comando')
+                await ctx.channel.reply(f'/me Adicione o nome do namorado após o comando')
+
+        # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
             if namo != '':
                 try:
@@ -268,10 +286,12 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'emylolz')
-                await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionada à lista de namoradas da emy.')
+                await ctx.channel.reply(f'/me {namo} adicionada à lista de namoradas da emy.')
                 return
             else:
-                await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da namorada após o comando')
+                await ctx.channel.reply(f'/me Adicione o nome da namorada após o comando')
+
+        # twitch.tv/kiiaraw
         elif ctx.channel.name == 'kiiaraww':
             if namo != '':
                 try:
@@ -281,51 +301,59 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'kiiaraww')
-                await ctx.channel.send(f'/me {ctx.author.name} -> {namo} adicionada à lista de namoradas da kiara.')
+                await ctx.channel.reply(f'/me {namo} adicionada à lista de namoradas da kiara.')
                 return
             else:
-                await ctx.channel.send(f'/me {ctx.author.name} -> Adicione o nome da namorada após o comando')
+                await ctx.channel.reply(f'/me Adicione o nome da namorada após o comando')
 
     @commands.command(name='divorcio')
     async def divorcio(self, ctx: commands.Context):
         message = ctx.message.content
         namo = ' '.join(message.split()[1:])
+
+        # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc' and ctx.author.is_mod:
             if namo != '':
                 try:
                     if mod.get_namo(namo, 'marinaetc') != None:
                         try:
                             while mod.delcmd(namo, 'marinaetc') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> Marina Reticências divorciou-se de {namo}.')
+                                await ctx.channel.reply(f'/me Marina Reticências divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.send(f'/me {ctx.author.name} -> Namorado não encontradokkkk')
+                    await ctx.channel.reply(f'/me Namorado não encontradokkkk')
+
+        # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz' and ctx.author.is_mod:
             if namo != '':
                 try:
                     if mod.get_namo(namo, 'emylolz') != None:
                         try:
                             while mod.delcmd(namo, 'emylolz') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> Emilia lol divorciou-se de {namo}.')
+                                await ctx.channel.reply(f'/me Emilia lol divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
+                    await ctx.channel.reply(f'/me Namorada não encontradokkkk')
+
+        # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww' and ctx.author.is_mod:
             if namo != '':
                 try:
                     if mod.get_namo(namo, 'kiiaraww') != None:
                         try:
                             while mod.delcmd(namo, 'kiiaraww') != None:
-                                await ctx.channel.send(f'/me {ctx.author.name} -> malasia divorciou-se de {namo}.')
+                                await ctx.channel.reply(f'/me malasia divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.send(f'/me {ctx.author.name} -> Namorada não encontradokkkk')
+                    await ctx.channel.reply(f'/me Namorada não encontradokkkk')
 
     @commands.command(name='namorados', aliases=['namoradas', 'namos'])
     async def namorados(self, ctx: commands.Context):
+
+        # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc':
             cmds = list(mod.get_namo("@all", 'marinaetc').values())
             list1 = ''
@@ -342,6 +370,8 @@ class Bot(commands.Bot):
                 for i in range(len(listall)):
                     await ctx.channel.send(f'/me Namorados da Etc (Pág. {i+1}): {listall[i]}')
             await ctx.channel.send(f'/me Namorados da Etc (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+
+        # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
             cmds = list(mod.get_namo("@all", 'emylolz').values())
             list1 = ''
@@ -358,6 +388,8 @@ class Bot(commands.Bot):
                 for i in range(len(listall)):
                     await ctx.channel.send(f'/me Namoradas da Emy (Pág. {i+1}): {listall[i]}')
             await ctx.channel.send(f'/me Namoradas da Emy (Pág. {len(listall)+1}): {list1} Total: {len(cmds)}')
+
+        # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww':
             cmds = list(mod.get_namo("@all", 'kiiaraww').values())
             list1 = ''
