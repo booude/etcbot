@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 ENV = os.environ.get('ENV')
 
-uri = os.environ.get('HEROKU_POSTGRESQL_RED_URL')
+uri = os.environ.get('DATABASE_URL')
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
