@@ -321,7 +321,7 @@ class Bot(commands.Bot):
                 try:
                     if mod.get_namo(namo, 'kiiaraww') != None:
                         try:
-                            while mod.delcmd(namo, 'kiiaraw') != None:
+                            while mod.delcmd(namo, 'kiiaraww') != None:
                                 await ctx.channel.send(f'/me {ctx.author.name} -> malasia divorciou-se de {namo}.')
                         except ValueError:
                             return
