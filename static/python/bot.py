@@ -104,7 +104,7 @@ class Bot(commands.Bot):
                 await message.channel.send("dani* booudeYUNA")
 
             # Sorteios para primeiro mês de inscrição
-            if autor == 'streamelements' and re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", content) is not None:
+            if autor == 'OFFstreamelements' and re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", content) is not None:
                 # Escolher qualquer skin do jogo 1%
                 # Passe Wild 2%
                 # x1 contra Emerok 5%
