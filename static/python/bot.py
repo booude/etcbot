@@ -163,12 +163,12 @@ class Bot(commands.Bot):
                 try:
                     tweetapi.update_status(status=message)
                     id = tweetapi.user_timeline(count=1)[0]
-                    await ctx.channel.reply(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
+                    await ctx.reply(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
                 #    await ctx.channel.reply(f'/me Bot offline pra moderação dormir.')
                 except:
-                    await ctx.channel.reply(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+                    await ctx.reply(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
             else:
-                await ctx.channel.reply(f'/me Tweet disponível apenas para subs.')
+                await ctx.reply(f'/me Tweet disponível apenas para subs.')
 
     @commands.command(name='testa')
     async def testa(self, ctx: commands.Context):
@@ -176,11 +176,11 @@ class Bot(commands.Bot):
         # twitch.tv/choke7
         if ctx.channel.name == 'choke7':
             if ctx.author.name == 'choke7':
-                await ctx.channel.reply('/me Paula, tua testa é incalculável.')
+                await ctx.reply('/me Paula, tua testa é incalculável.')
             elif ctx.author.name == '1bode':
-                await ctx.channel.reply('/me testa o q dog? choke7Hum')
+                await ctx.reply('/me testa o q dog? choke7Hum')
             else:
-                await ctx.channel.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
+                await ctx.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     async def create_marker(self, ctx: commands.Context):
@@ -195,7 +195,7 @@ class Bot(commands.Bot):
 
         # twitch.tv/xumartins1
         if ctx.channel.name == 'xumartins1':
-            await ctx.channel.send('👀')
+            await ctx.send('👀')
 
     @commands.command(name='gigante', aliases=['giga'])
     async def gigante(self, ctx: commands.Context):
@@ -212,10 +212,10 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'noobzinha')
-                await ctx.channel.reply(f'/me {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
+                await ctx.reply(f'/me {namo} adicionado(a) à lista dos gigantescos nbzaAYAYA')
                 return
             else:
-                await ctx.channel.reply(f'/me Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
+                await ctx.reply(f'/me Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
 
     @commands.command(name='anão', aliases=['anao'])
     async def anao(self, ctx: commands.Context):
@@ -229,11 +229,11 @@ class Bot(commands.Bot):
                     if mod.get_namo(namo, 'noobzinha') != None:
                         try:
                             while mod.delcmd(namo, 'noobzinha') != None:
-                                await ctx.channel.reply(f'/me Groselha APARENTEMENTE é maior que {namo} nbzaLUL')
+                                await ctx.reply(f'/me Groselha APARENTEMENTE é maior que {namo} nbzaLUL')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.reply(f'/me Gigantesco descomunal não encontradokkkk nbzaBuxin')
+                    await ctx.reply(f'/me Gigantesco descomunal não encontradokkkk nbzaBuxin')
 
     @commands.command(name='gigantes', aliases=['gigas'])
     async def gigantes(self, ctx: commands.Context):
@@ -271,10 +271,10 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'marinaetc')
-                await ctx.channel.reply(f'/me {namo} adicionado à lista de namorados da marinaetc.')
+                await ctx.reply(f'/me {namo} adicionado à lista de namorados da marinaetc.')
                 return
             else:
-                await ctx.channel.reply(f'/me Adicione o nome do namorado após o comando')
+                await ctx.reply(f'/me Adicione o nome do namorado após o comando')
 
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
@@ -286,10 +286,10 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'emylolz')
-                await ctx.channel.reply(f'/me {namo} adicionada à lista de namoradas da emy.')
+                await ctx.reply(f'/me {namo} adicionada à lista de namoradas da emy.')
                 return
             else:
-                await ctx.channel.reply(f'/me Adicione o nome da namorada após o comando')
+                await ctx.reply(f'/me Adicione o nome da namorada após o comando')
 
         # twitch.tv/kiiaraw
         elif ctx.channel.name == 'kiiaraww':
@@ -301,10 +301,10 @@ class Bot(commands.Bot):
                     value = 1
                 input = {value: namo}
                 mod.add(input, 'kiiaraww')
-                await ctx.channel.reply(f'/me {namo} adicionada à lista de namoradas da kiara.')
+                await ctx.reply(f'/me {namo} adicionada à lista de namoradas da kiara.')
                 return
             else:
-                await ctx.channel.reply(f'/me Adicione o nome da namorada após o comando')
+                await ctx.reply(f'/me Adicione o nome da namorada após o comando')
 
     @commands.command(name='divorcio')
     async def divorcio(self, ctx: commands.Context):
@@ -318,11 +318,11 @@ class Bot(commands.Bot):
                     if mod.get_namo(namo, 'marinaetc') != None:
                         try:
                             while mod.delcmd(namo, 'marinaetc') != None:
-                                await ctx.channel.reply(f'/me Marina Reticências divorciou-se de {namo}.')
+                                await ctx.reply(f'/me Marina Reticências divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.reply(f'/me Namorado não encontradokkkk')
+                    await ctx.reply(f'/me Namorado não encontradokkkk')
 
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz' and ctx.author.is_mod:
@@ -331,11 +331,11 @@ class Bot(commands.Bot):
                     if mod.get_namo(namo, 'emylolz') != None:
                         try:
                             while mod.delcmd(namo, 'emylolz') != None:
-                                await ctx.channel.reply(f'/me Emilia lol divorciou-se de {namo}.')
+                                await ctx.reply(f'/me Emilia lol divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.reply(f'/me Namorada não encontradokkkk')
+                    await ctx.reply(f'/me Namorada não encontradokkkk')
 
         # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww' and ctx.author.is_mod:
