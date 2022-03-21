@@ -188,7 +188,7 @@ class Bot(commands.Bot):
         # precisa de editor no canal
         if ctx.author.is_mod:
             _1 = ' '.join(ctx.message.content.split()[1:])
-            await ctx.create_marker(token=TOKEN, description=_1)
+            await PartialUser.create_marker(self, token=TOKEN,description=_1)
 
     @commands.command(name='bode')
     async def bode(self, ctx: commands.Context):
