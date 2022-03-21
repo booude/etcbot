@@ -235,6 +235,7 @@ class Bot(commands.Bot):
                     await ctx.reply(f'/me Gigantesco descomunal não encontradokkkk nbzaBuxin')
 
     @commands.command(name='gigantes', aliases=['gigas'])
+    @mod.cooldown
     async def gigantes(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
