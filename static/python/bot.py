@@ -163,7 +163,7 @@ class Bot(commands.Bot):
                     tweetapi.update_status(status=message)
                     id = tweetapi.user_timeline(count=1)[0]
                     await ctx.reply(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
-                #    await ctx.channel.reply(f'/me Bot offline pra moderação dormir.')
+                #    await ctx.reply(f'/me Bot offline pra moderação dormir.')
                 except:
                     await ctx.reply(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
             else:
@@ -343,11 +343,11 @@ class Bot(commands.Bot):
                     if mod.get_namo(namo, 'kiiaraww') != None:
                         try:
                             while mod.delcmd(namo, 'kiiaraww') != None:
-                                await ctx.channel.reply(f'/me malasia divorciou-se de {namo}.')
+                                await ctx.reply(f'/me malasia divorciou-se de {namo}.')
                         except ValueError:
                             return
                 except ValueError:
-                    await ctx.channel.reply(f'/me Namorada não encontradokkkk')
+                    await ctx.reply(f'/me Namorada não encontradokkkk')
 
     @commands.command(name='namorados', aliases=['namoradas', 'namos'])
     async def namorados(self, ctx: commands.Context):
