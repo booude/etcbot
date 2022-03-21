@@ -74,9 +74,9 @@ class Bot(commands.Bot):
             if autor != 'streamelements' and re.search("bode|🐐", content.lower()) is not None:
                 a = choice(resposta)
                 if a == 't':
-                    await message.channel.reply(f'choke7Gun {autor}')
+                    await message.author.reply(f'choke7Gun {autor}')
                 else:
-                    await message.channel.reply(a)
+                    await message.author.reply(a)
 
             # Tweets automáticos
             if message.author.is_subscriber and 10 < len(content) < 217 and len(content.split()) > 2:
@@ -102,7 +102,7 @@ class Bot(commands.Bot):
         if canal == 'emerok1':
             # Respostas automáticas pro chat
             if autor != 'streamelements' and re.search("bode", content.lower()) is not None:
-                await message.channel.reply("dani* booudeYUNA")
+                await message.author.reply("dani* booudeYUNA")
 
             # Sorteios para primeiro mês de inscrição
             if autor == 'streamelements' and re.search("se quiser entrar no grupo do WhatsApp, basta digitar !grupo e o bot manda o link no seu privado", content) is not None:
