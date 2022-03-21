@@ -8,7 +8,6 @@ import asyncio
 
 from random import choice, randint, choices
 from dotenv import load_dotenv
-from twitchio import PartialUser
 from twitchio.ext import commands
 from twitchio.client import Client
 
@@ -188,7 +187,7 @@ class Bot(commands.Bot):
         # precisa de editor no canal
         if ctx.author.is_mod:
             _1 = ' '.join(ctx.message.content.split()[1:])
-            await PartialUser.create_marker(self, token=TOKEN,description=_1)
+            await ctx.send(f'/marker {_1}')
 
     @commands.command(name='bode')
     async def bode(self, ctx: commands.Context):
