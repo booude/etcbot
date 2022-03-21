@@ -18,9 +18,9 @@
         </tr>
         {% for row in data %}
         <tr class="table__row">
-            {% for cell in row %}
-            <td class="table__cell">{{ cell }}</td>
-            {% endfor %}
+            <td class="table__cell"><a href="http://www.twitch.tv/{{row.nickname}}">{{ row.nickname }}</a></td>
+            <td class="table__cell">{{ row.prize }}</td>
+            <td class="table__cell">{{ row.date }}</td>
         </tr>
         {% endfor %}
     </table>

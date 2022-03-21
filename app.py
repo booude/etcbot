@@ -39,17 +39,12 @@ class Prizes(db.Model):
         self.date = date
 
 
-headings = ("Nickname", "Prize", "Data")
-data = (
-    ("1bode", "1v1 vs Emerok", "20/03/2022"),
-    ("emerok1", "Wild Pass", "19/03/2022"),
-    ("miachancos", "3K POINTS", "18/03/2022")
-)
+headings = ("Nickname", "Prize", "Date")
 
 
 @app.route("/", methods=["GET"])
 def table():
-    return render_template("table.html", headings=headings, data=data)
+    return render_template("table.html", headings=headings, data=Prizes.query.all())
 
 
 if __name__ == "__main__":
