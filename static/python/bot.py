@@ -10,6 +10,7 @@ from random import choice, randint, choices
 from dotenv import load_dotenv
 from twitchio.ext import commands
 from twitchio.client import Client
+from twitchio import PartialUser
 
 load_dotenv(os.path.abspath('.env'))
 
@@ -186,7 +187,7 @@ class Bot(commands.Bot):
 
         # precisa de editor no canal
         if ctx.author.is_mod:
-            await ctx.send(f'/commercial 60')
+            await PartialUser.start_commercial(self, token=TOKEN, length=60)
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     async def create_mark(self, ctx: commands.Context):
