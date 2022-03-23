@@ -181,8 +181,15 @@ class Bot(commands.Bot):
             else:
                 await ctx.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
 
+    @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
+    async def commercial_command(self, ctx: commands.Context):
+
+        # precisa de editor no canal
+        if ctx.author.is_mod:
+            await ctx.send(f'/commercial 60')
+
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
-    async def create_marker(self, ctx: commands.Context):
+    async def create_mark(self, ctx: commands.Context):
 
         # precisa de editor no canal
         if ctx.author.is_mod:
