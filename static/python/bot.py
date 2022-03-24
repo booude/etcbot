@@ -187,7 +187,7 @@ class Bot(commands.Bot):
 
         # precisa de editor no canal
         if ctx.author.is_mod:
-            await PartialUser.start_commercial(self, token=TOKEN, length=60)
+            await PartialUser.start_commercial(self=PartialUser, token=TOKEN, length=60)
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     async def create_mark(self, ctx: commands.Context):
