@@ -57,7 +57,7 @@ class Bot(commands.Bot):
         print(f'#{canal} {hora} {autor}: {content}')
 
         # Skip bot messages
-        if message.author.id == self.user_id is False:
+        if autor != BOT_NICK:
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Choke7
             if canal == 'choke7' and autor != 'streamelements':
                 utils = json.loadutils(canal)
@@ -133,7 +133,7 @@ class Bot(commands.Bot):
         if ctx.channel.name == 'choke7':
             if ctx.author.name == 'choke7':
                 await ctx.reply('/me Paula, tua testa é incalculável.')
-            elif ctx.author.id == self.user_id:
+            elif ctx.author.name == BOT_NICK:
                 await ctx.reply('/me testa o q dog? choke7Hum')
             else:
                 await ctx.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
@@ -377,7 +377,7 @@ class Bot(commands.Bot):
     # Comando para git pull pelo chat
     @commands.command(name="update")
     async def update(self, ctx: commands.Context):
-        if ctx.author.id == self.user_id:
+        if ctx.author.name == BOT_NICK:
             await ctx.send('Atualizando.')
             os.system("git pull")
             print("Atualizando e reiniciando...")
