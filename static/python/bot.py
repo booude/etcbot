@@ -1,6 +1,5 @@
 import os
 import re
-from tokenize import Name
 import static.python.db_modules as mod
 import tweepy
 
@@ -263,7 +262,7 @@ class Bot(commands.Bot):
         if ctx.channel.name == 'marinaetc' and ctx.author.is_mod:
             if name != '':
                 mod.del_list(name, channel)
-                await ctx.reply(f'/me Marina Reticências divorciou-se de {Name}.')
+                await ctx.reply(f'/me Marina Reticências divorciou-se de {name}.')
             else:
                 await ctx.reply(f'/me Namorado não encontradokkkk')
 
