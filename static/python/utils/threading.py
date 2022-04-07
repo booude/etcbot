@@ -21,10 +21,10 @@ async def prizes(self, message, resultado, prizes, ganhador):
 
 
 async def autotweet(self, message, msglist, tweetapi):
-    if len(msglist) > 300:
+    if len(msglist) > 500:
         tweet = choice(msglist)
         msglist.clear()
-        time.sleep(900)
+        time.sleep(30)
         content = f'{tweet["msg"]} (Aleatório de {tweet["autor"]}) #Choke7'
         tweetapi.update_status(status=content)
         id = tweetapi.user_timeline(count=1)[0]
