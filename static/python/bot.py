@@ -14,15 +14,18 @@ load_dotenv(os.path.abspath('.env'))
 
 PREFIX = os.environ.get('BOT_PREFIX')
 TOKEN = os.environ.get('TOKEN')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 BOT_NICK = os.environ.get('BOT_NICK')
 
 TWITTER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
 TWITTER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
 TWITTER_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
 TWITTER_TOKEN_SECRET = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+msglist = []
 
 client = Client(
     token=TOKEN,
+    client_secret=CLIENT_SECRET,
     heartbeat=30.0
 )
 
@@ -36,6 +39,7 @@ class Bot(commands.Bot):
         super().__init__(
             prefix=PREFIX,
             token=TOKEN,
+            client_secret=CLIENT_SECRET,
             initial_channels=[BOT_NICK],
             heartbeat=30.0
         )
@@ -144,7 +148,7 @@ class Bot(commands.Bot):
 
         # precisa de editor no canal
         if ctx.author.is_mod:
-            await PartialUser.start_commercial(self=PartialUser, token=TOKEN, length=60)
+            await 0
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     @cooldown.cooldown(3)
