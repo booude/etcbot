@@ -75,7 +75,6 @@ class Bot(commands.Bot):
 
                 # Tweets automáticos
                 if message.author.is_subscriber and 10 < len(content) < 217 and len(content.split()) > 2:
-                    msglist = []
                     if content[0] == PREFIX and content.split(' ')[0][1:].lower() in utils['voz']:
                         msglist.append({"autor": autor, "msg": content})
                     elif content[0] != PREFIX:
