@@ -387,8 +387,8 @@ class Bot(commands.Bot):
             os.system("python3 main.py")
             exit()
 
-    @commands.command(name='ping')
     @cooldown.cooldown(3)
+    @commands.command(name='ping')
     async def ping(self, ctx: commands.Context):
         await ctx.reply('/me pong booudeHMM')
 
