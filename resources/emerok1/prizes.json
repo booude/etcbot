@@ -9,7 +9,7 @@
   },
   "2": {
     "prize": "X1 CONTRA O PRÓPRIO EMEROKLOL!!! emerokNoted",
-    "weight": 1
+    "weight": 1.5
   },
   "3": {
     "prize": "UM SALVE PELO PRÓPRIO MODERADOR 1BODE PARA QUALQUER PESSOA QUE VOCÊ QUISER!!! booudeTRAIL",
@@ -30,6 +30,6 @@
   "7": {
     "prize": "6000 PONTOS NA LOJINHA!!! emerokAYAYA",
     "points": 6000,
-    "weight": 50
+    "weight": 60
   }
 }
