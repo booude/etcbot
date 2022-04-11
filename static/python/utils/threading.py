@@ -13,11 +13,15 @@ def callback(self, func):
 
 
 async def prizes(self, message, resultado, prizes, ganhador):
-    time.sleep(15)
-    await message.channel.send(f'/me {ganhador}, você ganhou....... {resultado}')
+    time.sleep(9)
+    for i in prizes:
+        if resultado == prizes[i]['prize']:
+            desc = prizes[i]['desc']
+            await message.channel.send(f'/me {ganhador}, você ganhou....... {desc}')
     if resultado == prizes['7']['prize']:
         points = prizes['7']['points']
         await message.channel.send(f'!addpoints {ganhador} {points}')
+    time.sleep(6)
 
 
 async def autotweet(self, message, msglist, tweetapi):
