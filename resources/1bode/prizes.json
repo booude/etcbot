@@ -1,35 +1,43 @@
 {
   "0": {
-    "prize": "QUALQUER SKIN DO JOGO!!! emerokHype",
+    "prize": "QUALQUER SKIN",
+    "desc": "QUALQUER SKIN DO JOGO!!! emerokHype",
     "weight": 0.2
   },
   "1": {
-    "prize": "UM PASSE WILD!!! emerokHype",
+    "prize": "PASSE WILD",
+    "desc": "UM PASSE WILD!!! emerokHype",
     "weight": 0.2
   },
   "2": {
-    "prize": "X1 CONTRA O PRÓPRIO EMEROKLOL!!! emerokNoted",
-    "weight": 1
+    "prize": "X1",
+    "desc": "X1 CONTRA O PRÓPRIO EMEROKLOL!!! emerokNoted",
+    "weight": 1.5
   },
   "3": {
-    "prize": "UM SALVE PELO PRÓPRIO MODERADOR 1BODE PARA QUALQUER PESSOA QUE VOCÊ QUISER!!! booudeTRAIL",
+    "prize": "SALVE BODE",
+    "desc": "UM SALVE PELO PRÓPRIO MODERADOR 1BODE PARA QUALQUER PESSOA QUE VOCÊ QUISER!!! booudeTRAIL",
     "weight": 0.1
   },
   "4": {
-    "prize": "O PODER DE ESCOLHER UM CAMPEÃO DA JUNGLE!!! emerokSmite",
-    "weight": 2
+    "prize": "ESCOLHA CAMPEÃO",
+    "desc": "O PODER DE ESCOLHER UM CAMPEÃO DA JUNGLE!!! emerokSmite",
+    "weight": 3
   },
   "5": {
-    "prize": "SALVE PERSONALIZADO!!! emerokFofo",
+    "prize": "QUALQUER SALVE",
+    "desc": "SALVE PERSONALIZADO!!! emerokFofo",
     "weight": 5
   },
   "6": {
-    "prize": "NADAKKKKKKK emerokLaugh",
+    "prize": "NADA",
+    "desc": "NADAKKKKKKK emerokLaugh",
     "weight": 30
   },
   "7": {
-    "prize": "6000 PONTOS NA LOJINHA!!! emerokAYAYA",
+    "prize": "6K PONTOS",
+    "desc": "6000 PONTOS NA LOJINHA!!! emerokAYAYA",
     "points": 6000,
-    "weight": 50
+    "weight": 60
   }
 }
