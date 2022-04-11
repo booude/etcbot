@@ -52,8 +52,8 @@ class Prize(db.Model):
     name = db.Column(db.String(25))
     prize = db.Column(db.String(255))
     date = db.Column(db.Date, default=datetime.utcnow)
-    checkAlert = db.Column(db.Boolean, default=False)
     broadcaster_id = db.Column(db.Integer, db.ForeignKey('broadcaster.id'))
+    checkAlert = db.Column(db.Boolean, default=False)
 
 
 headings = ("Name", "Prize", "Date")
@@ -61,7 +61,7 @@ headings = ("Name", "Prize", "Date")
 
 @app.route("/", methods=["GET"])
 def table():
-    prizes = Prize.query.all()
+    prizes = Prize.query.order_by(Prize.id.desc()).all()
     return render_template("table.html", headings=headings, prizes=prizes)
 
 
