@@ -2,32 +2,32 @@
   "0": {
     "prize": "QUALQUER SKIN",
     "desc": "QUALQUER SKIN DO JOGO!!! emerokHype",
-    "weight": 0.2
+    "weight": 0.4
   },
   "1": {
     "prize": "PASSE WILD",
     "desc": "UM PASSE WILD!!! emerokHype",
-    "weight": 0.2
+    "weight": 0.4
   },
   "2": {
     "prize": "X1",
     "desc": "X1 CONTRA O PRÓPRIO EMEROKLOL!!! emerokNoted",
-    "weight": 1.5
+    "weight": 3
   },
   "3": {
     "prize": "SALVE BODE",
     "desc": "UM SALVE PELO PRÓPRIO MODERADOR 1BODE PARA QUALQUER PESSOA QUE VOCÊ QUISER!!! booudeTRAIL",
-    "weight": 0.1
+    "weight": 0.05
   },
   "4": {
     "prize": "ESCOLHA CAMPEÃO",
     "desc": "O PODER DE ESCOLHER UM CAMPEÃO DA JUNGLE!!! emerokSmite",
-    "weight": 3
+    "weight": 6
   },
   "5": {
     "prize": "QUALQUER SALVE",
     "desc": "SALVE PERSONALIZADO!!! emerokFofo",
-    "weight": 5
+    "weight": 10
   },
   "6": {
     "prize": "NADA",
