@@ -1,7 +1,7 @@
 name: bodedotexe-aws-deploy
 
 env:
-  PYTHON_VERSION: 'latest'
+  PYTHON_VERSION: '3.9'
 
 on:
   push:
