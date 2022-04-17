@@ -1,13 +1,12 @@
 name: bodedotexe-aws-deploy
 
 env:
-  PYTHON_VERSION: 'latest'              # set this to the Python version to use
+  PYTHON_VERSION: 'latest'
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build:
@@ -21,6 +20,13 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
+  
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Create and start virtual environment
         run: |
@@ -45,7 +51,7 @@ jobs:
           path: .
           
       - name: 'Deploy to AWS'
-        id: deploy-to-webapp
+        id: deploy-to-aws
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'null'
@@ -65,8 +71,8 @@ jobs:
           name: python-app
           path: .
           
-      - name: 'Deploy to AWS'
-        id: deploy-to-webapp
+      - name: 'Deploy to VSCode'
+        id: deploy-to-vscode
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'null'
