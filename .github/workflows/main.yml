@@ -1,0 +1,73 @@
+name: bodedotexe-aws-deploy
+
+env:
+  PYTHON_VERSION: 'latest'              # set this to the Python version to use
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python version
+        uses: actions/setup-python@v3.0.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Create and start virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'bodedotexe'
+      url: 'null'
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
+          path: .
+          
+      - name: 'Deploy to AWS'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'null'
+          publish-profile: 'null'
+          
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'bodedotexe-dev'
+      url: 'null'
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: python-app
+          path: .
+          
+      - name: 'Deploy to AWS'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'null'
+          publish-profile: 'null'
