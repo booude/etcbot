@@ -2,17 +2,17 @@
   "0": {
     "prize": "QUALQUER SKIN",
     "desc": "QUALQUER SKIN DO JOGO!!! emerokHype",
-    "weight": 0.4
+    "weight": 0.2
   },
   "1": {
     "prize": "PASSE WILD",
     "desc": "UM PASSE WILD!!! emerokHype",
-    "weight": 0.4
+    "weight": 0.2
   },
   "2": {
     "prize": "X1",
     "desc": "X1 CONTRA O PRÓPRIO EMEROKLOL!!! emerokNoted",
-    "weight": 3
+    "weight": 1.5
   },
   "3": {
     "prize": "SALVE BODE",
@@ -22,12 +22,12 @@
   "4": {
     "prize": "ESCOLHA CAMPEÃO",
     "desc": "O PODER DE ESCOLHER UM CAMPEÃO DA JUNGLE!!! emerokSmite",
-    "weight": 6
+    "weight": 3
   },
   "5": {
     "prize": "QUALQUER SALVE",
     "desc": "SALVE PERSONALIZADO!!! emerokFofo",
-    "weight": 10
+    "weight": 5
   },
   "6": {
     "prize": "NADA",
@@ -35,9 +35,9 @@
     "weight": 20
   },
   "7": {
-    "prize": "10K PONTOS",
-    "desc": "10000 PONTOS NA LOJINHA!!! emerokAYAYA",
-    "points": 10000,
+    "prize": "6K PONTOS",
+    "desc": "6000 PONTOS NA LOJINHA!!! emerokAYAYA",
+    "points": 6000,
     "weight": 60
   }
 }
