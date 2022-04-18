@@ -24,7 +24,7 @@ async def prizes(self, message, resultado, prizes, ganhador):
 
 
 async def autotweet(self, message, msglist, tweetapi):
-    if len(msglist) > 500:
+    if len(msglist) > 300:
         tweet = choice(msglist)
         msglist.clear()
         time.sleep(30)
