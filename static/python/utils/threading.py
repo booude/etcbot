@@ -1,4 +1,5 @@
 import threading
+import queue
 import time
 import asyncio
 
@@ -18,9 +19,11 @@ async def prizes(self, message, resultado, prizes, ganhador):
         if resultado == prizes[i]['prize']:
             desc = prizes[i]['desc']
             await message.channel.send(f'/me {ganhador}, você ganhou....... {desc}')
-    if resultado == prizes['7']['prize']:
-        points = prizes['7']['points']
-        await message.channel.send(f'!addpoints {ganhador} {points}')
+            try:
+                points = prizes[i]['points']
+                await message.channel.send(f'!addpoints {ganhador} {points}')
+            except KeyError:
+                pass
 
 
 async def autotweet(self, message, msglist, tweetapi):
