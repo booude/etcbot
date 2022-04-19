@@ -2,12 +2,16 @@ import os
 
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+from flask_bcrypt import Bcrypt
+from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
 uri = os.environ.get('DATABASE_URL')
+secret_key = os.environ.get('CLIENT_SECRET')
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
@@ -16,6 +20,7 @@ ENV = os.environ.get('ENV')
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SECRET_KEY'] = secret_key
 
 if ENV == 'dev':
     app.debug = True
@@ -25,6 +30,8 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+lm = LoginManager(app)
+bc = Bcrypt(app)
 
 
 class Broadcaster(db.Model):
@@ -56,13 +63,54 @@ class Prize(db.Model):
     checkAlert = db.Column(db.Boolean, default=False)
 
 
-headings = ("Name", "Prize", "Date")
+class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(25), unique=True, nullable=False)
+    password = db.Column(db.LargeBinary, nullable=False)
+
+
+@lm.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user:
+            if bc.check_password_hash(user.password, request.form['password']):
+                login_user(user)
+                return redirect('/prizes')
+    else:
+        return render_template("login.html")
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect('/login')
 
 
 @app.route("/", methods=["GET"])
 def table():
     prizes = Prize.query.order_by(Prize.id.desc()).all()
-    return render_template("table.html", headings=headings, prizes=prizes)
+    return render_template("table.html", headings=("Name", "Prize", "Date"), prizes=prizes)
+
+
+@app.route("/prizes", methods=["GET", "POST"])
+@login_required
+def prizes():
+    if request.method == "POST":
+        id = request.form["id"]
+        weight = request.form["weight"]
+        editweight('emerok1', id, weight)
+        return redirect('/prizes')
+    else:
+        prizes = loadprizes('emerok1')
+        return render_template("prizes.html", headings=("Prize", "Weight"), prizes=prizes)
 
 
 @app.route("/prizes/overlay", methods=["GET"])
@@ -88,4 +136,4 @@ def update(id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=8080)
