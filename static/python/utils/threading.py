@@ -1,5 +1,4 @@
 import threading
-import queue
 import time
 import asyncio
 
@@ -14,7 +13,7 @@ def callback(self, func):
 
 
 async def prizes(self, message, resultado, prizes, ganhador):
-    time.sleep(15)
+    time.sleep(14)
     for i in prizes:
         if resultado == prizes[i]['prize']:
             desc = prizes[i]['desc']
@@ -39,8 +38,10 @@ async def autotweet(self, message, msglist, tweetapi):
 
 def thread_create(self, threaded, *args, **kwargs):
     if threaded == 'prizes':
-        threading.Thread(target=callback, args=(self, prizes(
-            self, *args, **kwargs),)).start()
+        t = threading.Thread(target=callback, args=(self, prizes(
+            self, *args, **kwargs), ))
+        t.start()
     if threaded == 'autotweet':
-        threading.Thread(target=callback, args=(self, autotweet(
-            self, *args, **kwargs),)).start()
+        t = threading.Thread(target=callback, args=(self, autotweet(
+            self, *args, **kwargs), t))
+        t.start()
