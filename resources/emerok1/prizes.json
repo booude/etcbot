@@ -7,7 +7,7 @@
   "1": {
     "prize": "PASSE WILD",
     "desc": "UM PASSE WILD!!! emerokHype",
-    "weight": 0.2
+    "weight": 0.02
   },
   "2": {
     "prize": "X1",
@@ -32,13 +32,13 @@
   "6": {
     "prize": "NADA",
     "desc": "NADAKKKKKKK emerokLaugh",
-    "weight": 20
+    "weight": 30.0
   },
   "7": {
     "prize": "1K PONTOS",
     "desc": "1000 PONTOS NA LOJINHA!!! emerokAYAYA",
     "points": 1000,
-    "weight": 40
+    "weight": 30.0
   },
   "8": {
     "prize": "6K PONTOS",
