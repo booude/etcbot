@@ -1,4 +1,5 @@
 import os
+import requests
 
 from datetime import datetime
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
+SPOTIFY_BEARER_TOKEN = os.environ.get('SPOTIFY_BEARER_TOKEN')
 uri = os.environ.get('DATABASE_URL')
 secret_key = os.environ.get('CLIENT_SECRET')
 if uri.startswith("postgres://"):
@@ -95,6 +97,11 @@ def logout():
 
 
 @app.route("/", methods=["GET"])
+def home():
+    return redirect('/table')
+
+
+@app.route("/table", methods=["GET"])
 def table():
     prizes = Prize.query.order_by(Prize.id.desc()).all()
     return render_template("table.html", headings=("Name", "Prize", "Date"), prizes=prizes)
@@ -119,7 +126,7 @@ def overlay():
 
 
 @app.route('/api/prizes')
-def api():
+def api_prizes():
     prizes = Prize.query.order_by(Prize.id.asc()).where(
         Prize.checkAlert == False).first()
     try:
@@ -128,8 +135,28 @@ def api():
         return jsonify(None)
 
 
+@app.route("/currentsong", methods=["GET"])
+def currentsong():
+    return render_template("currentsong.html")
+
+
+@app.route('/api/currentsong')
+def api_currentsong():
+    try:
+        res = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={
+            "Authorization": f"Bearer {SPOTIFY_BEARER_TOKEN}"
+        })
+        res = res.json()
+        trackName = res['item']['name']
+        artists = res['item']['artists']
+        artistName = ", ".join([artist['name'] for artist in artists])
+        return jsonify({'track': trackName, 'artist': artistName})
+    except:
+        return jsonify('Not playing')
+
+
 @app.route('/update/prizes/<int:id>', methods=['POST'])
-def update(id):
+def update_prizes(id):
     Prize.query.filter_by(id=id).update({Prize.checkAlert: True})
     db.session.commit()
     return jsonify(success=True)

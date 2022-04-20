@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Song</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<script>
+    var func = function () {
+        fetch('/api/currentsong').then(response =>
+            response.json().then(data => ({
+                data: data
+            })
+            )
+                .then(res => {
+                    document.getElementById("marquee").innerHTML = `${res.data.track} - ${res.data.artist}`
+                }))
+    }
+    setInterval(func, 100)
+</script>
+
+<body>
+    <marquee id="marquee"></marquee>
+</body>
+
+
+</html>
