@@ -152,7 +152,7 @@ def api_currentsong():
         artistName = ", ".join([artist['name'] for artist in artists])
         return jsonify({'track': trackName, 'artist': artistName})
     except:
-        return jsonify('Not playing')
+        return jsonify({'track': 'Not playing', 'artist': 'Not playing'})
 
 
 @app.route('/update/prizes/<int:id>', methods=['POST'])
