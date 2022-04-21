@@ -2,8 +2,9 @@ import os
 import re
 import static.python.db_modules as mod
 import tweepy
+import requests
 
-from static.python.utils import cooldown, json, threading
+from static.python.utils import json, threading
 from random import choice, randint, choices
 from dotenv import load_dotenv
 from twitchio.ext import commands
@@ -14,6 +15,8 @@ load_dotenv(os.path.abspath('.env'))
 
 PREFIX = os.environ.get('BOT_PREFIX')
 TOKEN = os.environ.get('TOKEN')
+ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 BOT_NICK = os.environ.get('BOT_NICK')
 
@@ -109,7 +112,7 @@ class Bot(commands.Bot):
         await self.handle_commands(message)
 
     @commands.command(name='tweet')
-    @cooldown.cooldown(15)
+    @commands.cooldown(1, 15)
     async def tweet(self, ctx: commands.Context, *args):
 
         # twitch.tv/choke7
@@ -121,45 +124,52 @@ class Bot(commands.Bot):
                 try:
                     tweetapi.update_status(status=message)
                     id = tweetapi.user_timeline(count=1)[0]
-                    await ctx.reply(f'/me Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
+                    await ctx.reply(f'Tweet de {AUTHOR} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
                 #    await ctx.reply(f'/me Bot offline pra moderação dormir.')
                 except:
-                    await ctx.reply(f'/me {AUTHOR}, o tweet precisa ser um pouco mais curto.')
+                    await ctx.reply(f'O tweet precisa ser um pouco mais curto.')
             else:
-                await ctx.reply(f'/me Tweet disponível apenas para subs.')
+                await ctx.reply(f'Tweet disponível apenas para subs.')
 
     @commands.command(name='testa')
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def testa(self, ctx: commands.Context):
 
         # twitch.tv/choke7
         if ctx.channel.name == 'choke7':
             if ctx.author.name == 'choke7':
-                await ctx.reply('/me Paula, tua testa é incalculável.')
+                await ctx.reply('Paula, tua testa é incalculável.')
             elif ctx.author.name == BOT_NICK:
-                await ctx.reply('/me testa o q dog? choke7Hum')
+                await ctx.reply('Testa o q dog? choke7Hum')
             else:
-                await ctx.reply(f'/me você tem {randint(7, 30)}cm de testa PIGGERS')
+                await ctx.reply(f'Você tem {randint(7, 30)}cm de testa PIGGERS')
 
     @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def commercial_command(self, ctx: commands.Context):
-
-        # precisa de editor no canal
-        if ctx.author.is_mod:
-            await 0
+        if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+            try:
+                length = int(' '.join(ctx.message.content.split()[1:]))
+            except:
+                length = 180
+            res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=45634899&length={length}', headers={
+                "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
+            await ctx.reply(res.json()["message"])
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def create_mark(self, ctx: commands.Context):
-
-        # precisa de editor no canal
-        if ctx.author.is_mod:
-            _1 = ' '.join(ctx.message.content.split()[1:])
-            await PartialUser.create_marker(self=PartialUser, token=TOKEN, description=_1)
+        if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+            try:
+                description = ' '.join(ctx.message.content.split()[1:])
+            except:
+                description = ''
+            res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=45634899&description={description}', headers={
+                "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
+            await ctx.reply(res.json()["message"])
 
     @commands.command(name='bode')
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def bode(self, ctx: commands.Context):
 
         # twitch.tv/xumartins1
@@ -167,7 +177,7 @@ class Bot(commands.Bot):
             await ctx.send('👀')
 
     @commands.command(name='gigante', aliases=['giga'])
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def gigante(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -178,12 +188,12 @@ class Bot(commands.Bot):
             name = ' '.join(message.split()[1:])
             if name != '':
                 mod.add_list(name, channel, author)
-                await ctx.reply(f'/me {name} adicionado(a) à lista dos gigantescos nbzaAYAYA')
+                await ctx.reply(f'{name} adicionado(a) à lista dos gigantescos nbzaAYAYA')
             else:
-                await ctx.reply(f'/me Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
+                await ctx.reply(f'Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
 
     @commands.command(name='anão', aliases=['anao'])
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def anao(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -193,12 +203,12 @@ class Bot(commands.Bot):
             name = ' '.join(message.split()[1:])
             if name != '':
                 mod.del_list(name, channel)
-                await ctx.reply(f'/me Groselha APARENTEMENTE é maior que {name} nbzaLUL')
+                await ctx.reply(f'Groselha APARENTEMENTE é maior que {name} nbzaLUL')
             else:
-                await ctx.reply(f'/me Gigantesco descomunal não encontradokkkk nbzaBuxin')
+                await ctx.reply(f'Gigantesco descomunal não encontradokkkk nbzaBuxin')
 
     @commands.command(name='gigantes', aliases=['gigas'])
-    @cooldown.cooldown(15)
+    @commands.cooldown(1, 15)
     async def gigantes(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -220,7 +230,7 @@ class Bot(commands.Bot):
             await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {len(listall)+1}): {list1} Total: {len(names)}')
 
     @commands.command(name='namorado', aliases=['namorada', 'namo'])
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def namorado(self, ctx: commands.Context):
         channel = ctx.channel.name
         author = ctx.author.name
@@ -231,31 +241,31 @@ class Bot(commands.Bot):
         if ctx.channel.name == 'marinaetc':
             if name != '':
                 mod.add_list(name, channel, author)
-                await ctx.reply(f'/me {name} adicionado à lista de namorados da marinaetc.')
+                await ctx.reply(f'{name} adicionado à lista de namorados da marinaetc.')
                 return
             else:
-                await ctx.reply(f'/me Adicione o nome do namorado após o comando')
+                await ctx.reply(f'Adicione o nome do namorado após o comando')
 
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
             if name != '':
                 mod.add_list(name, channel, author)
-                await ctx.reply(f'/me {name} adicionada à lista de namoradas da emy.')
+                await ctx.reply(f'{name} adicionada à lista de namoradas da emy.')
                 return
             else:
-                await ctx.reply(f'/me Adicione o nome da namorada após o comando')
+                await ctx.reply(f'Adicione o nome da namorada após o comando')
 
         # twitch.tv/kiiaraw
         elif ctx.channel.name == 'kiiaraww':
             if name != '':
                 mod.add_list(name, channel, author)
-                await ctx.reply(f'/me {name} adicionada à lista de namoradas da kiara.')
+                await ctx.reply(f'{name} adicionada à lista de namoradas da kiara.')
                 return
             else:
-                await ctx.reply(f'/me Adicione o nome da namorada após o comando')
+                await ctx.reply(f'Adicione o nome da namorada após o comando')
 
     @commands.command(name='divorcio')
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def divorcio(self, ctx: commands.Context):
         message = ctx.message.content
         name = ' '.join(message.split()[1:])
@@ -265,26 +275,26 @@ class Bot(commands.Bot):
         if ctx.channel.name == 'marinaetc' and ctx.author.is_mod:
             if name != '':
                 mod.del_list(name, channel)
-                await ctx.reply(f'/me Marina Reticências divorciou-se de {name}.')
+                await ctx.reply(f'Marina Reticências divorciou-se de {name}.')
             else:
-                await ctx.reply(f'/me Namorado não encontradokkkk')
+                await ctx.reply(f'Namorado não encontradokkkk')
 
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz' and ctx.author.is_mod:
             if name != '':
                 mod.del_list(name, channel)
             else:
-                await ctx.reply(f'/me Namorada não encontradakkkk')
+                await ctx.reply(f'Namorada não encontradakkkk')
 
         # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww' and ctx.author.is_mod:
             if name != '':
                 mod.del_list(name, channel)
             else:
-                await ctx.reply(f'/me Namorada não encontradakkkk')
+                await ctx.reply(f'Namorada não encontradakkkk')
 
     @commands.command(name='namorados', aliases=['namoradas', 'namos'])
-    @cooldown.cooldown(15)
+    @commands.cooldown(1, 15)
     async def namorados(self, ctx: commands.Context):
 
         # twitch.tv/marinaetc
@@ -388,9 +398,9 @@ class Bot(commands.Bot):
             exit()
 
     @commands.command(name='ping')
-    @cooldown.cooldown(3)
+    @commands.cooldown(1, 3)
     async def ping(self, ctx: commands.Context):
-        await ctx.reply('/me pong booudeHMM')
+        await ctx.reply('pong booudeHMM')
 
 
 bot = Bot()
