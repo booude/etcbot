@@ -43,5 +43,5 @@ def thread_create(self, threaded, *args, **kwargs):
         t.start()
     if threaded == 'autotweet':
         t = threading.Thread(target=callback, args=(self, autotweet(
-            self, *args, **kwargs), t))
+            self, *args, **kwargs), ))
         t.start()
