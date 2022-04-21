@@ -154,7 +154,8 @@ class Bot(commands.Bot):
                 length = 180
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
                 "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            await ctx.reply(res.json()["message"])
+            if res.json()["status"] == 200:
+                await ctx.reply('Passando um AD rapaziada emerokAYAYA !mercerok')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     @commands.cooldown(1, 3)
@@ -166,7 +167,8 @@ class Bot(commands.Bot):
                 description = ''
             res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=59252262&description={description}', headers={
                 "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            await ctx.reply(res.json()["message"])
+            if res.json()["status"] == 200:
+                await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
 
     @commands.command(name='bode')
     @commands.cooldown(1, 3)
