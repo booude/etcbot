@@ -15,7 +15,7 @@ load_dotenv(os.path.abspath('.env'))
 
 PREFIX = os.environ.get('BOT_PREFIX')
 TOKEN = os.environ.get('TOKEN')
-ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+REFRESH_TOKEN = os.environ.get('REFRESH_TOKEN')
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 BOT_NICK = os.environ.get('BOT_NICK')
@@ -147,13 +147,12 @@ class Bot(commands.Bot):
     @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
     @commands.cooldown(1, 3)
     async def commercial_command(self, ctx: commands.Context):
-        if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
-            try:
-                length = int(' '.join(ctx.message.content.split()[1:]))
-            except:
-                length = 180
+        if ctx.channel.name == '1bode' and ctx.author.is_mod:
+            length = 90
+            token = requests.post('https://id.twitch.tv/oauth2/token', data={
+                                  "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
-                "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
+                "Authorization": f"Bearer {token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
             if res.json()["status"] == 200:
                 await ctx.reply('Passando um AD rapaziada emerokAYAYA !mercerok')
 
@@ -165,8 +164,10 @@ class Bot(commands.Bot):
                 description = ' '.join(ctx.message.content.split()[1:])
             except:
                 description = ''
+            token = requests.post('https://id.twitch.tv/oauth2/token', data={
+                                  "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=59252262&description={description}', headers={
-                "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
+                "Authorization": f"Bearer {token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
             if res.json()["status"] == 200:
                 await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
 
