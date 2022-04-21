@@ -152,7 +152,7 @@ class Bot(commands.Bot):
                 length = int(' '.join(ctx.message.content.split()[1:]))
             except:
                 length = 180
-            res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=45634899&length={length}', headers={
+            res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
                 "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
             await ctx.reply(res.json()["message"])
 
@@ -164,7 +164,7 @@ class Bot(commands.Bot):
                 description = ' '.join(ctx.message.content.split()[1:])
             except:
                 description = ''
-            res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=45634899&description={description}', headers={
+            res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=59252262&description={description}', headers={
                 "Authorization": f"Bearer {ACCESS_TOKEN}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
             await ctx.reply(res.json()["message"])
 
