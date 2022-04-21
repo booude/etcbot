@@ -11,7 +11,9 @@ from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
-SPOTIFY_BEARER_TOKEN = os.environ.get('SPOTIFY_BEARER_TOKEN')
+uri = os.environ.get('DATABASE_URL')
+SPOTIFY_REFRESH_TOKEN = os.environ.get('SPOTIFY_REFRESH_TOKEN')
+SPOTIFY_CLIENT_HASH = os.environ.get('SPOTIFY_CLIENT_HASH')
 uri = os.environ.get('DATABASE_URL')
 secret_key = os.environ.get('CLIENT_SECRET')
 if uri.startswith("postgres://"):
@@ -143,8 +145,10 @@ def currentsong():
 @app.route('/api/currentsong')
 def api_currentsong():
     try:
+        token = requests.post("https://accounts.spotify.com/api/token", headers={"Authorization": f"Basic {SPOTIFY_CLIENT_HASH}"}, data={
+            "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}).json()["access_token"]
         res = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={
-            "Authorization": f"Bearer {SPOTIFY_BEARER_TOKEN}"
+            "Authorization": f"Bearer {token}"
         })
         res = res.json()
         trackName = res['item']['name']
