@@ -147,7 +147,7 @@ class Bot(commands.Bot):
     @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
     @commands.cooldown(1, 3)
     async def commercial_command(self, ctx: commands.Context):
-        if ctx.channel.name == '1bode' and ctx.author.is_mod:
+        if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
             length = 90
             token = requests.post('https://id.twitch.tv/oauth2/token', data={
                                   "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
