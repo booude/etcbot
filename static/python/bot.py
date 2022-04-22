@@ -132,7 +132,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Tweet disponível apenas para subs.')
 
     @commands.command(name='testa')
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def testa(self, ctx: commands.Context):
 
         # twitch.tv/choke7
@@ -145,7 +145,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Você tem {randint(7, 30)}cm de testa PIGGERS')
 
     @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
             length = 90
@@ -157,7 +157,7 @@ class Bot(commands.Bot):
                 await ctx.reply('Passando um AD rapaziada emerokAYAYA !mercerok')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def create_mark(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
             try:
@@ -172,7 +172,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
 
     @commands.command(name='bode')
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def bode(self, ctx: commands.Context):
 
         # twitch.tv/xumartins1
@@ -180,7 +180,7 @@ class Bot(commands.Bot):
             await ctx.send('👀')
 
     @commands.command(name='gigante', aliases=['giga'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def gigante(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -196,7 +196,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
 
     @commands.command(name='anão', aliases=['anao'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def anao(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -211,7 +211,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Gigantesco descomunal não encontradokkkk nbzaBuxin')
 
     @commands.command(name='gigantes', aliases=['gigas'])
-    @commands.cooldown(1, 15)
+    @commands.cooldown(1, 10)
     async def gigantes(self, ctx: commands.Context):
 
         # twitch.tv/noobzinha
@@ -233,7 +233,7 @@ class Bot(commands.Bot):
             await ctx.channel.send(f'/me Lista de Pessoas/Coisas maiores que a XL nbzaAnotando (Pág. {len(listall)+1}): {list1} Total: {len(names)}')
 
     @commands.command(name='namorado', aliases=['namorada', 'namo'])
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def namorado(self, ctx: commands.Context):
         channel = ctx.channel.name
         author = ctx.author.name
@@ -268,7 +268,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Adicione o nome da namorada após o comando')
 
     @commands.command(name='divorcio')
-    @commands.cooldown(1, 3)
+    @commands.cooldown(1, 1)
     async def divorcio(self, ctx: commands.Context):
         message = ctx.message.content
         name = ' '.join(message.split()[1:])
@@ -297,7 +297,7 @@ class Bot(commands.Bot):
                 await ctx.reply(f'Namorada não encontradakkkk')
 
     @commands.command(name='namorados', aliases=['namoradas', 'namos'])
-    @commands.cooldown(1, 15)
+    @commands.cooldown(1, 10)
     async def namorados(self, ctx: commands.Context):
 
         # twitch.tv/marinaetc
