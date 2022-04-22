@@ -154,7 +154,7 @@ class Bot(commands.Bot):
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
                 "Authorization": f"Bearer {token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
             if res.json()["data"]:
-                await ctx.reply('Passando um AD rapaziada emerokAYAYA !mercerok')
+                await ctx.send('/me Passando um AD rapaziada emerokAYAYA !mercerok')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     @commands.cooldown(1, 1)
