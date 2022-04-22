@@ -153,7 +153,7 @@ class Bot(commands.Bot):
                                   "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
                 "Authorization": f"Bearer {token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            if res.json()["status"] == 200:
+            if res.json()["data"]:
                 await ctx.reply('Passando um AD rapaziada emerokAYAYA !mercerok')
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
@@ -168,7 +168,7 @@ class Bot(commands.Bot):
                                   "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=59252262&description={description}', headers={
                 "Authorization": f"Bearer {token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            if res.json()["status"] == 200:
+            if res.json()["data"]:
                 await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
 
     @commands.command(name='bode')
