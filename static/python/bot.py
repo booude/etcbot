@@ -9,7 +9,6 @@ from random import choice, randint, choices
 from dotenv import load_dotenv
 from twitchio.ext import commands
 from twitchio.client import Client
-from twitchio import PartialUser
 
 load_dotenv(os.path.abspath('.env'))
 
@@ -148,7 +147,7 @@ class Bot(commands.Bot):
     @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
-            length = 90
+            length = 180
             token = requests.post('https://id.twitch.tv/oauth2/token', data={
                                   "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
