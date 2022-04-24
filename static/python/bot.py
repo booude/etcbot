@@ -65,7 +65,7 @@ class Bot(commands.Bot):
         # Skip bot messages
         if autor != BOT_NICK:
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Choke7
-            if canal == 'choke7' and autor != 'streamelements':
+            if canal == 'off' and autor != 'streamelements':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
