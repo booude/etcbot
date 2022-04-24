@@ -164,7 +164,6 @@ def api_currentsongcommand():
     song = requests.get("http://localhost:8080/api/currentsong").json()
     trackName = song['track']
     artistName = song['artist']
-    print(song)
     return f'{trackName} - {artistName}'
 
 
