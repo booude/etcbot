@@ -142,8 +142,7 @@ def currentsong():
     return render_template("currentsong.html")
 
 
-@app.route('/api/currentsong')
-def api_currentsong():
+def spotify():
     try:
         token = requests.post("https://accounts.spotify.com/api/token", headers={"Authorization": f"Basic {SPOTIFY_CLIENT_HASH}"}, data={
             "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}).json()["access_token"]
@@ -154,26 +153,28 @@ def api_currentsong():
         trackName = res['item']['name']
         artists = res['item']['artists']
         artistName = ", ".join([artist['name'] for artist in artists])
-        return jsonify({'track': trackName, 'artist': artistName})
+        return {'track': trackName, 'artist': artistName}
     except:
-        return jsonify({'track': 'Not playing', 'artist': 'Not playing'})
+        return {'track': 'Not playing', 'artist': 'Not playing'}
+
+
+@app.route('/api/currentsong')
+def api_currentsong():
+    json = spotify()
+    trackName = json['track']
+    artistName = json['artist']
+    return jsonify({'track': trackName, 'artist': artistName})
 
 
 @app.route('/api/currentsong/command')
 def api_currentsongcommand():
-    try:
-        token = requests.post("https://accounts.spotify.com/api/token", headers={"Authorization": f"Basic {SPOTIFY_CLIENT_HASH}"}, data={
-            "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}).json()["access_token"]
-        res = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={
-            "Authorization": f"Bearer {token}"
-        })
-        res = res.json()
-        trackName = res['item']['name']
-        artists = res['item']['artists']
-        artistName = ", ".join([artist['name'] for artist in artists])
-        return f'{trackName} - {artistName}'
-    except:
+    json = spotify()
+    trackName = json['track']
+    artistName = json['artist']
+    if trackName == 'Not playing' and artistName == 'Not playing':
         return 'Spotify não está tocando'
+    else:
+        return f'{trackName} - {artistName}'
 
 
 @app.route('/update/prizes/<int:id>', methods=['POST'])
