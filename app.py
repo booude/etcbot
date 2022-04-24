@@ -159,6 +159,15 @@ def api_currentsong():
         return jsonify({'track': 'Not playing', 'artist': 'Not playing'})
 
 
+@app.route('/api/currentsong/command')
+def api_currentsongcommand():
+    song = requests.get("http://localhost:8080/api/currentsong").json()
+    trackName = song['track']
+    artistName = song['artist']
+    print(song)
+    return f'{trackName} - {artistName}'
+
+
 @app.route('/update/prizes/<int:id>', methods=['POST'])
 def update_prizes(id):
     Prize.query.filter_by(id=id).update({Prize.checkAlert: True})
