@@ -161,7 +161,7 @@ def api_currentsong():
 
 @app.route('/api/currentsong/command')
 def api_currentsongcommand():
-    song = requests.get("http://127.0.0.1:8000/api/currentsong").json()
+    song = requests.get('http://0.0.0.0:8080/api/currentsong/').json()
     trackName = song['track']
     artistName = song['artist']
     return f'{trackName} - {artistName}'
