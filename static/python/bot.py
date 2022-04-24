@@ -89,7 +89,7 @@ class Bot(commands.Bot):
             if canal == 'emerok1':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
-                if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
+                if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None and re.search('@1bode', content.lower()) is None:
                     answer = choice(utils['resposta'])
                     await message.channel.send(answer)
 
