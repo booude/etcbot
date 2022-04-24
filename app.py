@@ -171,10 +171,9 @@ def api_currentsongcommand():
         trackName = res['item']['name']
         artists = res['item']['artists']
         artistName = ", ".join([artist['name'] for artist in artists])
-        return jsonify({'track': trackName, 'artist': artistName})
+        return f'{trackName} - {artistName}'
     except:
-        return jsonify({'track': 'Not playing', 'artist': 'Not playing'})
-    return f'{trackName} - {artistName}'
+        return 'Spotify não está tocando'
 
 
 @app.route('/update/prizes/<int:id>', methods=['POST'])
