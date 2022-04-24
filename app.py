@@ -161,9 +161,19 @@ def api_currentsong():
 
 @app.route('/api/currentsong/command')
 def api_currentsongcommand():
-    song = requests.get('http://52.204.47.186/api/currentsong').json()
-    trackName = song['track']
-    artistName = song['artist']
+    try:
+        token = requests.post("https://accounts.spotify.com/api/token", headers={"Authorization": f"Basic {SPOTIFY_CLIENT_HASH}"}, data={
+            "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}).json()["access_token"]
+        res = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={
+            "Authorization": f"Bearer {token}"
+        })
+        res = res.json()
+        trackName = res['item']['name']
+        artists = res['item']['artists']
+        artistName = ", ".join([artist['name'] for artist in artists])
+        return jsonify({'track': trackName, 'artist': artistName})
+    except:
+        return jsonify({'track': 'Not playing', 'artist': 'Not playing'})
     return f'{trackName} - {artistName}'
 
 
