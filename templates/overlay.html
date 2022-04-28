@@ -25,7 +25,7 @@
                             document.getElementById("video").innerHTML = codeBlock
                             url = `/update/prizes/${res.data['id']}`
                             fetch(url, { method: 'POST' })
-                            setTimeout(func, 14000);
+                            setTimeout(func, 15000);
                         }
                         else if (res.data == null) {
                             setTimeout(func, 50)
