@@ -1,6 +1,7 @@
 import os
 import requests
 
+from bs4 import BeautifulSoup
 from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, jsonify, request, redirect
@@ -126,6 +127,17 @@ def prizes():
 @app.route("/prizes/overlay", methods=["GET"])
 def overlay():
     return render_template("overlay.html")
+
+
+@app.route("/api/elo/<id>")
+def api_elo(id):
+    html = requests.get(f'https://na.wildstats.gg/en/profile/{id}').content
+    soup = BeautifulSoup(html, 'html.parser')
+    nome = soup.find("div", id="playerName")
+    tag = soup.find("div", id="playerTag")
+    elo = soup.find("span", class_="badge badge-overlay text-white")
+    rp = soup.find("span", class_="badge badge-overlay text-gold")
+    return f'{nome.string}#{tag.string} - {elo.string} ({rp.string})'
 
 
 @app.route('/api/prizes')
