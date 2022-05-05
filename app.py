@@ -105,7 +105,8 @@ def home():
 
 @app.route("/table", methods=["GET"])
 def table():
-    prizes = Prize.query.order_by(Prize.id.desc()).all()
+    prizes = Prize.query.order_by(Prize.id.desc()).filter(
+        db.extract('month', Prize.date) == datetime.today().month).all()
     return render_template("table.html", headings=("Name", "Prize", "Date"), prizes=prizes)
 
 
