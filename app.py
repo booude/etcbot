@@ -12,7 +12,6 @@ from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
-uri = os.environ.get('DATABASE_URL')
 SPOTIFY_REFRESH_TOKEN = os.environ.get('SPOTIFY_REFRESH_TOKEN')
 SPOTIFY_CLIENT_HASH = os.environ.get('SPOTIFY_CLIENT_HASH')
 uri = os.environ.get('DATABASE_URL')
