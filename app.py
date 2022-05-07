@@ -1,5 +1,7 @@
 import os
 import requests
+import json
+import datetime
 
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -12,6 +14,10 @@ from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
+with open(os.path.abspath('resources\lang.json'), encoding='utf8') as json_file:
+    strings = json.load(json_file)
+
+SCRAPED_URL = os.environ.get('SCRAPED_URL')
 SPOTIFY_REFRESH_TOKEN = os.environ.get('SPOTIFY_REFRESH_TOKEN')
 SPOTIFY_CLIENT_HASH = os.environ.get('SPOTIFY_CLIENT_HASH')
 uri = os.environ.get('DATABASE_URL')
@@ -128,15 +134,23 @@ def overlay():
     return render_template("overlay.html")
 
 
-@app.route("/api/elo/<id>")
-def api_elo(id):
-    html = requests.get(f'https://na.wildstats.gg/en/profile/{id}').content
+@app.route("/api/elo/<id>/<lang>")
+def api_elo(id, lang):
+    html = requests.get(f'{SCRAPED_URL}{id}').content
     soup = BeautifulSoup(html, 'html.parser')
-    nome = soup.find("div", id="playerName")
-    tag = soup.find("div", id="playerTag")
-    elo = soup.find("span", class_="badge badge-overlay text-white")
-    rp = soup.find("span", class_="badge badge-overlay text-gold")
-    return f'{nome.string}#{tag.string} - {elo.string} ({rp.string})'
+    nome = soup.find("div", id="playerName").string
+    tag = soup.find("div", id="playerTag").string
+    elo = soup.find(
+        "span", class_="badge badge-overlay text-white").string.split()
+    elo[0] = strings[lang][elo[0]]
+    lp = strings[lang]['LP']
+    elo = ' '.join(elo)
+    try:
+        rp = soup.find(
+            "span", class_="badge badge-overlay text-gold").string.replace(' RP', '')
+        return f'{nome}#{tag}: {elo} ({rp} {lp})'
+    except:
+        return f'{nome}#{tag}: {elo}'
 
 
 @app.route('/api/prizes')
