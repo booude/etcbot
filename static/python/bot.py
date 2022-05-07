@@ -145,7 +145,7 @@ class Bot(commands.Bot):
             else:
                 await ctx.reply(f'Você tem {randint(7, 30)}cm de testa PIGGERS')
 
-    @commands.command(name='ad', aliases=['pdl', 'pdl1', 'pdl2', 'pdl3'])
+    @commands.command(name='ad')
     @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
