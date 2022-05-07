@@ -14,7 +14,7 @@ from static.python.utils.json import editweight, loadprizes
 
 load_dotenv(os.path.abspath('.env'))
 
-with open(os.path.abspath('resources\lang.json'), encoding='utf8') as json_file:
+with open(os.path.abspath('resources/lang.json'), encoding='utf8') as json_file:
     strings = json.load(json_file)
 
 SCRAPED_URL = os.environ.get('SCRAPED_URL')
