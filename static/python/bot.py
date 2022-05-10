@@ -53,6 +53,10 @@ class Bot(commands.Bot):
         print(f'Id de usuário é | {self.user_id}')
         await bot.join_channels(mod.get_channels())
 
+    async def event_raw_usernotice(self, channel, tags):
+        print(channel.name, tags['msg-id'], tags['login'],
+              tags['msg-param-cumulative-months'])
+
     async def event_message(self, message):
 
         if message.echo:
