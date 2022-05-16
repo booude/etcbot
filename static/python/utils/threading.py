@@ -12,19 +12,6 @@ def callback(self, func):
     loop.close()
 
 
-async def prizes(self, message, resultado, prizes, ganhador):
-    time.sleep(14)
-    for i in prizes:
-        if resultado == prizes[i]['prize']:
-            desc = prizes[i]['desc']
-            await message.channel.send(f'/me {ganhador}, você ganhou....... {desc}')
-            try:
-                points = prizes[i]['points']
-                await message.channel.send(f'!addpoints {ganhador} {points}')
-            except KeyError:
-                pass
-
-
 async def autotweet(self, message, msglist, tweetapi):
     if len(msglist) > 300:
         tweet = choice(msglist)
@@ -36,12 +23,7 @@ async def autotweet(self, message, msglist, tweetapi):
         await message.channel.send(f'/me Tweet aleatório de @{tweet["autor"]} pode ser visto em: twitter.com/choke7chat/status/{id.id}')
 
 
-def thread_create(self, threaded, *args, **kwargs):
-    if threaded == 'prizes':
-        t = threading.Thread(target=callback, args=(self, prizes(
-            self, *args, **kwargs), ))
-        t.start()
-    if threaded == 'autotweet':
-        t = threading.Thread(target=callback, args=(self, autotweet(
-            self, *args, **kwargs), ))
-        t.start()
+def thread_create(self, func, *args, **kwargs):
+    t = threading.Thread(target=callback, args=(self, func(
+        self, *args, **kwargs), ))
+    t.start()

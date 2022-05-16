@@ -23,14 +23,12 @@ TWITTER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
 TWITTER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
 TWITTER_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
 TWITTER_TOKEN_SECRET = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
-emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
-                             "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
 msglist = []
 
 client = Client(
     token=TOKEN,
     client_secret=CLIENT_SECRET,
-    heartbeat=30.0
+    heartbeat=20.0
 )
 
 auth = tweepy.OAuthHandler(TWITTER_KEY, TWITTER_SECRET)
@@ -53,10 +51,6 @@ class Bot(commands.Bot):
         print(f'Id de usuário é | {self.user_id}')
         await bot.join_channels(mod.get_channels())
 
-    async def event_raw_usernotice(self, channel, tags):
-        print(channel.name, tags['msg-id'], tags['login'],
-              tags['msg-param-cumulative-months'])
-
     async def event_message(self, message):
 
         if message.echo:
@@ -71,7 +65,7 @@ class Bot(commands.Bot):
         # Skip bot messages
         if autor != BOT_NICK:
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Choke7
-            if canal == 'off' and autor != 'streamelements':
+            if canal == 'choke7' and autor != 'streamelements':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
@@ -87,9 +81,8 @@ class Bot(commands.Bot):
                         msglist.append({"autor": autor, "msg": content})
                     elif content[0] != PREFIX:
                         msglist.append({"autor": autor, "msg": content})
-                    threaded = 'autotweet'
                     _t = threading.thread_create
-                    _t(self, threaded, message, msglist, tweetapi)
+                    _t(self, threading.autotweet, message, msglist, tweetapi)
 
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Emerok1
             if canal == 'emerok1':
@@ -98,21 +91,6 @@ class Bot(commands.Bot):
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None and re.search('@1bode', content.lower()) is None:
                     answer = choice(utils['resposta'])
                     await message.channel.send(answer)
-
-                # Sorteios para primeiro mês de inscrição
-                if autor == 'streamelements' and re.search(utils['searchPrize'], content) is not None:
-                    ganhador = content.split(' ', 1)[0][:-1]
-                    prizes = json.loadprizes(canal)
-                    prize = []
-                    weight = []
-                    for i in prizes:
-                        prize.append(prizes[f'{i}']['prize'])
-                        weight.append(prizes[f'{i}']['weight'])
-                    resultado = choices(prize, weights=weight)[0]
-                    mod.add_prize(ganhador, resultado, canal)
-                    threaded = 'prizes'
-                    _t = threading.thread_create
-                    _t(self, threaded, message, resultado, prizes, ganhador)
 
         await self.handle_commands(message)
 
@@ -153,24 +131,34 @@ class Bot(commands.Bot):
     @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+            emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
+                "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             length = 180
             res = requests.post(f'https://api.twitch.tv/helix/channels/commercial?broadcaster_id=59252262&length={length}', headers={
                 "Authorization": f"Bearer {emerok_token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            if res.json()["data"]:
-                await ctx.send('/me Passando um AD rapaziada emerokAYAYA !mercerok')
+            try:
+                if res.json()["data"]:
+                    await ctx.send('/me Passando um AD rapaziada emerokAYAYA !mercerok')
+            except:
+                print(res.json()["status"], res.json()["message"])
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     @commands.cooldown(1, 1)
     async def create_mark(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+            emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
+                "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             try:
                 description = ' '.join(ctx.message.content.split()[1:])
             except:
                 description = ''
             res = requests.post(f'https://api.twitch.tv/helix/streams/markers?user_id=59252262&description={description}', headers={
                 "Authorization": f"Bearer {emerok_token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"})
-            if res.json()["data"]:
-                await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
+            try:
+                if res.json()["data"]:
+                    await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
+            except:
+                print(res.json()["status"], res.json()["message"])
 
     @commands.command(name='bode')
     @commands.cooldown(1, 1)

@@ -6,11 +6,9 @@ import datetime
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
-from flask_bcrypt import Bcrypt
-from static.python.utils.json import editweight, loadprizes
+from flask_login import UserMixin
 
 load_dotenv(os.path.abspath('.env'))
 
@@ -40,8 +38,6 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-lm = LoginManager(app)
-bc = Bcrypt(app)
 
 
 class Broadcaster(db.Model):
@@ -80,60 +76,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.LargeBinary, nullable=False)
 
 
-@lm.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        user = User.query.filter_by(username=request.form['username']).first()
-        if user:
-            if bc.check_password_hash(user.password, request.form['password']):
-                login_user(user)
-                return redirect('/prizes')
-    else:
-        return render_template("login.html")
-
-
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
-def logout():
-    logout_user()
-    return redirect('/login')
-
-
-@app.route("/", methods=["GET"])
-def home():
-    return redirect('/table')
-
-
-@app.route("/table", methods=["GET"])
-def table():
-    prizes = Prize.query.order_by(Prize.id.desc()).filter(
-        db.extract('month', Prize.date) == datetime.today().month).all()
-    return render_template("table.html", headings=("Name", "Prize", "Date"), prizes=prizes)
-
-
-@app.route("/prizes", methods=["GET", "POST"])
-@login_required
-def prizes():
-    if request.method == "POST":
-        id = request.form["id"]
-        weight = request.form["weight"]
-        editweight('emerok1', id, weight)
-        return redirect('/prizes')
-    else:
-        prizes = loadprizes('emerok1')
-        return render_template("prizes.html", headings=("Prize", "Weight"), prizes=prizes)
-
-
-@app.route("/prizes/overlay", methods=["GET"])
-def overlay():
-    return render_template("overlay.html")
-
-
 @app.route("/api/elo/<id>/<lang>")
 def api_elo(id, lang):
     html = requests.get(f'{SCRAPED_URL}{id}').content
@@ -151,16 +93,6 @@ def api_elo(id, lang):
         return f'{nome}#{tag}: {elo} ({rp} {lp})'
     except:
         return f'{nome}#{tag}: {elo}'
-
-
-@app.route('/api/prizes')
-def api_prizes():
-    prizes = Prize.query.order_by(Prize.id.asc()).where(
-        Prize.checkAlert == False).first()
-    try:
-        return jsonify({'id': prizes.id, 'prize': prizes.prize})
-    except:
-        return jsonify(None)
 
 
 @app.route("/currentsong", methods=["GET"])
@@ -201,13 +133,6 @@ def api_currentsongcommand():
         return 'Spotify não está tocando'
     else:
         return f'{trackName} - {artistName}'
-
-
-@app.route('/update/prizes/<int:id>', methods=['POST'])
-def update_prizes(id):
-    Prize.query.filter_by(id=id).update({Prize.checkAlert: True})
-    db.session.commit()
-    return jsonify(success=True)
 
 
 if __name__ == "__main__":
