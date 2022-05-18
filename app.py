@@ -76,7 +76,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.LargeBinary, nullable=False)
 
 
-@app.route("/api/elo/<id>/<lang>")
+@app.route("/elo/<id>/<lang>")
 def api_elo(id, lang):
     html = requests.get(f'{SCRAPED_URL}{id}').content
     soup = BeautifulSoup(html, 'html.parser')
@@ -95,7 +95,7 @@ def api_elo(id, lang):
         return f'{nome}#{tag}: {elo}'
 
 
-@app.route("/currentsong", methods=["GET"])
+@app.route("/currentsong/marquee", methods=["GET"])
 def currentsong():
     return render_template("currentsong.html")
 
@@ -116,7 +116,7 @@ def spotify():
         return {'track': 'Not playing', 'artist': 'Not playing'}
 
 
-@app.route('/api/currentsong')
+@app.route('/currentsong')
 def api_currentsong():
     json = spotify()
     trackName = json['track']
@@ -124,7 +124,7 @@ def api_currentsong():
     return jsonify({'track': trackName, 'artist': artistName})
 
 
-@app.route('/api/currentsong/command')
+@app.route('/currentsong/command')
 def api_currentsongcommand():
     json = spotify()
     trackName = json['track']
