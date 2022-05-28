@@ -76,9 +76,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.LargeBinary, nullable=False)
 
 
-@app.route("/elo/<id>/<lang>")
-def api_elo(id, lang):
-    html = requests.get(f'{SCRAPED_URL}{id}').content
+@app.route("/elo/<id>/<lang>/<region>")
+def api_elo(id, lang, region):
+    html = requests.get(f'https://{region}.{SCRAPED_URL}{id}').content
     soup = BeautifulSoup(html, 'html.parser')
     nome = soup.find("div", id="playerName").string
     tag = soup.find("div", id="playerTag").string
