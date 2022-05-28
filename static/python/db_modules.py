@@ -1,64 +1,102 @@
-import app
+from app import Base, Broadcaster, List, async_session, engine
+from sqlalchemy.future import select
 
 
-def get_channels():
-    CHANNELS = []
-    for i in range(len(app.db.session.query(app.Broadcaster.twitch_id).where(app.Broadcaster.is_active == True).all())):
-        CHANNELS.append(app.db.session.query(app.Broadcaster.twitch_id).where(
-            app.Broadcaster.is_active == True).all()[i][0])
-    return CHANNELS
+async def get_channels():
+    channels = []
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        query = select(Broadcaster).where(Broadcaster.is_active == True)
+        result = await session.execute(query)
+        for i in result.scalars():
+            channels.append(i.twitch_id)
+    await engine.dispose()
+    return channels
 
 
-def add_channel(value):
-    if app.db.session.query(app.db.exists().where(app.Broadcaster.twitch_id == value, app.Broadcaster.is_active == False)).scalar():
-        app.Broadcaster.query.filter_by(twitch_id=value, is_active=False).update({
-            app.Broadcaster.is_active: True})
-        app.db.session.commit()
-        return
-    else:
-        app.db.session.add(app.Broadcaster(twitch_id=value))
-        app.db.session.commit()
-        return
+async def add_channel(value):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        query = select(Broadcaster).where(
+            Broadcaster.twitch_id == value, Broadcaster.is_active == False)
+        result = await session.execute(query)
+        channel = result.scalars().first()
+        if channel:
+            channel.is_active = True
+        else:
+            session.add(Broadcaster(twitch_id=value))
+        await session.commit()
+    await engine.dispose()
 
 
-def del_channel(value):
-    if app.db.session.query(app.db.exists().where(app.Broadcaster.twitch_id == value, app.Broadcaster.is_active == True)).scalar():
-        app.Broadcaster.query.filter_by(twitch_id=value, is_active=True).update({
-            app.Broadcaster.is_active: False})
-        app.db.session.commit()
-        return
+async def del_channel(value):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        query = select(Broadcaster).where(
+            Broadcaster.twitch_id == value, Broadcaster.is_active == True)
+        result = await session.execute(query)
+        channel = result.scalars().first()
+        if channel:
+            channel.is_active = False
+        await session.commit()
+    await engine.dispose()
 
 
-def get_list(channel):
+async def get_list(channel):
     names = []
-    b_id = app.db.session.query(app.Broadcaster).where(
-        app.Broadcaster.twitch_id == channel).first()
-    for i in range(len(app.db.session.query(app.List.name).where(app.List.broadcaster == b_id, app.List.is_active == True).all())):
-        names.append(app.db.session.query(app.List.name).where(
-            app.List.broadcaster == b_id, app.List.is_active == True).all()[i][0])
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        async with session.begin():
+            channels = await session.execute(select(Broadcaster).where(
+                Broadcaster.twitch_id == channel))
+            id = channels.scalars().first().id
+            query = select(List).where(List.broadcaster_id ==
+                                       id, List.is_active == True)
+        result = await session.execute(query)
+        for i in result.scalars():
+            names.append(i.name)
+    await engine.dispose()
     return names
 
 
-def add_list(name, channel, creator):
-    b_id = app.db.session.query(app.Broadcaster).where(
-        app.Broadcaster.twitch_id == channel).first()
-    if app.db.session.query(app.db.exists().where(app.List.name == name, app.List.is_active == False, app.List.broadcaster == b_id)).scalar():
-        app.List.query.filter_by(name=name, is_active=False).update({
-            app.List.is_active: True})
-        app.db.session.commit()
-        return
-    else:
-        app.db.session.add(
-            app.List(name=name, broadcaster=b_id, created_by=creator))
-        app.db.session.commit()
-        return
+async def add_list(name, channel, creator):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        async with session.begin():
+            channels = await session.execute(select(Broadcaster).where(
+                Broadcaster.twitch_id == channel))
+            id = channels.scalars().first().id
+            query = select(List).where(
+                List.name == name, List.is_active == False, List.broadcaster_id == id)
+            result = await session.execute(query)
+            item = result.scalars().first()
+            if item:
+                item.is_active = True
+            else:
+                session.add(
+                    List(name=name, created_by=creator, broadcaster_id=id))
+            await session.commit()
+        await engine.dispose()
 
 
-def del_list(name, channel):
-    b_id = app.db.session.query(app.Broadcaster).where(
-        app.Broadcaster.twitch_id == channel).first()
-    if app.db.session.query(app.db.exists().where(app.List.name == name, app.List.is_active == True, app.List.broadcaster == b_id)).first():
-        app.List.query.filter_by(name=name, is_active=True).update({
-            app.List.is_active: False})
-        app.db.session.commit()
-        return
+async def del_list(name, channel):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    async with async_session() as session:
+        async with session.begin():
+            channels = await session.execute(select(Broadcaster).where(
+                Broadcaster.twitch_id == channel))
+            id = channels.scalars().first().id
+            query = select(List).where(
+                List.name == name, List.is_active == True, List.broadcaster_id == id)
+            result = await session.execute(query)
+            item = result.scalars().first()
+            if item:
+                item.is_active = False
+            await session.commit()
+        await engine.dispose()

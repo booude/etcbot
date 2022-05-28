@@ -1,13 +1,14 @@
 import os
-import requests
+import aiohttp
 import json
-import datetime
 
+from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, LargeBinary
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from bs4 import BeautifulSoup
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from quart import Quart, render_template, jsonify
 from flask_login import UserMixin
 
 load_dotenv(os.path.abspath('.env'))
@@ -18,16 +19,22 @@ with open(os.path.abspath('resources/lang.json'), encoding='utf8') as json_file:
 SCRAPED_URL = os.environ.get('SCRAPED_URL')
 SPOTIFY_REFRESH_TOKEN = os.environ.get('SPOTIFY_REFRESH_TOKEN')
 SPOTIFY_CLIENT_HASH = os.environ.get('SPOTIFY_CLIENT_HASH')
-uri = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 secret_key = os.environ.get('CLIENT_SECRET')
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://", "postgresql+asyncpg://", 1)
+
+engine = create_async_engine(DATABASE_URL, future=True, echo=False)
+async_session = sessionmaker(
+    engine, expire_on_commit=False, class_=AsyncSession)
+Base = declarative_base()
 
 ENV = os.environ.get('ENV')
 
-app = Flask(__name__)
+app = Quart(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SECRET_KEY'] = secret_key
 
 if ENV == 'dev':
@@ -37,96 +44,99 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
 
-
-class Broadcaster(db.Model):
+class Broadcaster(Base):
     __tablename__ = 'broadcaster'
-    id = db.Column(db.Integer, primary_key=True)
-    twitch_id = db.Column(db.String(25), unique=True, nullable=False)
-    created_at = db.Column(db.Date, default=datetime.utcnow)
-    is_active = db.Column(db.Boolean, default=True)
-    prizes = db.relationship("Prize", backref="broadcaster")
-    lists = db.relationship("List", backref="broadcaster")
+    id = Column(Integer, primary_key=True)
+    twitch_id = Column(String(25), unique=True, nullable=False)
+    created_at = Column(Date, default=datetime.utcnow)
+    is_active = Column(Boolean, default=True)
+    prizes = relationship("Prize", backref="broadcaster")
+    lists = relationship("List", backref="broadcaster")
 
 
-class List(db.Model):
+class List(Base):
     __tablename__ = 'list'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(25), unique=True, nullable=False)
-    created_by = db.Column(db.String(25))
-    is_active = db.Column(db.Boolean, default=True)
-    broadcaster_id = db.Column(db.Integer, db.ForeignKey('broadcaster.id'))
+    id = Column(Integer, primary_key=True)
+    name = Column(String(25), unique=True, nullable=False)
+    created_by = Column(String(25))
+    is_active = Column(Boolean, default=True)
+    broadcaster_id = Column(Integer, ForeignKey('broadcaster.id'))
 
 
-class Prize(db.Model):
+class Prize(Base):
     __tablename__ = 'prize'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(25))
-    prize = db.Column(db.String(255))
-    date = db.Column(db.Date, default=datetime.utcnow)
-    broadcaster_id = db.Column(db.Integer, db.ForeignKey('broadcaster.id'))
-    checkAlert = db.Column(db.Boolean, default=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(25))
+    prize = Column(String(255))
+    date = Column(Date, default=datetime.utcnow)
+    broadcaster_id = Column(Integer, ForeignKey('broadcaster.id'))
+    checkAlert = Column(Boolean, default=False)
 
 
-class User(db.Model, UserMixin):
+class User(Base, UserMixin):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(25), unique=True, nullable=False)
-    password = db.Column(db.LargeBinary, nullable=False)
+    id = Column(Integer, primary_key=True)
+    username = Column(String(25), unique=True, nullable=False)
+    password = Column(LargeBinary, nullable=False)
 
 
 @app.route("/elo/<id>/<lang>/<region>")
-def api_elo(id, lang, region):
-    html = requests.get(f'https://{region}.{SCRAPED_URL}{id}').content
-    soup = BeautifulSoup(html, 'html.parser')
-    nome = soup.find("div", id="playerName").string
-    tag = soup.find("div", id="playerTag").string
-    elo = soup.find(
-        "span", class_="badge badge-overlay text-white").string.split()
-    elo[0] = strings[lang][elo[0]]
-    lp = strings[lang]['LP']
-    elo = ' '.join(elo)
-    try:
-        rp = soup.find(
-            "span", class_="badge badge-overlay text-gold").string.replace(' RP', '')
-        return f'{nome}#{tag}: {elo} ({rp} {lp})'
-    except:
-        return f'{nome}#{tag}: {elo}'
+async def api_elo(id, lang, region):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'https://{region}.{SCRAPED_URL}/{id}') as response:
+            html = await response.text()
+            soup = BeautifulSoup(html, 'html.parser')
+            nome = soup.find("div", id="playerName").string
+            tag = soup.find("div", id="playerTag").string
+            elo = soup.find(
+                "span", class_="badge badge-overlay text-white").string.split()
+            elo[0] = strings[lang][elo[0]]
+            lp = strings[lang]['LP']
+            elo = ' '.join(elo)
+            try:
+                rp = soup.find(
+                    "span", class_="badge badge-overlay text-gold").string.replace(' RP', '')
+                return f'{nome}#{tag}: {elo} ({rp} {lp})'
+            except:
+                return f'{nome}#{tag}: {elo}'
 
 
 @app.route("/currentsong/marquee", methods=["GET"])
-def currentsong():
-    return render_template("currentsong.html")
+async def currentsong():
+    return await render_template("currentsong.html")
 
 
-def spotify():
+async def spotify():
     try:
-        token = requests.post("https://accounts.spotify.com/api/token", headers={"Authorization": f"Basic {SPOTIFY_CLIENT_HASH}"}, data={
-            "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}).json()["access_token"]
-        res = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers={
-            "Authorization": f"Bearer {token}"
-        })
-        res = res.json()
-        trackName = res['item']['name']
-        artists = res['item']['artists']
-        artistName = ", ".join([artist['name'] for artist in artists])
-        return {'track': trackName, 'artist': artistName}
+        async with aiohttp.ClientSession() as session:
+            session.headers['Authorization'] = f"Basic {SPOTIFY_CLIENT_HASH}"
+            async with session.post(f"https://accounts.spotify.com/api/token", data={
+                    "grant_type": "refresh_token", "refresh_token": F"{SPOTIFY_REFRESH_TOKEN}"}) as token:
+                access_token = await token.json()
+                access_token = access_token["access_token"]
+            session.headers["Authorization"] = f"Bearer {access_token}"
+            async with session.get("https://api.spotify.com/v1/me/player/currently-playing") as res:
+                response = await res.json()
+                trackName = response['item']['name']
+                artists = response['item']['artists']
+                artistName = ", ".join([artist['name'] for artist in artists])
+                return {'track': trackName, 'artist': artistName}
     except:
         return {'track': 'Not playing', 'artist': 'Not playing'}
 
 
 @app.route('/currentsong')
-def api_currentsong():
-    json = spotify()
+async def api_currentsong():
+    json = await spotify()
     trackName = json['track']
     artistName = json['artist']
     return jsonify({'track': trackName, 'artist': artistName})
 
 
 @app.route('/currentsong/command')
-def api_currentsongcommand():
-    json = spotify()
+async def api_currentsongcommand():
+    json = await spotify()
     trackName = json['track']
     artistName = json['artist']
     if trackName == 'Not playing' and artistName == 'Not playing':

@@ -23,7 +23,11 @@ TWITTER_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
 TWITTER_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
 TWITTER_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN')
 TWITTER_TOKEN_SECRET = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+
 msglist = []
+prediction = ''
+win = ''
+lose = ''
 
 client = Client(
     token=TOKEN,
@@ -43,13 +47,13 @@ class Bot(commands.Bot):
             token=TOKEN,
             client_secret=CLIENT_SECRET,
             initial_channels=[BOT_NICK],
-            heartbeat=30.0
+            heartbeat=20.0
         )
 
     async def event_ready(self):
         print(f'Iniciando como | {self.nick}')
         print(f'Id de usuário é | {self.user_id}')
-        await bot.join_channels(mod.get_channels())
+        await bot.join_channels(await mod.get_channels())
 
     async def event_message(self, message):
 
@@ -131,6 +135,7 @@ class Bot(commands.Bot):
     @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
         if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+            message = ctx.message.content
             emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
                 "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
             length = 180
@@ -141,6 +146,30 @@ class Bot(commands.Bot):
                     await ctx.send('/me Passando um AD rapaziada emerokAYAYA !mercerok')
             except:
                 print(res.json()["status"], res.json()["message"])
+            try:
+                if message.split()[0] == '!win':
+                    parameters = {
+                        "broadcaster_id": "59252262",
+                        "id": prediction,
+                        "status": "RESOLVED",
+                        "winning_outcome_id": win
+                    }
+                    requests.patch(f'https://api.twitch.tv/helix/predictions', headers={
+                        "Authorization": f"Bearer {emerok_token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"}, json=parameters)
+                    await ctx.send('/me APOSTINHAS FORAM PAGAS!!! O AZUL VENCEU!!! emerokAYAYA emerokAYAYA emerokAYAYA')
+
+                elif message.split()[0] == '!lose':
+                    parameters = {
+                        "broadcaster_id": "59252262",
+                        "id": prediction,
+                        "status": "RESOLVED",
+                        "winning_outcome_id": lose
+                    }
+                    requests.patch(f'https://api.twitch.tv/helix/predictions', headers={
+                        "Authorization": f"Bearer {emerok_token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"}, json=parameters)
+                    await ctx.send('/me APOSTINHAS FORAM PAGAS!!! O ROSA VENCEU!!! emerokAYAYA emerokAYAYA emerokAYAYA')
+            except:
+                pass
 
     @commands.command(name='marker', aliases=['marcar', 'marca', 'm', 'aqui', 'tk'])
     @commands.cooldown(1, 1)
@@ -159,6 +188,23 @@ class Bot(commands.Bot):
                     await ctx.reply(f'Marcação criada no VOD com a descrição: {description} emerokNoted')
             except:
                 print(res.json()["status"], res.json()["message"])
+
+    @commands.command(name='apostinha', aliases=['prediction', 'palpite', 'palpites', 'apostinhas', 'predictions'])
+    async def prediction(self, ctx: commands.Context):
+        if ctx.channel.name == 'emerok1' and ctx. author.is_mod:
+            global prediction, win, lose
+            emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
+                "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
+            outcomes = [{"title": "CLARO SEMPRE"},
+                        {"title": "DESSA VEZ NÃO...."}]
+            parameters = {"broadcaster_id": "59252262",
+                          "title": "EMEROK VAI VENCER? 🤨", "outcomes": outcomes, "prediction_window": 300}
+            res = requests.post(f'https://api.twitch.tv/helix/predictions', headers={
+                "Authorization": f"Bearer {emerok_token}", "Client-Id": f"{CLIENT_ID}", "ContentType": "application/json"}, json=parameters)
+            prediction = res.json()['data'][0]['id']
+            win, lose = res.json()['data'][0]['outcomes'][0]['id'], res.json()[
+                'data'][0]['outcomes'][1]['id']
+            await ctx.send('/me APOSTINHAS ON RAPAZIADA!!! emerokAYAYA emerokAYAYA emerokAYAYA')
 
     @commands.command(name='bode')
     @commands.cooldown(1, 1)
@@ -179,7 +225,7 @@ class Bot(commands.Bot):
             message = ctx.message.content
             name = ' '.join(message.split()[1:])
             if name != '':
-                mod.add_list(name, channel, author)
+                await mod.add_list(name, channel, author)
                 await ctx.reply(f'{name} adicionado(a) à lista dos gigantescos nbzaAYAYA')
             else:
                 await ctx.reply(f'Adicione o nome da pessoa ou do objeto colossal após o comando nbzaPalhacinha')
@@ -194,7 +240,7 @@ class Bot(commands.Bot):
             message = ctx.message.content
             name = ' '.join(message.split()[1:])
             if name != '':
-                mod.del_list(name, channel)
+                await mod.del_list(name, channel)
                 await ctx.reply(f'Groselha APARENTEMENTE é maior que {name} nbzaLUL')
             else:
                 await ctx.reply(f'Gigantesco descomunal não encontradokkkk nbzaBuxin')
@@ -205,7 +251,7 @@ class Bot(commands.Bot):
 
         # twitch.tv/noobzinha
         if ctx.channel.name == 'noobzinha':
-            names = mod.get_list(ctx.channel.name)
+            names = await mod.get_list(ctx.channel.name)
             list1 = ''
             listall = []
             a = 1
@@ -232,7 +278,7 @@ class Bot(commands.Bot):
         # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc':
             if name != '':
-                mod.add_list(name, channel, author)
+                await mod.add_list(name, channel, author)
                 await ctx.reply(f'{name} adicionado à lista de namorados da marinaetc.')
                 return
             else:
@@ -241,7 +287,7 @@ class Bot(commands.Bot):
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
             if name != '':
-                mod.add_list(name, channel, author)
+                await mod.add_list(name, channel, author)
                 await ctx.reply(f'{name} adicionada à lista de namoradas da emy.')
                 return
             else:
@@ -250,7 +296,7 @@ class Bot(commands.Bot):
         # twitch.tv/kiiaraw
         elif ctx.channel.name == 'kiiaraww':
             if name != '':
-                mod.add_list(name, channel, author)
+                await mod.add_list(name, channel, author)
                 await ctx.reply(f'{name} adicionada à lista de namoradas da kiara.')
                 return
             else:
@@ -266,7 +312,7 @@ class Bot(commands.Bot):
         # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc' and ctx.author.is_mod:
             if name != '':
-                mod.del_list(name, channel)
+                await mod.del_list(name, channel)
                 await ctx.reply(f'Marina Reticências divorciou-se de {name}.')
             else:
                 await ctx.reply(f'Namorado não encontradokkkk')
@@ -274,14 +320,14 @@ class Bot(commands.Bot):
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz' and ctx.author.is_mod:
             if name != '':
-                mod.del_list(name, channel)
+                await mod.del_list(name, channel)
             else:
                 await ctx.reply(f'Namorada não encontradakkkk')
 
         # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww' and ctx.author.is_mod:
             if name != '':
-                mod.del_list(name, channel)
+                await mod.del_list(name, channel)
             else:
                 await ctx.reply(f'Namorada não encontradakkkk')
 
@@ -291,7 +337,7 @@ class Bot(commands.Bot):
 
         # twitch.tv/marinaetc
         if ctx.channel.name == 'marinaetc':
-            names = mod.get_list(ctx.channel.name)
+            names = await mod.get_list(ctx.channel.name)
             list1 = ''
             listall = []
             a = 1
@@ -309,7 +355,7 @@ class Bot(commands.Bot):
 
         # twitch.tv/emylolz
         elif ctx.channel.name == 'emylolz':
-            names = mod.get_list(ctx.channel.name)
+            names = await mod.get_list(ctx.channel.name)
             list1 = ''
             listall = []
             a = 1
@@ -327,7 +373,7 @@ class Bot(commands.Bot):
 
         # twitch.tv/kiiaraww
         elif ctx.channel.name == 'kiiaraww':
-            names = mod.get_list(ctx.channel.name)
+            names = await mod.get_list(ctx.channel.name)
             list1 = ''
             listall = []
             a = 1
@@ -353,11 +399,11 @@ class Bot(commands.Bot):
             except IndexError:
                 pass
         if ctx.channel.name == BOT_NICK:
-            if autor in mod.get_channels():
+            if autor in await mod.get_channels():
                 await ctx.send(f'/me Bot JÁ ESTÁ no canal {autor}')
             else:
-                if len(mod.get_channels()) < 20:
-                    mod.add_channel(autor)
+                if len(await mod.get_channels()) < 20:
+                    await mod.add_channel(autor)
                     await bot.join_channels([autor])
                     await ctx.send(f'/me Bot ENTROU no canal {autor}')
                 else:
@@ -373,10 +419,10 @@ class Bot(commands.Bot):
             except IndexError:
                 pass
         if ctx.channel.name == BOT_NICK:
-            if autor not in mod.get_channels():
+            if autor not in await mod.get_channels():
                 await ctx.send(F'/me Bot NÃO ESTÁ no canal {autor}')
             else:
-                mod.del_channel(autor)
+                await mod.del_channel(autor)
                 await ctx.send(F'/me Bot SAIU do canal {autor}')
 
     # Comando para git pull pelo chat
@@ -384,7 +430,7 @@ class Bot(commands.Bot):
     async def update(self, ctx: commands.Context):
         if ctx.author.name == BOT_NICK:
             await ctx.send('Atualizando.')
-            os.system("git pull")
+            os.system("/usr/bin/git pull")
             print("Atualizando e reiniciando...")
             os.system("python3 main.py")
             exit()

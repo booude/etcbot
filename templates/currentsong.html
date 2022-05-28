@@ -10,7 +10,7 @@
 </head>
 <script>
     var func = function () {
-        fetch('/api/currentsong').then(response =>
+        fetch('/currentsong').then(response =>
             response.json().then(data => ({
                 data: data
             })
