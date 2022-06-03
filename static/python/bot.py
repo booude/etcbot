@@ -74,7 +74,7 @@ class Bot(commands.Bot):
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
                     answer = choice(utils['resposta'])
-                    if answer == 'timeout':
+                    if answer == 'timeout' or autor == 'veazy':
                         await message.channel.send(f'choke7Gun {autor}')
                     else:
                         await message.channel.send(answer)
