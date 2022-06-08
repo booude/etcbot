@@ -389,13 +389,6 @@ class Bot(commands.Bot):
                     await ctx.channel.send(f'/me Namoradas da Mawasa (Pág. {i+1}): {listall[i]}')
             await ctx.channel.send(f'/me Namoradas da Mawasa (Pág. {len(listall)+1}): {list1} Total: {len(names)}')
 
-    @commands.command(name='antibot')
-    async def command_purge(self, ctx: commands.Context):
-        bot = ctx.message.content.split()[1]
-        if ctx.author.is_mod:
-            await ctx.channel.send(f'/ban {bot}')
-            await ctx.channel.send(f'/unban {bot}')
-
     # Entra no canal que enviou a mensagem
     @commands.command(name='join', aliases=['entrar'])
     async def command_join(self, ctx: commands.Context):
