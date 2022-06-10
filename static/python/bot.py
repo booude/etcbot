@@ -69,7 +69,7 @@ class Bot(commands.Bot):
         # Skip bot messages
         if autor != BOT_NICK:
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Choke7
-            if canal == 'choke7' and autor != 'streamelements':
+            if canal == 'off' and autor != 'streamelements':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
@@ -89,7 +89,7 @@ class Bot(commands.Bot):
                     _t(self, threading.autotweet, message, msglist, tweetapi)
 
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Emerok1
-            if canal == 'emerok1':
+            if canal == 'off':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None and re.search('@1bode', content.lower()) is None:
