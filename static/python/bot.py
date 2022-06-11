@@ -232,9 +232,9 @@ class Bot(commands.Bot):
                     except:
                         utils = json.loadutils(canal)
                         counter = int(utils[f'{author}']/50)
-                    await ctx.send(f'{author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+                    await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
             else:
-                await ctx.send(f'{author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
+                await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
 
     @commands.command(name='gigante', aliases=['giga'])
     @commands.cooldown(1, 1)
