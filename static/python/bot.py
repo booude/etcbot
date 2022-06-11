@@ -96,6 +96,10 @@ class Bot(commands.Bot):
                     answer = choice(utils['resposta'])
                     await message.channel.send(answer)
 
+            if canal == 'noobzinha':
+                # Contador de perda de fios de cabelo
+                json.count(autor, canal)
+
         await self.handle_commands(message)
 
     @commands.command(name='tweet')
@@ -213,6 +217,16 @@ class Bot(commands.Bot):
         # twitch.tv/xumartins1
         if ctx.channel.name == 'xumartins1':
             await ctx.send('👀')
+
+    @commands.command(name='calvicie')
+    @commands.cooldown(1, 3)
+    async def calvicie(self, ctx: commands.Context):
+        canal = ctx.channel.name
+        author = ctx.author.name
+        if canal == 'noobzinha':
+            utils = json.loadutils(canal)
+            counter = int(utils[f'{author}']/50)
+            await ctx.send(f'{author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
 
     @commands.command(name='gigante', aliases=['giga'])
     @commands.cooldown(1, 1)
