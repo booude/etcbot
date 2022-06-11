@@ -223,23 +223,22 @@ class Bot(commands.Bot):
     async def calvicie(self, ctx: commands.Context):
         canal = ctx.channel.name
         author = ctx.author.name
-        channel = ctx.message.content.split(' ')[1:]
+        autor = ctx.message.content.split(' ')[1:]
         if canal == 'noobzinha':
+            utils = json.loadutils(canal)
             if author != '1bode':
-                if channel != []:
+                if autor != []:
                     try:
-                        utils = json.loadutils(channel[0].lower())
-                        counter = int(utils[f'{author}']/50)
+                        counter = int(utils[f'{autor}']/50)
+                        author = autor
                     except:
-                        utils = json.loadutils(canal)
                         counter = int(utils[f'{author}']/50)
                     await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
             else:
-                if channel != []:
+                if autor != []:
                     try:
-                        utils = json.loadutils(channel[0].lower())
-                        counter = int(utils[f'{author}']/50)
-                        await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+                        counter = int(utils[f'{autor}']/50)
+                        await ctx.send(f'/me {autor} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
                     except:
                         await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
 
