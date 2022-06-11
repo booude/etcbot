@@ -223,10 +223,18 @@ class Bot(commands.Bot):
     async def calvicie(self, ctx: commands.Context):
         canal = ctx.channel.name
         author = ctx.author.name
+        channel = ctx.message.content.split(' ')[1:]
         if canal == 'noobzinha':
-            utils = json.loadutils(canal)
-            counter = int(utils[f'{author}']/50)
-            await ctx.send(f'{author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+            if author != '1bode':
+                if channel != []:
+                    try:
+                        utils = json.loadutils(channel)
+                    except:
+                        utils = json.loadutils(canal)
+                        counter = int(utils[f'{author}']/50)
+                    await ctx.send(f'{author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+            else:
+                await ctx.send(f'{author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
 
     @commands.command(name='gigante', aliases=['giga'])
     @commands.cooldown(1, 1)
