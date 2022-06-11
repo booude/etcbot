@@ -228,13 +228,20 @@ class Bot(commands.Bot):
             if author != '1bode':
                 if channel != []:
                     try:
-                        utils = json.loadutils(channel)
+                        utils = json.loadutils(channel[0].lower())
+                        counter = int(utils[f'{author}']/50)
                     except:
                         utils = json.loadutils(canal)
                         counter = int(utils[f'{author}']/50)
                     await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
             else:
-                await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
+                if channel != []:
+                    try:
+                        utils = json.loadutils(channel[0].lower())
+                        counter = int(utils[f'{author}']/50)
+                        await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+                    except:
+                        await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
 
     @commands.command(name='gigante', aliases=['giga'])
     @commands.cooldown(1, 1)
