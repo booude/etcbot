@@ -240,8 +240,9 @@ class Bot(commands.Bot):
                         counter = int(utils[f'{autor[0].lower()}']/50)
                         await ctx.send(f'/me {autor[0].lower()} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
                     except:
-                        pass
-                await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
+                        await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
+                else:
+                    await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
 
     @commands.command(name='gigante', aliases=['giga'])
     @commands.cooldown(1, 1)
