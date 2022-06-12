@@ -233,6 +233,8 @@ class Bot(commands.Bot):
                         author = autor[0].lower()
                     except:
                         counter = int(utils[f'{author}']/50)
+                else:
+                    counter = int(utils[f'{author}']/50)
                 await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
             else:
                 if autor != []:
