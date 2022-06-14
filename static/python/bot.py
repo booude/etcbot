@@ -138,7 +138,7 @@ class Bot(commands.Bot):
     @commands.command(name='ad', aliases=['win', 'lose'])
     @commands.cooldown(1, 1)
     async def commercial_command(self, ctx: commands.Context):
-        if ctx.channel.name == 'emerok1' and ctx.author.is_mod:
+        if ctx.channel.name == 'off' and ctx.author.is_mod:
             message = ctx.message.content
             emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
                 "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
@@ -195,7 +195,7 @@ class Bot(commands.Bot):
 
     @commands.command(name='apostinha', aliases=['prediction', 'palpite', 'palpites', 'apostinhas', 'predictions'])
     async def prediction(self, ctx: commands.Context):
-        if ctx.channel.name == 'emerok1' and ctx. author.is_mod:
+        if ctx.channel.name == 'off' and ctx. author.is_mod:
             global prediction, win, lose
             emerok_token = requests.post('https://id.twitch.tv/oauth2/token', data={
                 "client_id": f"{CLIENT_ID}", "client_secret": f"{CLIENT_SECRET}", "grant_type": "refresh_token", "refresh_token": f"{REFRESH_TOKEN}"}).json()["access_token"]
