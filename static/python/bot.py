@@ -231,6 +231,7 @@ class Bot(commands.Bot):
                     try:
                         counter = int(utils[f'{autor[0].lower()}']/50)
                         author = autor[0].lower()
+                        author = author[1:] if author[0] == '@' else author
                     except:
                         counter = int(utils[f'{author}']/50)
                 else:
