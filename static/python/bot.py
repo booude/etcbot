@@ -229,9 +229,9 @@ class Bot(commands.Bot):
             if author != '1bode':
                 if autor != []:
                     try:
-                        counter = int(utils[f'{autor[0].lower()}']/50)
                         author = autor[0].lower()
                         author = author[1:] if author[0] == '@' else author
+                        counter = int(utils[f'{author}']/50)
                     except:
                         counter = int(utils[f'{author}']/50)
                 else:
@@ -240,8 +240,10 @@ class Bot(commands.Bot):
             else:
                 if autor != []:
                     try:
-                        counter = int(utils[f'{autor[0].lower()}']/50)
-                        await ctx.send(f'/me {autor[0].lower()} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
+                        author = autor[0].lower()
+                        author = author[1:] if author[0] == '@' else author
+                        counter = int(utils[f'{author}']/50)
+                        await ctx.send(f'/me {author} já perdeu {counter} fios de cabelo assistindo a essa live nbzaCalva')
                     except:
                         await ctx.send(f'/me {author}, você NUNCA perderá um único fio de cabelo!! nbzaMandrake')
                 else:
