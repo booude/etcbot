@@ -69,15 +69,17 @@ class Bot(commands.Bot):
         # Skip bot messages
         if autor != BOT_NICK:
             # Eventos de mensagem para rodar apenas no canal twitch.tv/Choke7
-            if canal == 'off' and autor != 'streamelements':
+            if canal == 'choke7' and autor != 'streamelements':
                 utils = json.loadutils(canal)
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
                     answer = choice(utils['resposta'])
-                    if answer == 'timeout' or autor == 'veazy':
+                    if answer == 'timeout' or autor == 'veazy' or autor == 'aquelafoca_o_peverso':
                         await message.channel.send(f'choke7Gun {autor}')
                     else:
                         await message.channel.send(answer)
+                if autor == 'veazy' or autor == 'aquelafoca_o_peverso' and content.split(' ')[0] == '/me':
+                    await message.channel.send(f'choke7Gun {autor}')
 
                 # Tweets automáticos
                 if message.author.is_subscriber and 10 < len(content) < 217 and len(content.split()) > 2:
