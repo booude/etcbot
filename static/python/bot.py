@@ -74,11 +74,11 @@ class Bot(commands.Bot):
                 # Respostas automáticas pro chat
                 if autor != 'streamelements' and re.search(utils['searchAnswer'], content.lower()) is not None:
                     answer = choice(utils['resposta'])
-                    if answer == 'timeout' or autor == 'veazy' or autor == 'aquelafoca_o_peverso':
+                    if answer == 'timeout':
                         await message.channel.send(f'choke7Gun {autor}')
                     else:
                         await message.channel.send(answer)
-                if autor == 'veazy' or autor == 'aquelafoca_o_peverso' and content.split(' ')[0] == '/me':
+                if (autor == 'veazy' or autor == 'aquelafoca_o_peverso') and content.split(' ')[0] == '/me':
                     await message.channel.send(f'choke7Gun {autor}')
 
                 # Tweets automáticos
