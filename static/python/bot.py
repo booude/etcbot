@@ -122,6 +122,12 @@ class Bot(commands.Bot):
         if ctx.channel.name == 'tetiszin':
             await ctx.send('/me tetris....... eu sei que é melhor limpar com a mão...... mas depois a gente lava com sabão pra tirar a sobra q fica por debaixo da unha kk')
 
+    @commands.command(name='celular', aliases=['cel', 'phone', 'cell'])
+    @commands.cooldown(1, 5)
+    async def celular(self, ctx: commands.Context):
+        if ctx.channel.name == 'tetiszin':
+            await ctx.send('/me samsung galaxy pocket gt s5310b tela levemente trincada no canto inferior esquerdo bateria viciada')
+
     @commands.command(name='tweet')
     @commands.cooldown(1, 15)
     async def tweet(self, ctx: commands.Context, *args):
