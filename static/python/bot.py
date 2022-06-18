@@ -104,17 +104,23 @@ class Bot(commands.Bot):
 
         await self.handle_commands(message)
 
+    @commands.command(name='nick')
+    @commands.cooldown(1, 5)
+    async def nick(self, ctx: commands.Context):
+        if ctx.channel.name == 'tetiszin':
+            await ctx.send('/me meu nick eh tetis pq na vdd eu amo jogar tetris é meu main jogo kkkkkkserio passo mais tempo jogando tetris do que o proprio lol enfim só ver a gameplay ne.. dai eu escrevi tetis mesmo pq achava q chamava tetis 😂 😂 ai ai como sou burrinho depois descobri q tinha um R daí n deu mais como mudar')
+
     @commands.command(name='apresentação', aliases=['apresentacao', 'apresentaçao', 'apresentacão'])
     @commands.cooldown(1, 5)
     async def apresentacao(self, ctx: commands.Context):
         if ctx.channel.name == 'tetiszin':
-            await ctx.send('boa noite meu nome é tetris tenho 36 anos, jogo wild rift 16 horas por dia e ainda não consegui passar do elo do emerok (streamer cansadokk). se alguem quiser saber onde fiz o implante foi na indonésia, reimplantado do couro escrotal msm rs. sou main jg..... testei as outras rotas e n saí do esmeralda (ainda bem q a tsm me contratou sem saber desse detalhe). então é isso rapaziada sejam bem vindos live todos os dias das 7h as 21h fé no pai 🙏')
+            await ctx.send('/me boa noite meu nome é tetris tenho 36 anos, jogo wild rift 16 horas por dia e ainda não consegui passar do elo do emerok (streamer cansadokk). se alguem quiser saber onde fiz o implante foi na indonésia, reimplantado do couro escrotal msm rs. sou main jg..... testei as outras rotas e n saí do esmeralda (ainda bem q a tsm me contratou sem saber desse detalhe). então é isso rapaziada sejam bem vindos live todos os dias das 7h as 21h fé no pai 🙏')
 
     @commands.command(name='unha')
     @commands.cooldown(1, 5)
     async def unha(self, ctx: commands.Context):
         if ctx.channel.name == 'tetiszin':
-            await ctx.send('tetris....... eu sei que é melhor limpar com a mão...... mas depois a gente lava com sabão pra tirar a sobra q fica por debaixo da unha kk')
+            await ctx.send('/me tetris....... eu sei que é melhor limpar com a mão...... mas depois a gente lava com sabão pra tirar a sobra q fica por debaixo da unha kk')
 
     @commands.command(name='tweet')
     @commands.cooldown(1, 15)
