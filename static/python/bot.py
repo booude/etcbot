@@ -78,8 +78,8 @@ class Bot(commands.Bot):
                         await message.channel.send(f'choke7Gun {autor}')
                     else:
                         await message.channel.send(answer)
-                if (autor == 'veazy' or autor == 'aquelafoca_o_peverso') and content.split(' ')[0] == '/me':
-                    await message.channel.send(f'choke7Gun {autor}')
+                # if (autor == 'veazy' or autor == 'aquelafoca_o_peverso') and content.split(' ')[0] == '/me':
+                #     await message.channel.send(f'choke7Gun {autor}')
 
                 # Tweets automáticos
                 if message.author.is_subscriber and 10 < len(content) < 217 and len(content.split()) > 2:
@@ -108,7 +108,7 @@ class Bot(commands.Bot):
     @commands.cooldown(1, 5)
     async def unha(self, ctx: commands.Context):
         if ctx.channel.name == 'tetiszin':
-            await ctx.send('boa noite meu nome é tetris tenho 36 anos, jogo wild rift 16 horas por dia e ainda não consegui passar do elo do emerok (streamer cansadokk). se alguem quiser saber onde fiz o implante foi na indonésia, reimplantado do couro escrotal msm rs. sou main jg..... testei as outras rotas e n saí do esmeralda (ainda bem q a tsm me contratou sem saber desse detalhe). então é isso rapaziada sejam bem vindos live todos os dias das 7h as 21h fé no pai 🙏')
+            await ctx.send('boa noite meu nome é tetris tenho 36 anos, jogo wild rift 16 horas por dia e ainda não consegui passar do elo do emerok (streamer cansadokk). se alguem quiser saber onde fiz o implante foi na indonésia, reimplantado do couro escrotal msm rs. sou main jg..... testei as outras rotas e n saí do esmeralda. então é isso rapaziada sejam bem vindos live todos os dias das 7h as 21h fé no pai 🙏')
 
     @commands.command(name='unha')
     @commands.cooldown(1, 5)
