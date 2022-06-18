@@ -104,6 +104,12 @@ class Bot(commands.Bot):
 
         await self.handle_commands(message)
 
+    @commands.command(name='unha')
+    @commands.cooldown(1, 5)
+    async def unha(self, ctx: commands.Context):
+        if ctx.channel.name == 'tetiszin':
+            await ctx.send('tetris....... eu sei que é melhor limpar com a mão...... mas depois a gente lava com sabão pra tirar a sobra q fica por debaixo da unha kk')
+
     @commands.command(name='tweet')
     @commands.cooldown(1, 15)
     async def tweet(self, ctx: commands.Context, *args):
